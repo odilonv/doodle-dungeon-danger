@@ -45,13 +45,13 @@ To install and configure the database for DoodleDungeonDanger, follow these step
     ```
 
 2. Configure the database connection:
-    - Name : `DoodleDungeonDanger_db@localhost`
+    - Name : `DoodleDungeonDanger`
     - Host : `localhost`
     - Port : `3306`
     - User : `admin`
     - Password : `admin`
     - Database : `doodle_db`
-    - URL : `jdbc:mysql://localhost:3307/DoodleDungeonDanger_db`
+    - URL : `jdbc:mysql://localhost:3307/doodle_db`
 
 ---
 
