@@ -10,7 +10,8 @@ import {
   SettingsPage,
   SignUpPage,
   UserPage,
-  VerifyEmailPage
+  VerifyEmailPage,
+  Dungeon1Page,
 } from './pages';
 import { NotificationProvider, UserProvider } from './contexts';
 
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/choose-a-skin" element={<HeroSkinPage />} />
+            <Route path="/dungeon1" element={<Dungeon1Page />} />
             <Route path="/logout" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/verifyEmail/:token" element={<VerifyEmailPage />} />
