@@ -1,19 +1,31 @@
 import express from 'express';
 import cors from 'cors';
-import { startUsersService } from './index.js';
+import { userRouter } from './src/routes/userRoutes.js';
+import session from 'express-session';
 
 const app = express();
-const PORT = 5000;
+const PORT = 5001; 
 
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
 
+app.use(session({
+    secret: 'your secret key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
 app.use(express.json());
 
-startUsersService();
+app.use('/users', userRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+export const startUsersService = () => {
+    app.listen(PORT, () => {
+        console.log(`Users service is running on port ${PORT}`);
+    });
+};
+
+startUsersService();

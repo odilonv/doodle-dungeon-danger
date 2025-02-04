@@ -3,7 +3,7 @@
   "name": "user-service",
   "version": "1.0.0",
   "description": "",
-  "main": "UserServer.js",
+  "main": "userServer.js",
   "scripts": {
     "start": "node Server.js",
     "test": "echo \"Error: no test specified\" && exit 1"

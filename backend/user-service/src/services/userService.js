@@ -1,6 +1,6 @@
-import userRepository from './userRepository.js';
+import userRepository from '../repositories/userRepository.js';
 import bcrypt from 'bcrypt';
-import User from './User.js';
+import userModel from '../models/userModel.js';
 
 export const UserService = {
     createUser: async (firstName, lastName, email, password) => {
@@ -44,7 +44,7 @@ export const UserService = {
             const hashedPassword = userData.password;
             const passwordMatch = await bcrypt.compare(password, hashedPassword);
             if (passwordMatch) {
-                return User.fromDatabase(userData);
+                return userModel.fromDatabase(userData);
             }
         }
         return null;
@@ -61,7 +61,7 @@ export const UserService = {
         const [results] = await connection.query('SELECT * FROM user WHERE id = ?', [id]);
         if (results.length > 0) {
             const userData = results[0];
-            return User.fromDatabase(userData);
+            return userModel.fromDatabase(userData);
         }
         return null;
     }

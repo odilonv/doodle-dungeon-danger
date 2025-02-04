@@ -51,7 +51,7 @@ class userRepository {
     }
 
     static async dropTables(connection) {
-        const dropTables = fs.readFileSync('./backend/user-service/dropTableUser.sql', 'utf-8');
+        const dropTables = fs.readFileSync('./backend/user-service/database/dropTableUser.sql', 'utf-8');
         for (let query of dropTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
@@ -61,7 +61,7 @@ class userRepository {
     }
 
     static async createTables(connection) {
-        const creationTables = fs.readFileSync('./backend/user-service/createTableUser.sql', 'utf-8');
+        const creationTables = fs.readFileSync('./backend/user-service/database/createTableUser.sql', 'utf-8');
         for (let query of creationTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
