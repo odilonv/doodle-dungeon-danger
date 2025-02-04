@@ -1,8 +1,6 @@
-// backend/server.js
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
-// Importez ici d'autres fonctions pour démarrer d'autres services si nécessaire
 
 const app = express();
 const PORT = 5000;

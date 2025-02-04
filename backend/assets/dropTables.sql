@@ -2,6 +2,3 @@ DROP TABLE IF EXISTS `card`;
 
 DROP TABLE IF EXISTS `board`;
 
-DROP TABLE IF EXISTS `user_validation`;
-
-DROP TABLE IF EXISTS `user`;

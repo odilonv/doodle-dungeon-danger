@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import HeadTextComponent from '../../components/Head/HeadTextComponent';
 import ButtonComponent from '../../components/Button/ButtonComponent';
-import trello from '../../assets/img/TrelloUICollage.png';
 import { UserContext } from '../../contexts/UserContext';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
@@ -22,7 +21,7 @@ function HomePage() {
 
           <ButtonComponent text={user ? 'Check my boards' : 'Get Started'} href={user ? '/boards' : '/login'} margin='50px 0' endIcon={<ArrowForwardIosRoundedIcon style={{ fill: 'white' }} />} />
         </div>
-        <img src={trello} alt='trello' style={{ width: '50%' }} />
+        {/* <img src={trello} alt='trello' style={{ width: '50%' }} /> */}
       </div>
     </div>
   );
