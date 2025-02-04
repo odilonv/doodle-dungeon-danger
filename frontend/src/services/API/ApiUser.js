@@ -31,23 +31,12 @@ async function signUp(user) {
 
 async function logout() {
     const response = await fetch('http://localhost:5001/users/logout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        method: 'GET',
         credentials: 'include'
     });
     const data = await response.json();
     return data;
 
-}
-
-async function isLogged() {
-    const response = await fetch('http://localhost:5001/users/session', {
-        method: 'GET',
-        credentials: 'include',
-    });
-    return response.status === 200;
 }
 
 async function getLoggedUser() {
@@ -61,31 +50,6 @@ async function getLoggedUser() {
         return data;
     } else {
         return null;
-    }
-}
-
-
-export async function getLoginStatus() {
-    const response = await fetch('http://localhost:5001/users/session', {
-        method: 'GET',
-        credentials: 'include',
-    });
-    return response.status;
-}
-
-async function requireLoggedUser() {
-    if (await getLoginStatus() === 200) {
-        return true;
-    } else {
-        window.location.href = `/login`;
-    }
-}
-
-export async function requireGuestUser() {
-    if (await getLoginStatus() === 200) {
-        window.location.href = `/`;
-    } else {
-        return false;
     }
 }
 
@@ -114,7 +78,7 @@ async function deleteUser(userId, password) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, password }), 
+        body: JSON.stringify({ userId, password }),
     });
 
     return response;
@@ -136,10 +100,8 @@ async function changePassword(oldPassword, newPassword, confirmPassword) {
 
 export {
     login,
-    signUp as register,
+    signUp,
     logout,
-    isLogged,
-    requireLoggedUser,
     getLoggedUser,
     updateUser,
     deleteUser,

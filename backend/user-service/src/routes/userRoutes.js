@@ -5,7 +5,7 @@ export const userRouter = express.Router();
 
 userRouter.post('/', createUser);
 userRouter.post('/login', loginUser);
-userRouter.post('/logout', logoutUser);
+userRouter.get('/logout', logoutUser);
 userRouter.delete('/', deleteUser);
 userRouter.get('/session', sessionUser);
 userRouter.get('/:id', IdUser);
