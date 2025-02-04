@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { userRouter } from './userRoutes.js';
+import { userRouter } from './routes/userRoutes.js';
 import session from 'express-session';
 
 const app = express();
@@ -27,3 +27,5 @@ export const startUsersService = () => {
         console.log(`Users service is running on port ${PORT}`);
     });
 };
+
+startUsersService();

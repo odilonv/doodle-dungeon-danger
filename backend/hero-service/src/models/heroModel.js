@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 
 class Hero {
+    static tableName = 'hero';
+
     constructor(id, firstName, lastName, email, password) {
         this.id = id;
         this.firstName = firstName;
@@ -15,10 +17,6 @@ class Hero {
 
     static fromJson(data) {
         return new Hero(data.id, data.firstName, data.lastName, data.email, data.password);
-    }
-
-    static async hashPassword(password) {
-        return await bcrypt.hash(password, 10);
     }
 }
 

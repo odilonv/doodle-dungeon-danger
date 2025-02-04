@@ -16,7 +16,7 @@ async function login(user) {
 
 async function signUp(user) {
     try {
-        const response = await fetch('http://localhost:5001/users/signup', {
+        const response = await fetch('http://localhost:5001/users/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ async function updateUser(user) {
 }
 
 async function deleteUser(userId, password) {
-    const response = await fetch('http://localhost:5001/users/delete', {
+    const response = await fetch('http://localhost:5001/users/', {
         method: 'DELETE',
         credentials: 'include',
         headers: {

@@ -32,14 +32,18 @@ const startServer = async () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     console.log('Démarrage du serveur USER ...');
-    const serverProcess = spawnProcess('node', ['backend/user-service/userServer.js']);
+    const usersServerProcess = spawnProcess('node', ['backend/user-service/src/userServer.js']);
+    const herosServerProcess = spawnProcess('node', ['backend/hero-service/src/heroServer.js']);
     
     console.log('Le serveur est en cours d\'exécution.');
 
-    serverProcess.on('close', (code) => {
-      console.log(`Le serveur Node.js s'est arrêté avec le code ${code}`);
+    usersServerProcess.on('close', (code) => {
+      console.log(`Le serveur users s'est arrêté avec le code ${code}`);
     });
 
+    herosServerProcess.on('close', (code) => {
+      console.log(`Le serveur heroes s'est arrêté avec le code ${code}`);
+    });
   } catch (error) {
     console.error('Erreur lors du démarrage du serveur:', error);
   }

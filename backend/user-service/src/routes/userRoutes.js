@@ -3,10 +3,10 @@ import { createUser, loginUser, sessionUser, updateUser, logoutUser, deleteUser,
 
 export const userRouter = express.Router();
 
-userRouter.post('/signup', createUser);
+userRouter.post('/', createUser);
 userRouter.post('/login', loginUser);
 userRouter.post('/logout', logoutUser);
-userRouter.delete('/delete', deleteUser);
+userRouter.delete('/', deleteUser);
 userRouter.get('/session', sessionUser);
-userRouter.get('/user/:id', IdUser);
-userRouter.put('/:userId', updateUser);
+userRouter.get('/:id', IdUser);
+userRouter.put('/:id', updateUser);
