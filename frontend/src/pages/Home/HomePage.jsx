@@ -17,7 +17,7 @@ export default function HomePage() {
 
   const startNewGame = () => {
     localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
-    navigate("/choose-a-skin");
+    navigate("/choose-your-hero");
   };
 
   const continueGame = () => {
@@ -124,7 +124,8 @@ const imageStyle = {
 const loginBoxStyle = {
   position: "absolute",
   bottom: "20px",
-  right: "20px",
+  left: "50%",
+  transform: "translateX(-50%)",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -136,6 +137,7 @@ const loginBoxStyle = {
   cursor: "pointer",
   boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
 };
+
 
 const loginTextStyle = {
   fontSize: "1.2rem",
