@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
 
 class User {
+
+    static tableName = 'user';
+
     constructor(id, firstName, lastName, email, password) {
         this.id = id;
         this.firstName = firstName;

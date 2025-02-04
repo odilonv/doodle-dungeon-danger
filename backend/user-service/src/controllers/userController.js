@@ -54,7 +54,7 @@ export const sessionUser = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-    const { userId } = req.params;
+    const { id } = req.params;
     const { username, email } = req.body;
     const updatedUser = UserService.updateUser(userId, username, email);
     if (updatedUser) {
