@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../contexts";
 import dogMan from '../../assets/sprites/characters/DogMan.png';
-import player from '../../assets/sprites/characters/Player.png';
+import player from '../../assets/sprites/characters/Player_1.png';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -57,7 +57,6 @@ export default function HomePage() {
         <img src={dogMan} alt="DogMan" style={imageStyle} />
       </div>
 
-      {/* Rectangle de connexion en bas à droite */}
       <div style={loginBoxStyle} onClick={handleLoginClick}>
         <span style={loginTextStyle}>{user ? user.firstName : "Log In"}</span>
         <PersonRoundedIcon style={iconStyle} />
