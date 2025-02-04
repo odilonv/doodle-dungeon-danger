@@ -1,6 +1,6 @@
 import userRepository from './userRepository.js';
 import bcrypt from 'bcrypt';
-import User from '../../models/User.js';
+import User from './User.js';
 
 export const UserService = {
     createUser: async (firstName, lastName, email, password) => {
@@ -14,16 +14,26 @@ export const UserService = {
             password: hashedPassword
         };
 
-        const connection = await userRepository.getInstance();
-        await connection.query(
-            'INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
-            [newUser.firstName, newUser.lastName, newUser.email, newUser.password]
-        );
+        console.log("New user", newUser);
+        
 
-        const [rows] = await connection.query('SELECT LAST_INSERT_ID() as id');
-        newUser.id = rows[0].id;
+        try {
+            const connection = await userRepository.getInstance();
+            await connection.query(
+                'INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
+                [newUser.firstName, newUser.lastName, newUser.email, newUser.password]
+            );
 
-        return newUser;
+            const [rows] = await connection.query('SELECT LAST_INSERT_ID() as id');
+            newUser.id = rows[0].id;
+
+            console.log(newUser);
+
+            return newUser;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     },
 
     loginUser: async (email, password) => {

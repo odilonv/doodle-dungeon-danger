@@ -16,6 +16,8 @@ export const IdUser = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
+    console.log("BACKEND", req.body);
+    
     const { firstName, lastName, email, password } = req.body.user;
     try {
         const newUser = await UserService.createUser(firstName, lastName, email, password);

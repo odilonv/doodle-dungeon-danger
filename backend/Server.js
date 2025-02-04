@@ -1,27 +1,27 @@
-import express from 'express';
-import cors from 'cors';
-import session from 'express-session';
+// import express from 'express';
+// import cors from 'cors';
+// import session from 'express-session';
 
-const app = express();
-const PORT = 5000;
+// const app = express();
+// const PORT = 5000;
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true
+// }));
 
-app.use(express.json());
+// app.use(express.json());
 
 
-// Importez d'autres routes principales si nécessaire
-import { startUsersService } from './services/users/index.js';
-import { startBoardsService } from './services/boards/index.js'; // Exemple si vous avez un service boards
-import { startCardsService } from './services/cards/index.js';
+// // Importez d'autres routes principales si nécessaire
+// import { startUsersService } from './services/users/index.js';
+// import { startBoardsService } from './services/boards/index.js'; // Exemple si vous avez un service boards
+// import { startCardsService } from './services/cards/index.js';
 
-startUsersService();
-startBoardsService(); // Démarrez le service des tableaux si nécessaire
-startCardsService(); // Démarrez le service des cartes si nécessaire
+// startUsersService();
+// startBoardsService(); // Démarrez le service des tableaux si nécessaire
+// startCardsService(); // Démarrez le service des cartes si nécessaire
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });

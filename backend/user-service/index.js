@@ -2,15 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import { userRouter } from './userRoutes.js';
 import session from 'express-session';
-import userRepository from './userRepository.js';
 
 const app = express();
-const PORT = 5001; // Port pour le service utilisateur
+const PORT = 5001; 
 
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
+
 app.use(session({
     secret: 'your secret key',
     resave: false,
@@ -18,13 +18,10 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-
 app.use(express.json());
 
-// Montage des routes du service utilisateur
 app.use('/users', userRouter);
 
-// Point d'entrée pour le service utilisateur
 export const startUsersService = () => {
     app.listen(PORT, () => {
         console.log(`Users service is running on port ${PORT}`);

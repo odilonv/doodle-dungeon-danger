@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
-import User from '../../models/User.js';
+import bcrypt from 'bcrypt';
 
 class userRepository {
     static #instance = null;
@@ -12,7 +12,6 @@ class userRepository {
         }
 
         if (userRepository.#initializing) {
-            // Wait until the initializing process is finished
             await new Promise((resolve) => {
                 const interval = setInterval(() => {
                     if (userRepository.#instance) {
@@ -52,27 +51,29 @@ class userRepository {
     }
 
     static async dropTables(connection) {
-        const dropTables = fs.readFileSync('backend/assets/dropTableUser.sql', 'utf-8');
+        const dropTables = fs.readFileSync('./backend/user-service/dropTableUser.sql', 'utf-8');
         for (let query of dropTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
             }
         }
-        console.log("- Tables dropped");
+        console.log("- User's service tables dropped");
     }
 
     static async createTables(connection) {
-        const creationTables = fs.readFileSync('backend/assets/createTableUser.sql', 'utf-8');
+        const creationTables = fs.readFileSync('./backend/user-service/createTableUser.sql', 'utf-8');
         for (let query of creationTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
             }
         }
-        console.log("- Tables Updated");
+        console.log("- User's service tables Updated");
 
-        const sql = "INSERT INTO user (id, firstName, lastName, email, password) " +
-            "VALUES (0, 'admin', 'admin', 'admin@admin.com','" + await User.hashPassword("admin") + "')";
-        connection.query(sql);
+        connection.query(
+            'INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
+            ['Admin', 'Admin', 'admin@gmail.com', bcrypt.hashSync('admin', 10)]
+        );
+
         console.log("- Admin user created");
     }
 }

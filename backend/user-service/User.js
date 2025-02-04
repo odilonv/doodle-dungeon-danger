@@ -1,4 +1,3 @@
-import databaseConnection from './DatabaseConnection.js';
 import bcrypt from 'bcrypt';
 
 class User {
