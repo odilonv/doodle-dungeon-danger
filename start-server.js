@@ -34,14 +34,14 @@ const startServer = async () => {
     console.log('Démarrage du serveur Node.js...');
     const serverProcess = spawnProcess('node', ['backend/Server.js']);
 
-    console.log('Récupération de l\'ID du conteneur MySQL...');
-    const containerId = await execCommand('docker ps -q -f name=doodle-db-1');
-    if (!containerId) {
-      throw new Error('Le conteneur MySQL n\'a pas été trouvé');
-    }
+    // console.log('Récupération de l\'ID du conteneur MySQL...');
+    // const containerId = await execCommand('docker ps -q -f name=doodle-db-1');
+    // if (!containerId) {
+    //   throw new Error('Le conteneur MySQL n\'a pas été trouvé');
+    // }
 
-    console.log('Configuration de MySQL...');
-    await execCommand(`docker exec -i ${containerId} mysql -u root -padmin -e "SET GLOBAL log_bin_trust_function_creators = 1;"`);
+    // console.log('Configuration de MySQL...');
+    // await execCommand(`docker exec -i ${containerId} mysql -u root -padmin -e "SET GLOBAL log_bin_trust_function_creators = 1;"`);
 
     console.log('Le serveur est en cours d\'exécution.');
 
