@@ -71,7 +71,7 @@ class userRepository {
 
         connection.query(
             'INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
-            ['Admin', 'Admin', 'admin@gmail.com', bcrypt.hashSync('admin', 10)]
+            ['Admin', 'Admin', 'admin@admin.com', bcrypt.hashSync('admin', 10)]
         );
 
         console.log("- Admin user created");
