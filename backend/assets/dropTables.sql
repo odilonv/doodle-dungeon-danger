@@ -1,4 +1,0 @@
-DROP TABLE IF EXISTS `card`;
-
-DROP TABLE IF EXISTS `board`;
-
