@@ -3,27 +3,21 @@ import { useNavigate } from 'react-router';
 import { Divider } from "@mui/material";
 import { ButtonComponent, InputComponent, InputPasswordComponent } from '../../components';
 import './../../assets/css/pages/login.css';
-import { login, requireGuestUser } from "../../services/API/ApiUserSession";
+import { login } from "../../services/API/ApiUser";
 import { useNotification } from '../../contexts/NotificationContext';
 import { checkIsEmail } from '../../services/utils/ValidateUtils';
+import { useUser } from '../../contexts/UserContext';
 
 function LoginPage() {
     const { triggerNotification } = useNotification();
     const navigate = useNavigate();
 
+    const { user, setUser } = useUser();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        async function fetchData() {
-            await requireGuestUser();
-        }
-
-        fetchData();
-    }, []);
-
     const handleLogin = () => {
-
         const errors = {};
         let isValid = true;
 
@@ -42,6 +36,8 @@ function LoginPage() {
             login(user)
                 .then(response => {
                     if (response) {
+                        console.log(response);
+                        setUser(response);
                         window.location.href = `/`;
                     }
                 }).catch(error => {
@@ -59,6 +55,12 @@ function LoginPage() {
     const handleForgotPassword = () => {
         navigate('/forgotPassword');
     }
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    });
 
     return (
         <div className="page">

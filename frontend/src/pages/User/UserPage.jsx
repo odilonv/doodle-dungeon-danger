@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ModalComponent, UserInfoComponent, UserInfoEntryComponent } from '../../components';
-import { getLoggedUser, logout, requireLoggedUser } from '../../services/API/ApiUserSession';
+import { getLoggedUser, logout } from '../../services/API/ApiUser';
 import UserInfoCategoryComponent from "../../components/User/UserInfoCategoryComponent";
 import { Divider } from "@mui/material";
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
@@ -14,20 +14,6 @@ function UserPage() {
     const { user, setUser } = useContext(UserContext);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            if (await requireLoggedUser()) {
-                try {
-                    const loggedUser = await getLoggedUser();
-                    setUser(loggedUser);
-                } catch (error) {
-                    //console.error('Erreur lors de la récupération du user :', error);
-                }
-            }
-        };
-        fetchUser();
-    }, [setUser]);
-
     const handleLogout = async () => {
         try {
             await logout();
@@ -38,6 +24,8 @@ function UserPage() {
     };
 
     const handleDeleteAccount = () => {
+        console.log("delete account");
+        
         setIsModalVisible(true);
     };
 

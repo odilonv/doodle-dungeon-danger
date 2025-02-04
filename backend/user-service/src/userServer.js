@@ -4,7 +4,9 @@ import { userRouter } from './routes/userRoutes.js';
 import session from 'express-session';
 
 const app = express();
-const PORT = 5001; 
+app.use(express.json());
+
+const PORT = 5001;
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -15,10 +17,13 @@ app.use(session({
     secret: 'your secret key',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: {
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        httpOnly: true, 
+        secure: false, 
+        sameSite: 'lax' 
+    }
 }));
-
-app.use(express.json());
 
 app.use('/users', userRouter);
 

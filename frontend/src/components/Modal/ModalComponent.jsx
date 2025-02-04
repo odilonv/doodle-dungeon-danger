@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Modal as MuiModal, Typography } from '@mui/material';
 import { ButtonComponent, InputPasswordComponent } from '../../components';
-import { deleteUser } from '../../services/API/ApiUserSession';
+import { deleteUser } from '../../services/API/ApiUser';
 import { useNotification } from '../../contexts/NotificationContext';
 
 function ModalComponent({ open, handleClose, style }) {
@@ -44,7 +44,7 @@ function ModalComponent({ open, handleClose, style }) {
                     triggerNotification('User ID not found.', 'error');
                     return;
                 }
-                const response = await deleteUser(userId, password); // Pass userId and password to the deleteUser function
+                const response = await deleteUser(userId, password);
                 const json = await response.json();
                 if (response.ok) {
                     window.location.href = '/';

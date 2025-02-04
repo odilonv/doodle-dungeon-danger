@@ -16,12 +16,36 @@ export const IdUser = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-    console.log("BACKEND", req.body);
-    
     const { firstName, lastName, email, password } = req.body.user;
     try {
         const newUser = await UserService.createUser(firstName, lastName, email, password);
         res.status(201).json(newUser);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const updateUser = (req, res) => {
+    const { id } = req.params;
+    const { username, email } = req.body;
+    const updatedUser = UserService.updateUser(userId, username, email);
+    if (updatedUser) {
+        res.json(updatedUser);
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    const { userId, password } = req.body;
+    try {
+        const success = await UserService.deleteUser(userId, password);
+        if (success) {
+            res.status(200).json({ message: 'User deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });
@@ -45,47 +69,18 @@ export const loginUser = async (req, res) => {
 };
 
 export const sessionUser = (req, res) => {
-    const user = req.session.user;
-    if (user) {
-        res.json(user);
+    if (req.session.user) {
+        res.json(req.session.user);
     } else {
-        res.status(401).json({ message: 'User not logged in' });
-    }
-};
-
-export const updateUser = (req, res) => {
-    const { id } = req.params;
-    const { username, email } = req.body;
-    const updatedUser = UserService.updateUser(userId, username, email);
-    if (updatedUser) {
-        res.json(updatedUser);
-    } else {
-        res.status(404).json({ message: 'User not found' });
+        res.status(401).send('Aucune session active.');
     }
 };
 
 export const logoutUser = (req, res) => {
-    req.session.destroy((err) => {
+    req.session.destroy(err => {
         if (err) {
-            return res.status(500).json({ message: 'Failed to logout' });
+            return res.status(500).send('Erreur lors de la déconnexion.');
         }
-        res.status(200).json({ message: 'Logged out successfully' });
+        res.json({ message: 'Déconnecté avec succès.' });
     });
-};
-
-export const deleteUser = async (req, res) => {
-    const { userId, password } = req.body;
-    console.log("BACK ID:", userId);
-    try {
-        const success = await UserService.deleteUser(userId, password);
-        console.log(success);
-        if (success) {
-            res.status(200).json({ message: 'User deleted successfully' });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: error.message });
-    }
 };

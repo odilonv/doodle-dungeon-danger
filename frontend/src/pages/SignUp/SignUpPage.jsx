@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress, Backdrop } from '@mui/material';
 import { ButtonComponent, InputComponent, PasswordCreationComponent } from '../../components';
-import { register, requireGuestUser } from "../../services/API/ApiUserSession";
+import { signUp } from "../../services/API/ApiUser";
 import { useNotification } from '../../contexts/NotificationContext';
 import { checkPassword, checkIsEmail, checkOnlyAlphabets } from '../../services/utils/ValidateUtils';
 
@@ -20,20 +20,12 @@ function SignUpPage() {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        async function fetchData() {
-            await requireGuestUser();
-        }
-        fetchData();
-    }, []);
-
     const validate = () => {
         return checkOnlyAlphabets(user.lastName) === null &&
             checkOnlyAlphabets(user.firstName) === null &&
             checkIsEmail(user.email) === null &&
             checkPassword(user.password) == null && user.password === user.confirmPassword;
     };
-
 
     const handleSignUp = async () => {
         if (!validate()) {
@@ -42,7 +34,7 @@ function SignUpPage() {
         }
         setIsLoading(true);
         try {
-            const response = await register(user);
+            const response = await signUp(user);
             const json = await response.json();
             if (response.ok) {
                 triggerNotification('Inscription réussie', 'success');
@@ -57,7 +49,6 @@ function SignUpPage() {
             setIsLoading(false);
         }
     };
-
 
     return (
         <div className="page">
