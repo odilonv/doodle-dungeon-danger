@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
-import User from './User.js';
+import User from '../../models/User.js';
 
 class userRepository {
     static #instance = null;
@@ -37,7 +37,7 @@ class userRepository {
                 host: 'localhost',
                 user: 'admin',
                 password: 'admin',
-                database: 'db_service1-1',
+                database: 'doodle_db_service1',
                 port: 3306
             });
 
