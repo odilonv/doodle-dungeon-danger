@@ -4,7 +4,6 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 
-// Skins disponibles
 import player1 from "../../assets/sprites/characters/Player_1.png";
 import player2 from "../../assets/sprites/characters/Player_2.png";
 import player3 from "../../assets/sprites/characters/Player_3.png";
@@ -80,7 +79,6 @@ export default function HeroSkinPage() {
   );
 }
 
-// Styles
 const containerStyle = {
   display: "flex",
   flexDirection: "column",
@@ -123,6 +121,7 @@ const skinContainerStyle = {
   display: "flex",
   alignItems: "center",
   gap: "2rem",
+  minHeight: "400px",
 };
 
 const customizablePlayerContainer = {
@@ -133,10 +132,11 @@ const skinStyle = {
   width: "400px",
   height: "400px",
   objectFit: "contain",
+  display: "block",
 };
 
 const arrowStyle = {
-  fontSize: "3rem",
+  fontSize: "1.5rem",
   cursor: "pointer",
   color: "black",
 };

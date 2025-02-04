@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
-import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 
 import accessory1 from "../../assets/sprites/characters/custom/accessory/Accessory_1.png";
 import accessory2 from "../../assets/sprites/characters/custom/accessory/Accessory_2.png";
@@ -139,7 +139,7 @@ export default function HeroCustomizableSkinPage() {
                   style={accessoryItemStyle}
                   onClick={() => handleAccessoryClick(null)}
                 >
-                  <CheckBoxOutlineBlankRoundedIcon style={{ fontSize: "1.5rem" }} />
+                  <RadioButtonUncheckedRoundedIcon style={{ fontSize: "1.5rem" }} />
                 </div>
               )}
             </div>
@@ -177,7 +177,7 @@ export default function HeroCustomizableSkinPage() {
                   style={accessoryItemStyle}
                   onClick={() => handleSkinClick(null)}
                 >
-                  <CheckBoxOutlineBlankRoundedIcon style={{ fontSize: "1.5rem" }} />
+                  <RadioButtonUncheckedRoundedIcon style={{ fontSize: "1.5rem" }} />
                 </div>
               )}
             </div>
@@ -235,6 +235,7 @@ const titleStyle = {
 
 const customizablePlayerContainer = {
   position: "relative",
+  minHeight: "400px",
 };
 
 const skinStyle = {
