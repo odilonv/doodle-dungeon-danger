@@ -37,8 +37,8 @@ class userRepository {
                 host: 'localhost',
                 user: 'admin',
                 password: 'admin',
-                database: 'doodle_db_user_service',
-                port: 3306
+                database: 'doodle_db_hero_service',
+                port: 3307
             });
 
             await this.dropTables(connection);

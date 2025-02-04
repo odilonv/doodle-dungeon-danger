@@ -1,31 +1,31 @@
 version: '3.8'
 
 services:
-  db_service1:
+  db_user_service:
     image: mysql:8.0.26
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: doodle_db_service1
+      MYSQL_DATABASE: doodle_db_user_service
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
       - "3306:3306"
     volumes:
-      - db_data_service1:/var/lib/mysql
+      - db_data_user_service:/var/lib/mysql
 
-  db_service2:
+  db_hero_service:
     image: mysql:8.0.26
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: doodle_db_service2
+      MYSQL_DATABASE: doodle_db_hero_service
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
       - "3307:3306"
     volumes:
-      - db_data_service2:/var/lib/mysql
+      - db_data_hero_service:/var/lib/mysql
 
   db_service3:
     image: mysql:8.0.26
@@ -41,6 +41,6 @@ services:
       - db_data_service3:/var/lib/mysql
 
 volumes:
-  db_data_service1:
-  db_data_service2:
+  db_data_user_service:
+  db_data_hero_service:
   db_data_service3:
