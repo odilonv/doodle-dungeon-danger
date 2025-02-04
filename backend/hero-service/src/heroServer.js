@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import { userRouter } from './src/routes/userRoutes.js';
+import { heroRouter } from './routes/heroRoutes.js';
 import session from 'express-session';
 
 const app = express();
-const PORT = 5001; 
+const PORT = 5002;
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -20,12 +20,12 @@ app.use(session({
 
 app.use(express.json());
 
-app.use('/users', userRouter);
+app.use('/heroes', heroRouter);
 
-export const startUsersService = () => {
+export const startHeroesService = () => {
     app.listen(PORT, () => {
-        console.log(`Users service is running on port ${PORT}`);
+        console.log(`Heroes service is running on port ${PORT}`);
     });
 };
 
-startUsersService();
+startHeroesService();

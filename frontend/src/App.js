@@ -1,7 +1,7 @@
 import React from 'react';
 import './assets/css/App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { FooterComponent, HeaderComponent } from './components';
+import { FooterComponent } from './components';
 import {
   HomePage,
   LoginPage,
@@ -17,7 +17,6 @@ function App() {
   return (
     <Router>
       <UserProvider>
-        <HeaderComponent />
         <NotificationProvider>
           <Routes>
             <Route exact path="/" element={<HomePage />} />
