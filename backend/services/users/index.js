@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { userRouter } from './userRoutes.js';
 import session from 'express-session';
+import userRepository from './userRepository.js';
 
 const app = express();
 const PORT = 5001; // Port pour le service utilisateur

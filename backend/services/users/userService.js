@@ -1,4 +1,4 @@
-import DatabaseConnection from '../../models/DatabaseConnection.js';
+import userRepository from './userRepository.js';
 import bcrypt from 'bcrypt';
 import User from '../../models/User.js';
 
@@ -14,7 +14,7 @@ export const UserService = {
             password: hashedPassword
         };
 
-        const connection = await DatabaseConnection.getInstance();
+        const connection = await userRepository.getInstance();
         await connection.query(
             'INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
             [newUser.firstName, newUser.lastName, newUser.email, newUser.password]
@@ -27,7 +27,7 @@ export const UserService = {
     },
 
     loginUser: async (email, password) => {
-        const connection = await DatabaseConnection.getInstance();
+        const connection = await userRepository.getInstance();
         const [results] = await connection.query('SELECT * FROM user WHERE email = ?', [email]);
         if (results.length > 0) {
             const userData = results[0];
@@ -41,13 +41,13 @@ export const UserService = {
     },
 
     deleteUser: async (userId) => {
-        const connection = await DatabaseConnection.getInstance();
+        const connection = await userRepository.getInstance();
         const [result] = await connection.query('DELETE FROM user WHERE id = ?', [userId]);
         return result.affectedRows > 0;
     },
 
     getUserById: async (id) => {
-        const connection = await DatabaseConnection.getInstance();
+        const connection = await userRepository.getInstance();
         const [results] = await connection.query('SELECT * FROM user WHERE id = ?', [id]);
         if (results.length > 0) {
             const userData = results[0];

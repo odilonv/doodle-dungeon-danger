@@ -2,33 +2,33 @@ import mysql from 'mysql2/promise';
 import fs from 'fs';
 import User from './User.js';
 
-class DatabaseConnection {
+class userRepository {
     static #instance = null;
     static #initializing = false;
 
     static async getInstance() {
-        if (DatabaseConnection.#instance) {
-            return DatabaseConnection.#instance;
+        if (userRepository.#instance) {
+            return userRepository.#instance;
         }
 
-        if (DatabaseConnection.#initializing) {
+        if (userRepository.#initializing) {
             // Wait until the initializing process is finished
             await new Promise((resolve) => {
                 const interval = setInterval(() => {
-                    if (DatabaseConnection.#instance) {
+                    if (userRepository.#instance) {
                         clearInterval(interval);
                         resolve();
                     }
                 }, 50);
             });
-            return DatabaseConnection.#instance;
+            return userRepository.#instance;
         }
 
-        DatabaseConnection.#initializing = true;
-        DatabaseConnection.#instance = await this.initDatabase();
-        DatabaseConnection.#initializing = false;
+        userRepository.#initializing = true;
+        userRepository.#instance = await this.initDatabase();
+        userRepository.#initializing = false;
 
-        return DatabaseConnection.#instance;
+        return userRepository.#instance;
     }
 
     static async initDatabase() {
@@ -77,4 +77,4 @@ class DatabaseConnection {
     }
 }
 
-export default DatabaseConnection;
+export default userRepository;
