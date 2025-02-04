@@ -32,7 +32,7 @@ const startServer = async () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     console.log('Démarrage du serveur USER ...');
-    const serverProcess = spawnProcess('node', ['backend/user-service/userServer.js']);
+    const serverProcess = spawnProcess('node', ['backend/user-service/src/userServer.js']);
     
     console.log('Le serveur est en cours d\'exécution.');
 
