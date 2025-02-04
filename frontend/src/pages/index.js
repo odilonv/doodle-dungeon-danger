@@ -1,4 +1,5 @@
 export { default as HomePage } from './Home/HomePage';
+export { default as HeroSkinPage } from './Hero/HeroSkinPage';
 export { default as LoginPage } from './Login/LoginPage';
 export { default as SignUpPage } from './SignUp/SignUpPage';
 export { default as SettingsPage } from './Settings/SettingsPage';
