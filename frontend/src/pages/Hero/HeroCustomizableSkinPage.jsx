@@ -23,7 +23,7 @@ import customizablePlayer from "../../assets/sprites/characters/custom/Base.png"
 const accessories = [null, accessory1, accessory2, accessory3];
 const faces = [face1, face2, face3, face4];
 
-const skinsCustom = [skin1, skin2, skin3, skin4];
+const skinsCustom = [null, skin1, skin2, skin3, skin4];
 
 export default function HeroCustomizableSkinPage() {
   const [selectedAccessory, setSelectedAccessory] = useState(null);
@@ -78,18 +78,19 @@ export default function HeroCustomizableSkinPage() {
           top: 0,
           left: 0,
         }} />
-
-        <img
-          src={selectedSkin}
-          alt="Skin Color"
-          style={{
-            ...skinStyle,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 0,
-          }}
-        />
+        {selectedSkin && (
+          <img
+            src={selectedSkin}
+            alt="Skin Color"
+            style={{
+              ...skinStyle,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 0,
+            }}
+          />
+        )}
 
         <img
           src={selectedFace}
@@ -162,16 +163,28 @@ export default function HeroCustomizableSkinPage() {
         <h2>Select Skin Colors:</h2>
         <div style={accessoryItemsStyle}>
           {skinsCustom.map((skin, index) => (
-            <img
-              key={index}
-              src={skin}
-              alt={`Skin ${index}`}
-              style={accessoryItemStyle}
-              onClick={() => handleSkinClick(skin)}
-            />
+            <div key={index} style={{ position: "relative" }}>
+              {skin ? (
+                <img
+                  key={index}
+                  src={skin}
+                  alt={`Skin ${index}`}
+                  style={accessoryItemStyle}
+                  onClick={() => handleSkinClick(skin)}
+                />
+              ) : (
+                <div
+                  style={accessoryItemStyle}
+                  onClick={() => handleSkinClick(null)}
+                >
+                  <CheckBoxOutlineBlankRoundedIcon style={{ fontSize: "1.5rem" }} />
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>
+
 
       <div style={buttonsContainerStyle}>
         <button onClick={handleChooseHeroClick} style={createHeroButtonStyle}>
@@ -183,8 +196,9 @@ export default function HeroCustomizableSkinPage() {
         </button>
       </div>
     </div>
-  );
+  )
 }
+
 
 const containerStyle = {
   display: "flex",
