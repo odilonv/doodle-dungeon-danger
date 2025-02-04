@@ -1,4 +1,3 @@
-export { default as HeaderComponent } from './Header/HeaderComponent';
 export { default as HeadBarComponent } from './Head/HeadBarComponent';
 export { default as FooterComponent } from './Footer/FooterComponent';
 export { default as HeadTextComponent } from './Head/HeadTextComponent';

@@ -1,47 +1,149 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import { UserContext } from "../../contexts";
+import dogMan from '../../assets/sprites/characters/DogMan.png';
+import player from '../../assets/sprites/characters/Player.png';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [hasSavedGame, setHasSavedGame] = useState(false);
 
-  // Simule une vérification si une partie existe (ex: localStorage ou API)
   useEffect(() => {
     const savedGame = localStorage.getItem("savedGame");
-    setHasSavedGame(!!savedGame); // Convertit en booléen
+    setHasSavedGame(!!savedGame);
   }, []);
 
   const startNewGame = () => {
     localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
-    navigate("/game"); // Redirige vers la page du jeu
+    navigate("/choose-a-skin");
   };
 
   const continueGame = () => {
-    if (hasSavedGame) {
+    if (user && hasSavedGame) {
       navigate("/game");
     }
   };
 
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
-      <h1 className="text-4xl font-bold mb-6">Bienvenue dans le jeu</h1>
-      <div className="flex flex-col gap-4">
-        <button
-          onClick={startNewGame}
-          className="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl text-lg font-semibold"
-        >
-          Créer une nouvelle partie
-        </button>
-        <button
-          onClick={continueGame}
-          disabled={!hasSavedGame}
-          className={`px-6 py-3 rounded-xl text-lg font-semibold ${
-            hasSavedGame ? "bg-green-500 hover:bg-green-600" : "bg-gray-500 cursor-not-allowed"
-          }`}
-        >
-          Continuer
-        </button>
+    <div style={containerStyle}>
+      <h1 style={titleStyle}>
+        Welcome to
+        <br />
+        <span style={{ color: "var(--main-color)" }}>Doodle Dungeon Danger</span>
+      </h1>
+
+      <div style={contentContainerStyle}>
+        <img src={player} alt="Player" style={imageStyle} />
+
+        <div style={buttonContainerStyle}>
+          <button onClick={startNewGame} style={buttonStyle}>
+            Create a new Game
+          </button>
+          <button
+            onClick={continueGame}
+            disabled={!user || !hasSavedGame}
+            style={!user || !hasSavedGame ? disabledButtonStyle : buttonStyle}
+          >
+            Continue
+          </button>
+        </div>
+
+        <img src={dogMan} alt="DogMan" style={imageStyle} />
+      </div>
+
+      {/* Rectangle de connexion en bas à droite */}
+      <div style={loginBoxStyle} onClick={handleLoginClick}>
+        <span style={loginTextStyle}>{user ? user.firstName : "Log In"}</span>
+        <PersonRoundedIcon style={iconStyle} />
       </div>
     </div>
   );
 }
+
+// Styles
+const containerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100vh",
+  backgroundColor: "#ffffff",
+  color: "black",
+  position: "relative",
+};
+
+const titleStyle = {
+  fontSize: "3rem",
+  fontWeight: "bold",
+  marginBottom: "3rem",
+  textAlign: "center",
+};
+
+const contentContainerStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "2rem",
+};
+
+const buttonContainerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.5rem",
+  alignItems: "center",
+};
+
+const buttonStyle = {
+  padding: "1rem 2rem",
+  backgroundColor: "var(--main-color)",
+  color: "white",
+  fontSize: "1.5rem",
+  fontWeight: "bold",
+  borderRadius: "0.75rem",
+  border: "none",
+  cursor: "pointer",
+};
+
+const disabledButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "var(--disabled-color)",
+  cursor: "not-allowed",
+};
+
+const imageStyle = {
+  width: "400px",
+  height: "400px",
+  objectFit: "contain",
+};
+
+const loginBoxStyle = {
+  position: "absolute",
+  bottom: "20px",
+  right: "20px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "200px",
+  padding: "10px 15px",
+  backgroundColor: "white",
+  border: "2px solid black",
+  borderRadius: "10px",
+  cursor: "pointer",
+  boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
+};
+
+const loginTextStyle = {
+  fontSize: "1.2rem",
+  fontWeight: "bold",
+};
+
+const iconStyle = {
+  fontSize: "1.8rem",
+  color: "black",
+};
