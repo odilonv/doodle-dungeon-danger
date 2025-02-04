@@ -1,31 +1,22 @@
 import express from 'express';
 import cors from 'cors';
 import { heroRouter } from './routes/heroRoutes.js';
-import session from 'express-session';
 
 const app = express();
+app.use(express.json());
+
 const PORT = 5002;
 
 app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
+    origin: 'http://localhost:3000'
 }));
 
-app.use(session({
-    secret: 'your secret key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
+app.use('/heroes', heroRouter); 
 
-app.use(express.json());
-
-app.use('/heroes', heroRouter);
-
-export const startHeroesService = () => {
+export const startHeroService = () => {
     app.listen(PORT, () => {
-        console.log(`Heroes service is running on port ${PORT}`);
+        console.log(`Hero service is running on port ${PORT}`);
     });
 };
 
-startHeroesService();
+startHeroService();
