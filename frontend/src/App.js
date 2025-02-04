@@ -3,6 +3,7 @@ import './assets/css/App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { FooterComponent } from './components';
 import {
+  HeroSkinPage,
   HomePage,
   LoginPage,
   NotFoundPage,
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/choose-a-skin" element={<HeroSkinPage />} />
             <Route path="/logout" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/verifyEmail/:token" element={<VerifyEmailPage />} />

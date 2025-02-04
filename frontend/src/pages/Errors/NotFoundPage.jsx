@@ -1,25 +1,82 @@
 import React from 'react';
-import { ButtonComponent } from '../../components';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-
+import { useNavigate } from 'react-router-dom';
 
 function NotFoundPage() {
-    return (
-        <div className='not-found-container'>
-            <div className='not-found-header'>
-                <h1>404</h1>
-            </div>
-            <div className='not-found-body'>
-                <h2>Page Not Found.</h2>
-                <ButtonComponent
-                    color={'var(--main-color)'}
-                    text={'I come back to my board'}
-                    borderRadius={'10px'}
-                    endIcon={<ArrowForwardIosRoundedIcon style={{ color: 'white' }} />}
-                    href={'/board'} />
-            </div>
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate("/");
+  };
+
+  return (
+    <div style={notFoundContainerStyle}>
+      <div style={notFoundHeaderStyle}>
+        <h1 style={notFoundTitleStyle}>404</h1>
+      </div>
+      <div style={notFoundBodyStyle}>
+        <h2>Page Not Found.</h2>
+        <div style={notFoundButtonBoxStyle} onClick={handleGoBack}>
+          <span style={notFoundButtonTextStyle}>I'm lost in the doodle world... Oh no!</span>
+          <ArrowForwardIosRoundedIcon style={notFoundButtonIconStyle} />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
+
+const notFoundContainerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100vh",
+  backgroundColor: "#ffffff",
+  color: "black",
+  textAlign: "center",
+};
+
+const notFoundHeaderStyle = {
+  marginBottom: "2rem",
+};
+
+const notFoundTitleStyle = {
+  fontSize: "6rem",
+  fontWeight: "bold",
+};
+
+const notFoundBodyStyle = {
+  fontSize: "1.5rem",
+  marginTop: "2rem",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const notFoundButtonBoxStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: "2rem",
+  width: "250px",
+  padding: "10px 15px",
+  backgroundColor: "white",
+  border: "2px solid black",
+  borderRadius: "10px",
+  cursor: "pointer",
+  boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
+};
+
+const notFoundButtonTextStyle = {
+  fontSize: "1.2rem",
+  fontWeight: "bold",
+};
+
+const notFoundButtonIconStyle = {
+  fontSize: "1.8rem",
+  color: "black",
+  marginLeft: "10px",
+};
 
 export default NotFoundPage;

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../contexts";
-import monster from '../../assets/sprites/characters/Monster.png';
+import dogMan from '../../assets/sprites/characters/DogMan.png';
 import player from '../../assets/sprites/characters/Player.png';
 
 export default function HomePage() {
@@ -17,7 +17,7 @@ export default function HomePage() {
 
   const startNewGame = () => {
     localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
-    navigate("/game");
+    navigate("/choose-a-skin");
   };
 
   const continueGame = () => {
@@ -50,16 +50,16 @@ export default function HomePage() {
             disabled={!user || !hasSavedGame}
             style={!user || !hasSavedGame ? disabledButtonStyle : buttonStyle}
           >
-            Continuer
+            Continue
           </button>
         </div>
 
-        <img src={monster} alt="Monster" style={imageStyle} />
+        <img src={dogMan} alt="DogMan" style={imageStyle} />
       </div>
 
       {/* Rectangle de connexion en bas à droite */}
       <div style={loginBoxStyle} onClick={handleLoginClick}>
-        <span style={loginTextStyle}>{user ? user.firstName : "Se connecter"}</span>
+        <span style={loginTextStyle}>{user ? user.firstName : "Log In"}</span>
         <PersonRoundedIcon style={iconStyle} />
       </div>
     </div>
