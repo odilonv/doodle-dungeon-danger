@@ -9,7 +9,10 @@ import DogMan from '../../assets/sprites/characters/DogMan.png';
 
 import { ModalBattleComponent } from '../';
 
-const Map1Component = ({ hero , setHero }) => {
+const Map1Component = ({ hero, setHero }) => {
+
+    const characterImage = localStorage.getItem("characterImage");
+
     const widthSize = 16;
     const heightSize = 9;
 
@@ -119,7 +122,7 @@ const Map1Component = ({ hero , setHero }) => {
                 </div>
             ))}
             <img
-                src={player_2}
+                src={characterImage}
                 alt="Player"
                 style={{
                     position: 'absolute',

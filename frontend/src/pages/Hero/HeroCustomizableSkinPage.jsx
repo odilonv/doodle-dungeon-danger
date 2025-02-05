@@ -54,14 +54,21 @@ export default function HeroCustomizableSkinPage() {
   };
 
   const validateSkin = async () => {
-    if (!characterRef.current) return;
+    console.log("validateSkin called!");
+    if (!characterRef.current) {
+      console.log("characterRef is null");
+      return;
+    }
 
     const canvas = await html2canvas(characterRef.current, { backgroundColor: null });
     const dataURL = canvas.toDataURL("image/png");
-    localStorage.setItem("characterImage", dataURL);
 
+    console.log("Image captured:", dataURL);
+
+    localStorage.setItem("characterImage", dataURL);
     navigate("/dungeon-1");
   };
+
 
   return (
     <div style={containerStyle}>
@@ -76,7 +83,7 @@ export default function HeroCustomizableSkinPage() {
         <span style={{ color: "var(--main-color)" }}>doodle hero!</span>
       </h1>
 
-      <div style={customizablePlayerContainer}>
+      <div ref={characterRef} style={customizablePlayerContainer}>
         <div alt="Base" style={skinStyle} />
 
         <img src={customizablePlayer} alt="Base" style={{
