@@ -45,7 +45,7 @@ export default function HeroCustomizableSkinPage() {
       return;
     }
 
-    const canvas = await html2canvas(characterRef.current, { backgroundColor: null });
+    const canvas = await html2canvas(characterRef.current, { backgroundColor: null, useCORS: true, scale: 2 });
     const dataURL = canvas.toDataURL("image/png");
 
     console.log("Image captured:", dataURL);

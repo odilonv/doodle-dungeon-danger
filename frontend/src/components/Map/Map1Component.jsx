@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import grass from '../../assets/maps/grass.png';
-import tree from '../../assets/maps/tree.png';
 
 import { ModalBattleComponent } from '../';
 
 const Map1Component = ({ hero, setHero }) => {
 
-    const widthSize = 16;
-    const heightSize = 9;
+    const wall = "sprites/decoration/Wall.png";
+    const ground = "sprites/decoration/ground.png";
+
+    const widthSize = 10;
+    const heightSize = 5;
 
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
 
@@ -83,6 +84,7 @@ const Map1Component = ({ hero, setHero }) => {
                 gridTemplateRows: `repeat(${heightSize}, ${cellSize}px)`,
                 position: 'relative',
             }}
+
         >
             {map.flat().map((cell, index) => (
                 <div
@@ -90,15 +92,15 @@ const Map1Component = ({ hero, setHero }) => {
                     style={{
                         width: cellSize,
                         height: cellSize,
-                        backgroundImage: `url(${grass})`,
+                        backgroundImage: `url(${ground})`,
                         backgroundSize: 'cover',
                         position: 'relative',
                     }}
                 >
                     {cell === 1 ? (
                         <img
-                            src={tree}
-                            alt="Tree"
+                            src={wall}
+                            alt="Wall"
                             style={{
                                 position: 'absolute',
                                 width: '100%',
