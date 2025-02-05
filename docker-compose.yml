@@ -27,20 +27,48 @@ services:
     volumes:
       - db_data_hero_service:/var/lib/mysql
 
-  db_service3:
+  db_dungeon_service:
     image: mysql:8.0.26
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: doodle_db_service3
+      MYSQL_DATABASE: doodle_db_dungeon_service
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
       - "3308:3306"
     volumes:
-      - db_data_service3:/var/lib/mysql
+      - db_data_dungeon_service:/var/lib/mysql
+
+  db_battle_service:
+    image: mysql:8.0.26
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: doodle_db_battle_service
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3309:3306"
+    volumes:
+      - db_data_battle_service:/var/lib/mysql
+
+  db_monster_service:
+    image: mysql:8.0.26
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: doodle_db_monster_service
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3310:3306"
+    volumes:
+      - db_data_monster_service:/var/lib/mysql
 
 volumes:
   db_data_user_service:
   db_data_hero_service:
-  db_data_service3:
+  db_data_dungeon_service:
+  db_data_battle_service:
+  db_data_monster_service:

@@ -3,5 +3,5 @@ CREATE TABLE Battle (
     hero_id INT,
     dungeon_instance_id INT,
     monsters JSON,
-    result ENUM('Victoire', 'Défaite', 'En cours') DEFAULT 'En cours',
+    result ENUM('Victory', 'Defeat', 'Ongoing') DEFAULT 'Ongoing'
 );

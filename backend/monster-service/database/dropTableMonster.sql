@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS Monster_Instance;
+DROP TABLE IF EXISTS Monster;
