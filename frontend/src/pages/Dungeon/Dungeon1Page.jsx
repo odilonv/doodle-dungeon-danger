@@ -12,7 +12,7 @@ const Dungeon1Page = () => {
         name: "Hero",
         level: 1,
         power: 10,
-        max_health: 100,
+        max_health: 110,
         current_health: 100,
         experience: 0,
         characterImage: characterImage,
