@@ -164,6 +164,26 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
     setTimeout(() => setHeroAttacking(false), attackAnimationDuration);
   };
 
+  const [currentCharacterImage, setCurrentCharacterImage] = useState(hero.characterImage.replace('.png', ''));
+
+  useEffect(() => {
+    if (hero.current_health / hero.max_health <= 0.1) {
+      setCurrentCharacterImage(currentCharacterImage + '_dead.png');
+    } else {
+      setCurrentCharacterImage(currentCharacterImage + '.png');
+    }
+  }, [hero.current_health]);
+
+  const [currentEnnemyImage, setCurrentEnnemyImage] = useState(ennemy.characterImage.replace('.png', ''));
+
+  useEffect(() => {
+    if (ennemy.current_health / ennemy.max_health <= 0.1) {
+      setCurrentEnnemyImage(currentEnnemyImage + '_dead.png');
+    } else {
+      setCurrentEnnemyImage(currentEnnemyImage + '.png');
+    }
+  }, [ennemy.current_health]);
+
   return (
     <Modal open={isInBattle} onClose={handleClose} disableAutoFocus disableEnforceFocus>
       <div ref={containerRef} style={modalContainerStyle(isTransitionning, modalSize)}>
@@ -187,8 +207,8 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-              <img src={hero.characterImage} alt="Player" style={characterStyle(heroAttacking)} />
-              <img src={ennemy.characterImage} alt="Ennemy" style={characterStyle(ennemyAttacking, false)} />
+              <img src={currentCharacterImage} alt="Player" style={characterStyle(heroAttacking)} />
+              <img src={currentEnnemyImage} alt="Ennemy" style={characterStyle(ennemyAttacking, false)} />
             </div>
 
             <div style={actionsContainerStyle}>
