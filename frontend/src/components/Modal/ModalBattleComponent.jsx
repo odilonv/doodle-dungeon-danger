@@ -81,8 +81,13 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                 {!isTransitionning ? (
                     <div battle-header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <div>
-                            <BorderLinearProgress variant="determinate" value={hero.health} />
-
+                            <img src={`/life_bar/${(hero.current_health / hero.max_health) * 100}.png`}
+                                alt='Life bar'
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                }}
+                            />
                             <img
                                 src={hero.characterImage}
                                 alt="Player"
@@ -94,8 +99,14 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                         </div>
                         <h2 id="simple-modal-title">Battle !</h2>
                         <div>
-                            <BorderLinearProgress variant="determinate" value={ennemy.health} />
-
+                            <img src={`/life_bar/${(hero.current_health / hero.max_health) * 100}.png`}
+                                alt='Life bar'
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                    transform: 'rotateY(180deg)',
+                                }}
+                            />
                             <img
                                 src={ennemy.characterImage}
                                 alt="Ennemy"
