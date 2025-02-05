@@ -11,7 +11,6 @@ const boxSize = 49;
 
 const modalContainerStyle = (isTransitionning, modalSize) => ({
   backgroundColor: `${isTransitionning ? 'transparent' : 'white'}`,
-  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -23,7 +22,9 @@ const modalContainerStyle = (isTransitionning, modalSize) => ({
   alignItems: 'center',
   overflow: 'hidden',
   borderRadius: '10px',
-  position: 'relative', // Ajouter position relative pour que la croix soit positionnée correctement
+  position: 'relative',
+  backgroundImage: 'url("sprites/rectangles/Rectangle_2.png")',
+  backgroundSize: 'cover',
 });
 
 const characterStyle = (isAttacking) => ({
