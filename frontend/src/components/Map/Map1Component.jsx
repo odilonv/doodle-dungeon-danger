@@ -66,7 +66,7 @@ const Map1Component = ({ hero, setHero }) => {
 
             if (map[newPosition.y][newPosition.x] === 2) {
                 setIsInBattle(true);
-                setEnnemy({ name: 'DogMan', level: 1, current_health: 100, max_health: 1950, attack: 10, defense: 5, characterImage: 'sprites/characters/Monster_1.png' });
+                setEnnemy({ name: 'DogMan', level: 1, current_health: 800, max_health: 1950, attack: 10, defense: 5, characterImage: 'sprites/characters/Monster_1.png' });
             }
 
             setHero({ ...hero, position: newPosition });
@@ -131,7 +131,9 @@ const Map1Component = ({ hero, setHero }) => {
                     transition: 'top 0.1s, left 0.1s',
                 }}
             />
-            <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} ennemy={ennemy} />
+            {isInBattle &&
+                <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} ennemy={ennemy} />
+            }
         </div>
     );
 };
