@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { Modal } from '@mui/material';
-
 import grass from '../../assets/maps/grass.png';
 import tree from '../../assets/maps/tree.png';
 import player_2 from '../../assets/sprites/characters/Player_2.png';
