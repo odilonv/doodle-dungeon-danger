@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import fs from 'fs';
+import heroModel from '../models/heroModel.js';
 
 class HeroRepository {
     static #instance = null;

@@ -1,5 +1,4 @@
 import heroRepository from '../repositories/heroRepository.js';
-import heroModel from '../models/heroModel.js';
 
 export const HeroService = {
     createHero: async (name) => {
