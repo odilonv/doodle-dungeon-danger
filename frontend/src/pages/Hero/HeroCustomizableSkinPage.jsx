@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import html2canvas from 'html2canvas';
 
 import accessory1 from "../../assets/sprites/characters/custom/accessory/Accessory_1.png";
 import accessory2 from "../../assets/sprites/characters/custom/accessory/Accessory_2.png";
@@ -30,6 +31,7 @@ export default function HeroCustomizableSkinPage() {
   const [selectedFace, setSelectedFace] = useState(face1);
   const [selectedSkin, setSelectedSkin] = useState(skin1);
   const navigate = useNavigate();
+  const characterRef = useRef(null);
 
   const handleAccessoryClick = (accessory) => {
     setSelectedAccessory(accessory);
@@ -51,7 +53,13 @@ export default function HeroCustomizableSkinPage() {
     navigate("/");
   };
 
-  const validateSkin = () => {
+  const validateSkin = async () => {
+    if (!characterRef.current) return;
+
+    const canvas = await html2canvas(characterRef.current, { backgroundColor: null });
+    const dataURL = canvas.toDataURL("image/png");
+    localStorage.setItem("characterImage", dataURL);
+
     navigate("/game");
   };
 
