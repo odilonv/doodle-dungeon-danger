@@ -10,7 +10,16 @@ import DogMan from '../../assets/sprites/characters/DogMan.png';
 import { ModalBattleComponent } from '../';
 
 const Map1Component = () => {
-    const [positions, setPositions] = useState([{ x: 0, y: 0 }]);
+    /* TODO REPLACE BY REAL DATA */
+    const [hero, setHero] = useState({
+        position: { x: 0, y: 0 },
+        name: "Hero",
+        level: 1,
+        power: 10,
+        max_health: 100,
+        current_health: 100,
+        experience: 0,
+    });
 
     const widthSize = 16;
     const heightSize = 9;
@@ -41,8 +50,8 @@ const Map1Component = () => {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            const position = positions[0];
-            const newPosition = { ...position };
+            const position = hero.position;
+            const newPosition = { x: position.x, y: position.y };
 
             switch (event.key) {
                 case 'ArrowUp':
@@ -67,17 +76,15 @@ const Map1Component = () => {
 
 
             if (map[newPosition.y][newPosition.x] === 2) {
-                // setTimeout(() => {
                 setIsInBattle(true);
-                // }, 1200);
             }
 
-            setPositions([newPosition]);
+            setHero({ ...hero, position: newPosition });
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [positions]);
+    }, [hero.position, map]);
 
     return (
         <div
@@ -122,23 +129,18 @@ const Map1Component = () => {
                     ) : null}
                 </div>
             ))}
-
-            {positions.map((position, index) => (
-                <img
-                    key={index}
-                    src={player_2}
-                    alt="Player"
-                    style={{
-                        position: 'absolute',
-                        width: `${cellSize - 30}px`,
-                        top: position.y * cellSize,
-                        left: position.x * cellSize,
-                        transition: 'top 0.1s, left 0.1s',
-                    }}
-                />
-            ))}
+            <img
+                src={player_2}
+                alt="Player"
+                style={{
+                    position: 'absolute',
+                    width: `${cellSize - 30}px`,
+                    top: hero.position.y * cellSize,
+                    left: hero.position.x * cellSize,
+                    transition: 'top 0.1s, left 0.1s',
+                }}
+            />
             <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} />
-
         </div>
     );
 };

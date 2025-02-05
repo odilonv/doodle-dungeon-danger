@@ -8,6 +8,9 @@ const ModalBattleComponent = ({ isInBattle, handleClose }) => {
     const containerRef = useRef(null);
     const boxSize = 49;
 
+    // TODO REPLACE HEROES
+
+
     useEffect(() => {
         const calculateModalSize = () => {
             const { innerWidth, innerHeight } = window;
