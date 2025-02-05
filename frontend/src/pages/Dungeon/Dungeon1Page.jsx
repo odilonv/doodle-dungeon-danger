@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Map1Component } from "../../components";
 
 const Dungeon1Page = () => {
+    const characterImage = localStorage.getItem("characterImage");
+
 
     /* TODO REPLACE BY REAL DATA */
     const [hero, setHero] = useState({
@@ -13,6 +15,7 @@ const Dungeon1Page = () => {
         max_health: 100,
         current_health: 100,
         experience: 0,
+        characterImage: characterImage,
     });
 
     return (

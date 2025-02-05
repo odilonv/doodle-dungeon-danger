@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import grass from '../../assets/maps/grass.png';
 import tree from '../../assets/maps/tree.png';
-import player_2 from '../../assets/sprites/characters/Player_2.png';
 import DogMan from '../../assets/sprites/characters/DogMan.png';
 
 import { ModalBattleComponent } from '../';
 
 const Map1Component = ({ hero, setHero }) => {
-
-    const characterImage = localStorage.getItem("characterImage");
 
     const widthSize = 16;
     const heightSize = 9;
@@ -120,7 +117,7 @@ const Map1Component = ({ hero, setHero }) => {
                 </div>
             ))}
             <img
-                src={characterImage}
+                src={hero.characterImage}
                 alt="Player"
                 style={{
                     position: 'absolute',
