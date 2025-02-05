@@ -3,49 +3,38 @@ import { Modal } from '@mui/material';
 import BattleLoaderComponent from '../Loaders/BattleLoaderComponent';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import styled from '@mui/material/styles/styled';
-import CloseIcon from '@mui/icons-material/Close'; // Importer l'icône Close de Material-UI
+import CloseIcon from '@mui/icons-material/CloseRounded';
 
 const attackAnimationDuration = 300;
 const characterSize = 300;
 const boxSize = 49;
 
 const modalContainerStyle = (isTransitionning, modalSize) => ({
-  backgroundColor: `${isTransitionning ? 'transparent' : 'white'}`,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: `${modalSize.width}px`,
   height: `${modalSize.height}px`,
-  padding: `${isTransitionning ? '0' : '20px'}`,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   overflow: 'hidden',
-  borderRadius: '10px',
   position: 'relative',
   backgroundImage: 'url("sprites/rectangles/Rectangle_2.png")',
   backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  boxSizing: 'border-box',
+  padding: '50px 100px',
 });
 
-const characterStyle = (isAttacking) => ({
+
+const characterStyle = (isAttacking, isHero = true) => ({
   width: `${characterSize}px`,
   height: `${characterSize}px`,
-  transition: `transform ${attackAnimationDuration}ms ease-in-out`,
-  transform: isAttacking ? 'rotate(20deg)' : 'rotate(0deg)',
+  transition: `transform ${attackAnimationDuration}ms ease-in-out, translateX ${attackAnimationDuration}ms ease-in-out`,
+  transform: isAttacking && isHero ? 'translateX(300px)' : isAttacking && !isHero ? 'translateX(-300px)' : 'translateX(0)',
 });
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  width: '45%',
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: theme.palette.grey[200],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: 'green',
-  },
-}));
 
 const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
   const [isTransitionning, setIsTransitionning] = useState(true);
@@ -58,8 +47,8 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
   useEffect(() => {
     const calculateModalSize = () => {
       const { innerWidth, innerHeight } = window;
-      const minWidth = Math.floor(innerWidth * 0.85);
-      const minHeight = Math.floor(innerHeight * 0.85);
+      const minWidth = Math.floor(innerWidth * 0.90);
+      const minHeight = Math.floor(innerHeight * 0.90);
       const adjustedWidth = Math.floor(minWidth / boxSize) * boxSize;
       const adjustedHeight = Math.floor(minHeight / boxSize) * boxSize;
 
@@ -73,6 +62,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
     }
   }, [isInBattle]);
 
+
   const handleAttack = (weapon) => {
     setHeroAttacking(true);
     setDialogue(`Le héros attaque avec ${weapon} !`);
@@ -82,13 +72,12 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
   return (
     <Modal open={isInBattle} onClose={handleClose}>
       <div ref={containerRef} style={modalContainerStyle(isTransitionning, modalSize)}>
-        {/* Ajouter une croix pour fermer la modal */}
         <button
           onClick={handleClose}
           style={{
             position: 'absolute',
             top: '10px',
-            right: '10px',
+            right: '50px',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
@@ -119,7 +108,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
               />
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
               <img src={hero.characterImage} alt="Player" style={characterStyle(heroAttacking)} />
               <img src={ennemy.characterImage} alt="Ennemy" style={characterStyle(ennemyAttacking)} />
             </div>
