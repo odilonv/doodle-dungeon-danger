@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import grass from '../../assets/maps/grass.png';
-import tree from '../../assets/maps/tree.png';
 
 import { ModalBattleComponent } from '../';
 
 const Map1Component = ({ hero, setHero }) => {
 
-    const widthSize = 16;
-    const heightSize = 9;
+    const wall = "sprites/decoration/Wall.png";
+    const ground = "sprites/decoration/ground.png";
+
+    const widthSize = 10;
+    const heightSize = 5;
 
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
 
@@ -65,7 +66,7 @@ const Map1Component = ({ hero, setHero }) => {
 
             if (map[newPosition.y][newPosition.x] === 2) {
                 setIsInBattle(true);
-                setEnnemy({ name: 'DogMan', level: 1, current_health: 100, max_health: 1950, attack: 10, defense: 5, characterImage: 'sprites/characters/Monster_1.png' });
+                setEnnemy({ name: 'DogMan', level: 1, current_health: 800, max_health: 1950, attack: 10, defense: 5, characterImage: 'sprites/characters/Monster_1.png' });
             }
 
             setHero({ ...hero, position: newPosition });
@@ -83,6 +84,7 @@ const Map1Component = ({ hero, setHero }) => {
                 gridTemplateRows: `repeat(${heightSize}, ${cellSize}px)`,
                 position: 'relative',
             }}
+
         >
             {map.flat().map((cell, index) => (
                 <div
@@ -90,15 +92,15 @@ const Map1Component = ({ hero, setHero }) => {
                     style={{
                         width: cellSize,
                         height: cellSize,
-                        backgroundImage: `url(${grass})`,
+                        backgroundImage: `url(${ground})`,
                         backgroundSize: 'cover',
                         position: 'relative',
                     }}
                 >
                     {cell === 1 ? (
                         <img
-                            src={tree}
-                            alt="Tree"
+                            src={wall}
+                            alt="Wall"
                             style={{
                                 position: 'absolute',
                                 width: '100%',
@@ -129,7 +131,9 @@ const Map1Component = ({ hero, setHero }) => {
                     transition: 'top 0.1s, left 0.1s',
                 }}
             />
-            <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} ennemy={ennemy} />
+            {isInBattle &&
+                <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} ennemy={ennemy} />
+            }
         </div>
     );
 };
