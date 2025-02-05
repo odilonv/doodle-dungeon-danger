@@ -3,6 +3,7 @@ import { Modal } from '@mui/material';
 import BattleLoaderComponent from '../Loaders/BattleLoaderComponent';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import styled from '@mui/material/styles/styled';
+import CloseIcon from '@mui/icons-material/Close'; // Importer l'icône Close de Material-UI
 
 const attackAnimationDuration = 300;
 const characterSize = 300;
@@ -22,6 +23,7 @@ const modalContainerStyle = (isTransitionning, modalSize) => ({
   alignItems: 'center',
   overflow: 'hidden',
   borderRadius: '10px',
+  position: 'relative', // Ajouter position relative pour que la croix soit positionnée correctement
 });
 
 const characterStyle = (isAttacking) => ({
@@ -79,6 +81,23 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
   return (
     <Modal open={isInBattle} onClose={handleClose}>
       <div ref={containerRef} style={modalContainerStyle(isTransitionning, modalSize)}>
+        {/* Ajouter une croix pour fermer la modal */}
+        <button
+          onClick={handleClose}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '30px',
+            color: 'black',
+          }}
+        >
+          <CloseIcon />
+        </button>
+
         {!isTransitionning ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
@@ -111,13 +130,16 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                     key={weapon}
                     onClick={() => handleAttack(weapon)}
                     style={{
-                      width: '20%', height: '100%', borderRadius: '20px', position: 'relative', overflow: 'hidden', background: 'none',   // Enlève le fond du bouton
+                      width: '20%', height: '100%', position: 'relative', overflow: 'hidden', background: 'none',
                       border: 'none',
                       padding: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
-                    <img src={`sprites/squares/Square_${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <img src={`sprites/weapons/Item_${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
+                    <img src={`sprites/squares/Square_${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', cursor: 'pointer' }} />
+                    <img src={`sprites/weapons/Item_${index + 1}.png`} alt={weapon} style={{ width: '80%', height: '80%', position: 'absolute', cursor: 'pointer' }} />
                   </button>
                 ))}
               </div>
@@ -128,7 +150,6 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                 </div>
               </div>
             </div>
-
           </div>
         ) : (
           <BattleLoaderComponent isTransitionning={isTransitionning} setIsTransitionning={setIsTransitionning} containerRef={containerRef} />
