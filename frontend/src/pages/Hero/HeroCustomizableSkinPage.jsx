@@ -5,33 +5,18 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import html2canvas from 'html2canvas';
 
-import accessory1 from "../../assets/sprites/characters/custom/accessory/Accessory_1.png";
-import accessory2 from "../../assets/sprites/characters/custom/accessory/Accessory_2.png";
-import accessory3 from "../../assets/sprites/characters/custom/accessory/Accessory_3.png";
+const accessories = [null, "sprites/characters/custom/accessory/Accessory_1.png", "/sprites/characters/custom/accessory/Accessory_2.png", "sprites/characters/custom/accessory/Accessory_3.png"];
+const faces = ["sprites/characters/custom/face/Face_1.png", "sprites/characters/custom/face/Face_2.png", "sprites/characters/custom/face/Face_3.png", "sprites/characters/custom/face/Face_4.png"];
 
-import face1 from "../../assets/sprites/characters/custom/face/Face_1.png";
-import face2 from "../../assets/sprites/characters/custom/face/Face_2.png";
-import face3 from "../../assets/sprites/characters/custom/face/Face_3.png";
-import face4 from "../../assets/sprites/characters/custom/face/Face_4.png";
-
-import skin1 from "../../assets/sprites/characters/custom/skin/Skin_1.png";
-import skin2 from "../../assets/sprites/characters/custom/skin/Skin_2.png";
-import skin3 from "../../assets/sprites/characters/custom/skin/Skin_3.png";
-import skin4 from "../../assets/sprites/characters/custom/skin/Skin_4.png";
-
-import customizablePlayer from "../../assets/sprites/characters/custom/Base.png";
-
-const accessories = [null, accessory1, accessory2, accessory3];
-const faces = [face1, face2, face3, face4];
-
-const skinsCustom = [null, skin1, skin2, skin3, skin4];
+const skinsCustom = [null, "sprites/characters/custom/skin/Skin_1.png", "sprites/characters/custom/skin/Skin_2.png", "sprites/characters/custom/skin/Skin_3.png", "sprites/characters/custom/skin/Skin_4.png"];
 
 export default function HeroCustomizableSkinPage() {
   const [selectedAccessory, setSelectedAccessory] = useState(null);
-  const [selectedFace, setSelectedFace] = useState(face1);
-  const [selectedSkin, setSelectedSkin] = useState(skin1);
+  const [selectedFace, setSelectedFace] = useState(faces[1]);
+  const [selectedSkin, setSelectedSkin] = useState(skinsCustom[1]);
   const navigate = useNavigate();
   const characterRef = useRef(null);
+  const customizablePlayer = "sprites/characters/custom/Base.png";
 
   const handleAccessoryClick = (accessory) => {
     setSelectedAccessory(accessory);

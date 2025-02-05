@@ -2,8 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../contexts";
-import dogMan from '../../assets/sprites/characters/DogMan.png';
-import player from '../../assets/sprites/characters/Player_1.png';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -39,7 +37,7 @@ export default function HomePage() {
       </h1>
 
       <div style={contentContainerStyle}>
-        <img src={player} alt="Player" style={imageStyle} />
+        <img src='sprites/characters/Player_1.png' alt="Player" style={imageStyle} />
 
         <div style={buttonContainerStyle}>
           <button onClick={startNewGame} style={buttonStyle}>
@@ -54,7 +52,7 @@ export default function HomePage() {
           </button>
         </div>
 
-        <img src={dogMan} alt="DogMan" style={imageStyle} />
+        <img src='sprites/characters/Monster_1.png' alt="DogMan" style={imageStyle} />
       </div>
 
       <div style={loginBoxStyle} onClick={handleLoginClick}>
@@ -65,7 +63,7 @@ export default function HomePage() {
   );
 }
 
-// Styles
+
 const containerStyle = {
   display: "flex",
   flexDirection: "column",
