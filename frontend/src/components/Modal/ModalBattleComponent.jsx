@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '@mui/material';
 import BattleLoaderComponent from '../Loaders/BattleLoaderComponent';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import styled from '@mui/material/styles/styled';
 
-const ModalBattleComponent = ({ isInBattle, handleClose, hero }) => {
+const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
     const [isTransitionning, setIsTransitionning] = useState(true);
     const [modalSize, setModalSize] = useState({ width: 0, height: 0 });
     const containerRef = useRef(null);
@@ -34,6 +36,24 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero }) => {
         }
     }, [isInBattle]);
 
+    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+        height: 10,
+        borderRadius: 5,
+        [`&.${linearProgressClasses.colorPrimary}`]: {
+            backgroundColor: theme.palette.grey[200],
+            ...theme.applyStyles('dark', {
+                backgroundColor: theme.palette.grey[800],
+            }),
+        },
+        [`& .${linearProgressClasses.bar}`]: {
+            borderRadius: 5,
+            backgroundColor: 'green',
+            ...theme.applyStyles('dark', {
+                backgroundColor: '#308fe8',
+            }),
+        },
+    }));
+
     return (
         <Modal
             open={isInBattle}
@@ -59,10 +79,34 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero }) => {
                 }}
             >
                 {!isTransitionning ? (
-                    <div>
-                        <h2 id="simple-modal-title">Battle</h2>
-                        <p id="simple-modal-description">You are in a battle</p>
+                    <div battle-header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <div>
+                            <BorderLinearProgress variant="determinate" value={hero.health} />
+
+                            <img
+                                src={hero.characterImage}
+                                alt="Player"
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                }}
+                            />
+                        </div>
+                        <h2 id="simple-modal-title">Battle !</h2>
+                        <div>
+                            <BorderLinearProgress variant="determinate" value={ennemy.health} />
+
+                            <img
+                                src={ennemy.characterImage}
+                                alt="Ennemy"
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                }}
+                            />
+                        </div>
                     </div>
+
                 ) : (
                     <BattleLoaderComponent isTransitionning={isTransitionning} setIsTransitionning={setIsTransitionning} containerRef={containerRef} />
                 )}

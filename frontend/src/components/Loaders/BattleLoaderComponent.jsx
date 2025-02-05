@@ -35,7 +35,7 @@ const BattleLoaderComponent = ({ isTransitionning, setIsTransitionning, containe
                     }
                     return [...prevBoxes, count++];
                 });
-            }, 10);
+            }, 5);
 
             return () => clearInterval(interval);
         };

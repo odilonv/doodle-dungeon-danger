@@ -14,6 +14,8 @@ const Map1Component = ({ hero, setHero }) => {
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
 
     const [isInBattle, setIsInBattle] = React.useState(false);
+    const [ennemy, setEnnemy] = React.useState(null);
+
     const handleOpen = () => setIsInBattle(true);
     const handleClose = () => setIsInBattle(false);
 
@@ -64,6 +66,7 @@ const Map1Component = ({ hero, setHero }) => {
 
             if (map[newPosition.y][newPosition.x] === 2) {
                 setIsInBattle(true);
+                setEnnemy({ name: 'DogMan', level: 1, health: 100, attack: 10, defense: 5, characterImage: DogMan });
             }
 
             setHero({ ...hero, position: newPosition });
@@ -127,7 +130,7 @@ const Map1Component = ({ hero, setHero }) => {
                     transition: 'top 0.1s, left 0.1s',
                 }}
             />
-            <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} />
+            <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} ennemy={ennemy} />
         </div>
     );
 };
