@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { userRouter } from './routes/userRoutes.js';
 import session from 'express-session';
+import userRepository from './repositories/userRepository.js';
 
 const app = express();
 app.use(express.json());
@@ -27,10 +28,16 @@ app.use(session({
 
 app.use('/users', userRouter);
 
-export const startUsersService = () => {
-    app.listen(PORT, () => {
-        console.log(`Users service is running on port ${PORT}`);
-    });
+export const startUsersService = async () => {
+    try {
+        await userRepository.getInstance();
+        console.log('User service database initialized');
+        app.listen(PORT, () => {
+            console.log(`User service is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error initializing the database:', error);
+    }
 };
 
 startUsersService();

@@ -50,7 +50,7 @@ class heroRepository {
     }
 
     static async dropTables(connection) {
-        const dropTables = fs.readFileSync('./backend/user-service/database/dropTableHero.sql', 'utf-8');
+        const dropTables = fs.readFileSync('./backend/hero-service/database/dropTableHero.sql', 'utf-8');
         for (let query of dropTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
@@ -60,7 +60,7 @@ class heroRepository {
     }
 
     static async createTables(connection) {
-        const creationTables = fs.readFileSync('./backend/user-service/database/createTableHero.sql', 'utf-8');
+        const creationTables = fs.readFileSync('./backend/hero-service/database/createTableHero.sql', 'utf-8');
         for (let query of creationTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);

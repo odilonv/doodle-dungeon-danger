@@ -24,6 +24,6 @@ CREATE TABLE Item (
 CREATE TABLE Inventory (
     hero_id INT,
     item_id INT,
-    FOREIGN KEY (hero_id) REFERENCES Hero(id) ON DELETE CASCADE
+    FOREIGN KEY (hero_id) REFERENCES Hero(id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES Item(id) ON DELETE CASCADE
 );

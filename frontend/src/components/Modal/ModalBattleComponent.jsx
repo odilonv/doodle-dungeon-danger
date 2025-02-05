@@ -81,8 +81,23 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                 {!isTransitionning ? (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
-                            <BorderLinearProgress variant="determinate" value={hero.health} />
-                            <BorderLinearProgress variant="determinate" value={ennemy.health} />
+                            <img
+                                src={`/life_bar/${Math.round((hero.current_health / hero.max_health) * 20) * 5}.png`}
+                                alt="Life bar"
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                }}
+                            />
+                            <img
+                                src={`/life_bar/${Math.round((ennemy.current_health / ennemy.max_health) * 20) * 5}.png`}
+                                alt="Life bar"
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                    transform: 'rotateY(180deg)',
+                                }}
+                            />
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'space-evenly', width: '80%' }}>

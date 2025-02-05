@@ -66,7 +66,7 @@ const Map1Component = ({ hero, setHero }) => {
 
             if (map[newPosition.y][newPosition.x] === 2) {
                 setIsInBattle(true);
-                setEnnemy({ name: 'DogMan', level: 1, health: 100, attack: 10, defense: 5, characterImage: DogMan });
+                setEnnemy({ name: 'DogMan', level: 1, current_health: 100, max_health: 1950, attack: 10, defense: 5, characterImage: DogMan });
             }
 
             setHero({ ...hero, position: newPosition });

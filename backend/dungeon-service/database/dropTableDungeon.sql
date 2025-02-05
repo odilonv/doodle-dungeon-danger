@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS Dungeon_Instance;
+DROP TABLE IF EXISTS Dungeon;
