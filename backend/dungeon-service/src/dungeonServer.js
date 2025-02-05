@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { dungeonRouter } from './routes/dungeonRoutes.js';
+import dungeonRepository from './repositories/dungeonRepository.js';
 
 const app = express();
 app.use(express.json());
@@ -13,10 +14,16 @@ app.use(cors({
 
 app.use('/dungeons', dungeonRouter);
 
-export const startDungeonService = () => {
-    app.listen(PORT, () => {
-        console.log(`Dungeon service is running on port ${PORT}`);
-    });
+export const startDungeonService = async () => {
+    try {
+        await dungeonRepository.getInstance();
+        console.log('Dungeon service database initialized');
+        app.listen(PORT, () => {
+            console.log(`Dungeon service is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error initializing the database:', error);
+    }
 };
 
 startDungeonService();

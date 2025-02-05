@@ -10,5 +10,5 @@ CREATE TABLE Monster_Instance (
     monster_id INT,
     dungeon_instance_id INT,
     position JSON,
-    FOREIGN KEY (monster_id) REFERENCES Monster(id) ON DELETE CASCADE,
+    FOREIGN KEY (monster_id) REFERENCES Monster(id) ON DELETE CASCADE
 );
