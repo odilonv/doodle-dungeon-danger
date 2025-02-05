@@ -4,11 +4,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 
-import player1 from "../../assets/sprites/characters/Player_1.png";
-import player2 from "../../assets/sprites/characters/Player_2.png";
-import player3 from "../../assets/sprites/characters/Player_3.png";
-
-const skins = [player1, player2, player3];
+const skins = ["sprites/characters/Player_1.png", "sprites/characters/Player_2.png", "sprites/characters/Player_3.png"];
 
 export default function HeroSkinPage() {
   const [selectedSkinIndex, setSelectedSkinIndex] = useState(0);

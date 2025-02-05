@@ -106,7 +106,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: '150px', alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: '10px', height: '100%', width: '100%' }}>
-                {['sword', 'bow', 'sword'].map((weapon, index) => (
+                {['Hoe', 'Gun', 'Sword'].map((weapon, index) => (
                   <button
                     key={weapon}
                     onClick={() => handleAttack(weapon)}
@@ -116,13 +116,13 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                       padding: 0,
                     }}
                   >
-                    <img src={`/sprites/squares/${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <img src={`/sprites/weapons/${weapon.toLowerCase()}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
+                    <img src={`sprites/squares/Square_${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={`sprites/weapons/Item_${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
                   </button>
                 ))}
               </div>
               <div style={{ width: '45%', height: '100%', position: 'relative' }}>
-                <img src={`/sprites/rectangles/1.png`} alt='dialogue-box' style={{ width: '100%', height: '100%' }} />
+                <img src={`sprites/rectangles/Rectangle_1.png`} alt='dialogue-box' style={{ width: '100%', height: '100%' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', boxSizing: 'border-box' }}>
                   {dialogue}
                 </div>
