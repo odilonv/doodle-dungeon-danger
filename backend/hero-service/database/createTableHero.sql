@@ -2,7 +2,6 @@ CREATE TABLE Hero (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     level INT DEFAULT 1,
-    power VARCHAR(100),
     max_health INT DEFAULT 100,
     current_health INT DEFAULT 100,
     experience INT DEFAULT 0,
