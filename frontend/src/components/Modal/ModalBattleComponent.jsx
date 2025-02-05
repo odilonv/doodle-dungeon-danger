@@ -21,6 +21,7 @@ const modalContainerStyle = (isTransitionning, modalSize) => ({
     flexDirection: 'column',
     alignItems: 'center',
     overflow: 'hidden',
+    borderRadius: '10px',
 });
 
 const characterStyle = (isAttacking) => ({
@@ -82,42 +83,47 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
                             <img
-                                src={`/life_bar/${Math.round((hero.current_health / hero.max_health) * 20) * 5}.png`}
+                                src={`/images/life_bar/${Math.round((hero.current_health / hero.max_health) * 20) * 5}.png`}
                                 alt="Life bar"
                                 style={{
-                                    width: '100px',
-                                    height: '100px',
+                                    height: '50px',
                                 }}
                             />
                             <img
-                                src={`/life_bar/${Math.round((ennemy.current_health / ennemy.max_health) * 20) * 5}.png`}
+                                src={`/images/life_bar/${Math.round((ennemy.current_health / ennemy.max_health) * 20) * 5}.png`}
                                 alt="Life bar"
                                 style={{
-                                    width: '100px',
-                                    height: '100px',
+                                    height: '50px',
                                     transform: 'rotateY(180deg)',
                                 }}
                             />
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-evenly', width: '80%' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                             <img src={hero.characterImage} alt="Player" style={characterStyle(heroAttacking)} />
-                            <div style={{ width: '200px', padding: '10px', background: 'white', border: '2px solid black', borderRadius: '10px', textAlign: 'center' }}>{dialogue}</div>
                             <img src={ennemy.characterImage} alt="Ennemy" style={characterStyle(ennemyAttacking)} />
                         </div>
 
-                        {/* Attack Options */}
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', width: '80%' }}>
-                            {['Épée', 'Arc', 'Lance'].map((weapon) => (
-                                <button
-                                    key={weapon}
-                                    onClick={() => handleAttack(weapon)}
-                                    style={{ width: '80px', height: '80px', borderRadius: '10px', background: '#ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                >
-                                    🗡️
-                                </button>
-                            ))}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: '150px', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '10px', height: '100%', width: '100%' }}>
+                                {['sword', 'bow', 'sword'].map((weapon, index) => (
+                                    <button
+                                        key={weapon}
+                                        onClick={() => handleAttack(weapon)}
+                                        style={{
+                                            width: '20%', height: '100%', borderRadius: '20px', position: 'relative', overflow: 'hidden', background: 'none',   // Enlève le fond du bouton
+                                            border: 'none',
+                                            padding: 0,
+                                        }}
+                                    >
+                                        <img src={`/images/squares/${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <img src={`/images/weapons/${weapon.toLowerCase()}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    </button>
+                                ))}
+                            </div>
+                            <div style={{ width: '45%', padding: '10px', height: '100%', background: 'white', border: '2px solid black', borderRadius: '10px', textAlign: 'center' }}>{dialogue}</div>
                         </div>
+
                     </div>
                 ) : (
                     <BattleLoaderComponent isTransitionning={isTransitionning} setIsTransitionning={setIsTransitionning} containerRef={containerRef} />
