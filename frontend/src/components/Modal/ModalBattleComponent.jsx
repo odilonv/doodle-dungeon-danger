@@ -2,14 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '@mui/material';
 import BattleLoaderComponent from '../Loaders/BattleLoaderComponent';
 
-const ModalBattleComponent = ({ isInBattle, handleClose }) => {
+const ModalBattleComponent = ({ isInBattle, handleClose, hero }) => {
     const [isTransitionning, setIsTransitionning] = useState(true);
     const [modalSize, setModalSize] = useState({ width: 0, height: 0 });
     const containerRef = useRef(null);
     const boxSize = 49;
-
-    // TODO REPLACE HEROES
-
 
     useEffect(() => {
         const calculateModalSize = () => {
@@ -36,8 +33,6 @@ const ModalBattleComponent = ({ isInBattle, handleClose }) => {
             };
         }
     }, [isInBattle]);
-
-
 
     return (
         <Modal

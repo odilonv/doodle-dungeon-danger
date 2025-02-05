@@ -9,18 +9,7 @@ import DogMan from '../../assets/sprites/characters/DogMan.png';
 
 import { ModalBattleComponent } from '../';
 
-const Map1Component = () => {
-    /* TODO REPLACE BY REAL DATA */
-    const [hero, setHero] = useState({
-        position: { x: 0, y: 0 },
-        name: "Hero",
-        level: 1,
-        power: 10,
-        max_health: 100,
-        current_health: 100,
-        experience: 0,
-    });
-
+const Map1Component = ({ hero , setHero }) => {
     const widthSize = 16;
     const heightSize = 9;
 
@@ -140,7 +129,7 @@ const Map1Component = () => {
                     transition: 'top 0.1s, left 0.1s',
                 }}
             />
-            <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} />
+            <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} />
         </div>
     );
 };
