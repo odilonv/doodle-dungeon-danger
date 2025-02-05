@@ -25,7 +25,11 @@ export default function HomePage() {
   };
 
   const handleLoginClick = () => {
-    navigate("/login");
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate("/user");
+    }
   };
 
   return (

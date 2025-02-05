@@ -69,8 +69,28 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
     setTimeout(() => setHeroAttacking(false), attackAnimationDuration);
   };
 
+  const [currentCharacterImage, setCurrentCharacterImage] = useState(hero.characterImage.replace('.png', ''));
+
+  useEffect(() => {
+    if (hero.current_health / hero.max_health <= 0.1) {
+      setCurrentCharacterImage(currentCharacterImage + '_dead.png');
+    } else {
+      setCurrentCharacterImage(currentCharacterImage + '.png');
+    }
+  }, [hero.current_health]);
+
+  const [currentEnnemyImage, setCurrentEnnemyImage] = useState(ennemy.characterImage.replace('.png', ''));
+
+  useEffect(() => {
+    if (ennemy.current_health / ennemy.max_health <= 0.1) {
+      setCurrentEnnemyImage(currentEnnemyImage + '_dead.png');
+    } else {
+      setCurrentEnnemyImage(currentEnnemyImage + '.png');
+    }
+  }, [ennemy.current_health]);
+
   return (
-    <Modal open={isInBattle} onClose={handleClose}>
+    <Modal open={isInBattle} onClose={handleClose} disableAutoFocus disableEnforceFocus>
       <div ref={containerRef} style={modalContainerStyle(isTransitionning, modalSize)}>
         <button
           onClick={handleClose}
@@ -88,7 +108,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
           <CloseIcon />
         </button>
 
-        {!isTransitionning ? (
+        {!false ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
               <img
@@ -109,8 +129,10 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-              <img src={hero.characterImage} alt="Player" style={characterStyle(heroAttacking)} />
-              <img src={ennemy.characterImage} alt="Ennemy" style={characterStyle(ennemyAttacking)} />
+              <img src={currentCharacterImage}
+                alt="Player" style={characterStyle(heroAttacking)} />
+              <img src={currentEnnemyImage}
+                alt="Ennemy" style={characterStyle(ennemyAttacking)} />
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: '150px', alignItems: 'center' }}>
@@ -141,9 +163,11 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
               </div>
             </div>
           </div>
-        ) : (
-          <BattleLoaderComponent isTransitionning={isTransitionning} setIsTransitionning={setIsTransitionning} containerRef={containerRef} />
-        )}
+        ) :
+          (
+            <BattleLoaderComponent isTransitionning={isTransitionning} setIsTransitionning={setIsTransitionning} containerRef={containerRef} />
+          )
+        }
       </div>
     </Modal>
   );
