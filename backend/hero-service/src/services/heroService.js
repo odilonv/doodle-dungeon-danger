@@ -8,8 +8,6 @@ export const HeroService = {
             name
         };
 
-        console.log("New hero", newHero);
-
         try {
             const connection = await heroRepository.getInstance();
             await connection.query(
@@ -19,9 +17,6 @@ export const HeroService = {
 
             const [rows] = await connection.query(`SELECT LAST_INSERT_ID() as id`);
             newHero.id = rows[0].id;
-
-            console.log(newHero);
-
             return newHero;
         } catch (error) {
             console.error(error);
@@ -53,28 +48,28 @@ export const HeroService = {
         );
         if(result.affectedRows > 0) {
             const hero = await HeroService.getHeroById(id);
-            console.log(`Hero ${hero.name} took ${damage} damage`, result);
             if (hero.current_health === 0) {
-                console.log(`Hero ${hero.name} has no health left.`);
+                //HERO IS DEAD
             }
-            return true;
+            return hero;
         }
-        return false;
+        return null;
     },  
 
     heal: async (id, healthPoints) => {
         const connection = await heroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${heroModel.tableName} SET current_health = GREATEST(max_health, current_health + ?) WHERE id = ?`, 
+            `UPDATE ${heroModel.tableName} SET current_health = LEAST(max_health, current_health + ?) WHERE id = ?`, 
             [healthPoints, id]
         );
-        if(result.affectedRows > 0) {
+
+        if (result.affectedRows > 0) {
             const hero = await HeroService.getHeroById(id);
-            console.log(`Hero ${hero.name} healed ${healthPoints} hp`, result);
-            return true;
+            return hero;
         }
-        return false;
+        return null;
     },
+    
 
     gainExperience: async (id, experiencePoints) => {
         const connection = await heroRepository.getInstance();
@@ -84,24 +79,23 @@ export const HeroService = {
         );
         if(result.affectedRows > 0) {
             const hero = await HeroService.getHeroById(id);
-            console.log(`Hero ${hero.name} gained ${experiencePoints} xp points`, result);
-            return true;
+            return hero;
         }
-        return false;
+        return null;
     },
 
     move : async (id, position) => {
         const connection = await heroRepository.getInstance();
+        const positionJson = JSON.stringify(position);
         const [result] = await connection.query(
             `UPDATE ${heroModel.tableName} SET position = ? WHERE id = ?`, 
-            [position, id]
+            [positionJson, id]
         );
         if(result.affectedRows > 0) {
             const hero = await HeroService.getHeroById(id);
-            console.log(`Hero ${hero.name} moved to ${position}`, result);
-            return true;
+            return hero;
         }
-        return false;
+        return null;
     },
 
     nextDungeon: async (id) => {
@@ -114,9 +108,8 @@ export const HeroService = {
         );
         if (result.affectedRows > 0) {
             const hero = await HeroService.getHeroById(id);
-            console.log(`Hero ${hero.name} moved to next dungeon`, result);
-            return true;
+            return hero;
         }
-        return false;
+        return null;
     },    
 };

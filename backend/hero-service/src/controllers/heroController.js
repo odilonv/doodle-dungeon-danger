@@ -41,14 +41,18 @@ export const deleteHero = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 export const takeDamage = async (req, res) => {
     const { id } = req.params;
     const { damage } = req.body;
+
+    if (!damage || typeof damage !== 'number' || damage <= 0) {
+        return res.status(400).json({ message: 'Invalid damage value' });
+    }
+
     try {
-        const updatedHero = await HeroService.takeDamage(id, damage);
-        if (updatedHero) {
-            res.json(updatedHero);
+        const damagedHero = await HeroService.takeDamage(id, damage);
+        if (damagedHero) {
+            res.json(damagedHero);
         } else {
             res.status(404).json({ message: 'Hero not found' });
         }
@@ -61,6 +65,11 @@ export const takeDamage = async (req, res) => {
 export const heal = async (req, res) => {
     const { id } = req.params;
     const { healthPoints } = req.body;
+
+    if (!healthPoints || typeof healthPoints !== 'number' || healthPoints <= 0) {
+        return res.status(400).json({ message: 'Invalid healthPoints value' });
+    }
+
     try {
         const healedHero = await HeroService.heal(id, healthPoints);
         if (healedHero) {
@@ -77,6 +86,11 @@ export const heal = async (req, res) => {
 export const gainExperience = async (req, res) => {
     const { id } = req.params;
     const { experiencePoints } = req.body;
+
+    if (!experiencePoints || typeof experiencePoints !== 'number' || experiencePoints <= 0) {
+        return res.status(400).json({ message: 'Invalid experiencePoints value' });
+    }
+
     try {
         const updatedHero = await HeroService.gainExperience(id, experiencePoints);
         if (updatedHero) {
@@ -93,6 +107,16 @@ export const gainExperience = async (req, res) => {
 export const move = async (req, res) => {
     const { id } = req.params;
     const { position } = req.body;
+
+    if (
+        !position || 
+        typeof position !== 'object' || 
+        typeof position.x !== 'number' || 
+        typeof position.y !== 'number'
+    ) {
+        return res.status(400).json({ message: 'Invalid position format. Expected { "position": { "x": number, "y": number } }' });
+    }
+
     try {
         const updatedHero = await HeroService.move(id, position);
         if (updatedHero) {
@@ -104,7 +128,7 @@ export const move = async (req, res) => {
         console.log(error);
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 export const nextDungeon = async (req, res) => {
     const { id } = req.params;
