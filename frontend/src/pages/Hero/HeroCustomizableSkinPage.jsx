@@ -60,7 +60,7 @@ export default function HeroCustomizableSkinPage() {
     const dataURL = canvas.toDataURL("image/png");
     localStorage.setItem("characterImage", dataURL);
 
-    navigate("/game");
+    navigate("/dungeon-1");
   };
 
   return (

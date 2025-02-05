@@ -33,8 +33,8 @@ export default function HeroSkinPage() {
   };
 
   const validateSkin = () => {
-    localStorage.setItem("selectedSkin", skins[selectedSkinIndex]);
-    navigate("/game");
+    localStorage.setItem("characterImage", skins[selectedSkinIndex]);
+    navigate("/dungeon-1");
   };
 
   return (
