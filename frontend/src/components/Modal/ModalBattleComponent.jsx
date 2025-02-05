@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '@mui/material';
+import BattleLoaderComponent from '../Loaders/BattleLoaderComponent';
 
 const ModalBattleComponent = ({ isInBattle, handleClose }) => {
-    const [boxesTop, setBoxesTop] = useState([]);
-    const [boxesBottom, setBoxesBottom] = useState([]);
     const [isTransitionning, setIsTransitionning] = useState(true);
     const [modalSize, setModalSize] = useState({ width: 0, height: 0 });
     const containerRef = useRef(null);
@@ -35,45 +34,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose }) => {
         }
     }, [isInBattle]);
 
-    useEffect(() => {
-        if (isInBattle) {
-            setBoxesTop([]);
-            setBoxesBottom([]);
-            let count = 0;
 
-            const fillGrid = () => {
-                if (!containerRef.current) return;
-
-                const { clientWidth, clientHeight } = containerRef.current;
-                const columns = Math.floor(clientWidth / boxSize);
-                const rows = Math.floor(clientHeight / boxSize);
-                const totalBoxes = columns * rows;
-
-                const interval = setInterval(() => {
-                    setBoxesTop(prevBoxes => {
-                        if (prevBoxes.length >= totalBoxes / 2) {
-                            clearInterval(interval);
-                            setIsTransitionning(false);
-                            return prevBoxes;
-                        }
-                        return [...prevBoxes, count++];
-                    });
-                    setBoxesBottom(prevBoxes => {
-                        if (prevBoxes.length >= totalBoxes / 2) {
-                            clearInterval(interval);
-                            setIsTransitionning(false);
-                            return prevBoxes;
-                        }
-                        return [...prevBoxes, count++];
-                    });
-                }, 10);
-
-                return () => clearInterval(interval);
-            };
-
-            setTimeout(fillGrid, 100);
-        }
-    }, [isInBattle]);
 
     return (
         <Modal
@@ -105,59 +66,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose }) => {
                         <p id="simple-modal-description">You are in a battle</p>
                     </div>
                 ) : (
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '100%',
-                            height: '100%',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: '100%',
-                                height: '50%',
-                                display: 'grid',
-                                gridTemplateColumns: `repeat(auto-fill, ${boxSize}px)`,
-                                gridAutoRows: `${boxSize}px`,
-                            }}
-                        >
-                            {boxesTop.map((_, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        width: `${boxSize}px`,
-                                        height: `${boxSize}px`,
-                                        backgroundColor: 'white',
-                                        border: '2px solid white',
-                                    }}
-                                ></div>
-                            ))}
-                        </div>
-                        <div
-                            style={{
-                                width: '100%',
-                                height: '50%',
-                                display: 'grid',
-                                gridTemplateColumns: `repeat(auto-fill, ${boxSize}px)`,
-                                gridAutoRows: `${boxSize}px`,
-                                transform: 'rotate(180deg)',
-                            }}
-                        >
-                            {boxesBottom.map((_, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        width: `${boxSize}px`,
-                                        height: `${boxSize}px`,
-                                        backgroundColor: 'white',
-                                        border: 'none',
-                                    }}
-                                ></div>
-                            ))}
-                        </div>
-                    </div>
+                    <BattleLoaderComponent isTransitionning={isTransitionning} setIsTransitionning={setIsTransitionning} containerRef={containerRef} />
                 )}
             </div>
         </Modal>
