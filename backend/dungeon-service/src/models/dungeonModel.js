@@ -1,17 +1,24 @@
 class Dungeon {
     static tableName = 'Dungeon';
 
-    constructor(id, name, map) {
+    constructor(id, name, map, monsters) {
         this.id = id;
         this.name = name;
         this.map = map;
+        this.monsters = monsters;
+        this.dimensions = {
+            width: map[0].length,
+            height: map.length
+        };
     }
 
     static fromDatabase(data) {
+        console.log(data);
         return new Dungeon(
             data.id,
             data.name,
-            JSON.parse(data.map)
+            data.map,
+            data.monsters
         );
     }
 
@@ -19,7 +26,8 @@ class Dungeon {
         return new Dungeon(
             data.id,
             data.name,
-            data.map
+            data.map,
+            data.monsters
         );
     }
 }
@@ -27,12 +35,9 @@ class Dungeon {
 class DungeonInstance {
     static tableName = 'Dungeon_Instance';
 
-    constructor(id, dungeonId, heroId, ennemies, treasures, status) {
+    constructor(id, dungeonId, status) {
         this.id = id;
         this.dungeonId = dungeonId;
-        this.heroId = heroId;
-        this.ennemies = ennemies;
-        this.treasures = treasures;
         this.status = status;
     }
 
@@ -40,9 +45,6 @@ class DungeonInstance {
         return new DungeonInstance(
             data.id,
             data.dungeon_id,
-            data.hero_id,
-            JSON.parse(data.ennemies),
-            JSON.parse(data.treasures),
             data.status
         );
     }
@@ -51,9 +53,6 @@ class DungeonInstance {
         return new DungeonInstance(
             data.id,
             data.dungeonId,
-            data.heroId,
-            data.ennemies,
-            data.treasures,
             data.status
         );
     }
