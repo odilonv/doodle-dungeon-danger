@@ -117,11 +117,16 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                                         }}
                                     >
                                         <img src={`/images/squares/${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                        <img src={`/images/weapons/${weapon.toLowerCase()}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <img src={`/images/weapons/${weapon.toLowerCase()}.png`} alt={weapon} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }} />
                                     </button>
                                 ))}
                             </div>
-                            <div style={{ width: '45%', padding: '10px', height: '100%', background: 'white', border: '2px solid black', borderRadius: '10px', textAlign: 'center' }}>{dialogue}</div>
+                            <div style={{ width: '45%', height: '100%', position: 'relative' }}>
+                                <img src={`/images/rectangles/1.png`} alt='dialogue-box' style={{ width: '100%', height: '100%' }} />
+                                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', boxSizing: 'border-box' }}>
+                                    {dialogue}
+                                </div>
+                            </div>
                         </div>
 
                     </div>
