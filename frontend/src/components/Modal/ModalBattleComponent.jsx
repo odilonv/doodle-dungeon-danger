@@ -7,26 +7,6 @@ const attackAnimationDuration = 300;
 const characterSize = 300;
 const boxSize = 49;
 
-const modalContainerStyle = (isTransitionning, modalSize) => ({
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: `${modalSize.width}px`,
-  height: `${modalSize.height}px`,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  overflow: 'hidden',
-  position: 'relative',
-  backgroundImage: 'url("sprites/rectangles/Rectangle_2.png")',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  boxSizing: 'border-box',
-  padding: '50px 90px 50px 80px',
-});
-
 const characterStyle = (isAttacking, isHero = true) => ({
   width: `${characterSize}px`,
   height: `${characterSize}px`,
@@ -111,6 +91,37 @@ const weaponButtonStyle = {
 
 const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
   const [isTransitionning, setIsTransitionning] = useState(true);
+  const [transitionningState, setTransitionningState] = useState(0);
+
+  const modalContainerStyle = (isTransitionning, modalSize) => ({
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: `${modalSize.width}px`,
+    height: `${modalSize.height}px`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundImage: `url("sprites/rectangles/Rectangle_${transitionningState}.png")`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    boxSizing: 'border-box',
+    padding: '50px 90px 50px 80px',
+  });
+
+  useEffect(() => {
+    if (isTransitionning) {
+      const interval = setInterval(() => {
+        setTransitionningState(prevState => (prevState += 10));
+      }, 500);
+      return () => clearInterval(interval);
+    }
+  }, [isTransitionning]);
+
   const [modalSize, setModalSize] = useState({ width: 0, height: 0 });
   const [heroAttacking, setHeroAttacking] = useState(false);
   const [ennemyAttacking, setEnnemyAttacking] = useState(false);
@@ -168,7 +179,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
           <CloseIcon />
         </button>
 
-        {!false ? (
+        {!isTransitionning ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
               <img
