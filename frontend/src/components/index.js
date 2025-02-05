@@ -13,6 +13,9 @@ export { default as ModalComponent } from './Modal/ModalComponent';
 export { default as PasswordCreationComponent } from './Input/PasswordCreationComponent';
 export { default as UserInfoComponent } from './User/UserInfoComponent';
 export { default as UserInfoEntryComponent } from './User/UserInfoEntryComponent';
+export { default as Map1Component } from './Map/Map1Component';
+export { default as ModalBattleComponent } from './Modal/ModalBattleComponent';
+export { default as BattleLoaderComponent } from './Loaders/BattleLoaderComponent';
 
 
 
