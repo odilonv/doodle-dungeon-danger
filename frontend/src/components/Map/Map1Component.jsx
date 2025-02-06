@@ -39,6 +39,7 @@ const Map1Component = ({ hero, setHero }) => {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
+            if (isInBattle) return;
             const position = hero.position;
             const newPosition = { x: position.x, y: position.y };
 
@@ -66,7 +67,7 @@ const Map1Component = ({ hero, setHero }) => {
 
             if (map[newPosition.y][newPosition.x] === 2) {
                 setIsInBattle(true);
-                setEnnemy({ name: 'DogMan', level: 1, current_health: 800, max_health: 1950, attack: 10, defense: 5, characterImage: 'sprites/characters/Monster_1.png' });
+                setEnnemy({ name: 'DogMan', level: 1, current_health: 80, max_health: 1950, attack: 10, defense: 5, characterImage: 'sprites/characters/Monster_1.png' });
             }
 
             setHero({ ...hero, position: newPosition });
@@ -74,7 +75,7 @@ const Map1Component = ({ hero, setHero }) => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [hero.position, map]);
+    }, [hero.position, map, isInBattle]);
 
     return (
         <div
