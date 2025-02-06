@@ -1,7 +1,6 @@
 async function getUserDungeons(user) {
     const response = await fetch(`http://localhost:5003/dungeons/user/${user.id}`, {
         method: 'GET',
-        credentials: 'include',
     });
     if (response.ok) {
         return await response.json();
@@ -14,7 +13,6 @@ async function getUserDungeons(user) {
 async function getDungeons() {
     const response = await fetch('http://localhost:5003/dungeons', {
         method: 'GET',
-        credentials: 'include',
     });
     if (response.ok) {
         return await response.json();
