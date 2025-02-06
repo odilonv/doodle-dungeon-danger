@@ -13,7 +13,7 @@ function PasswordCreationComponent({ password, confirmPassword, setPassword, set
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', marginBottom: '8px' }}>
                 <div style={{ marginTop: '16px' }}>
                     <InputPasswordComponent
-                        label="Mot de passe"
+                        label="Password"
                         value={password}
                         setValue={setPassword}
                         validators={[checkPassword]}
@@ -26,7 +26,7 @@ function PasswordCreationComponent({ password, confirmPassword, setPassword, set
                         ) : (
                             <ClearIcon style={{ color: colorInvalid, marginRight: '5px' }} />
                         )}
-                        <span>Une majuscule</span>
+                        <span>At least one uppercase letter</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
                         {checkSpecialCharacter(password) === null ? (
@@ -34,7 +34,7 @@ function PasswordCreationComponent({ password, confirmPassword, setPassword, set
                         ) : (
                             <ClearIcon style={{ color: colorInvalid, marginRight: '5px' }} />
                         )}
-                        <span>Un caractère spécial</span>
+                        <span>At least one special character</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
                         {checkDigit(password) === null ? (
@@ -42,7 +42,7 @@ function PasswordCreationComponent({ password, confirmPassword, setPassword, set
                         ) : (
                             <ClearIcon style={{ color: colorInvalid, marginRight: '5px' }} />
                         )}
-                        <span>Un chiffre</span>
+                        <span>At least one digit</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
                         {password.length >= 8 ? (
@@ -50,17 +50,17 @@ function PasswordCreationComponent({ password, confirmPassword, setPassword, set
                         ) : (
                             <ClearIcon style={{ color: colorInvalid, marginRight: '5px' }} />
                         )}
-                        <span>Contient minimum 8 caractères</span>
+                        <span>Minimum 8 characters long</span>
                     </div>
                 </div>
             </div>
-            <div style={{marginBottom: '5px' }}>
+            <div style={{ marginBottom: '5px' }}>
                 <InputPasswordComponent
-                    label="Confirmation du mot de passe"
+                    label="Confirm Password"
                     value={confirmPassword}
                     setValue={setConfirmPassword}
                     validators={[
-                        confirmPassword => (confirmPassword === password ? null : 'Les mots de passe ne correspondent pas')
+                        confirmPassword => (confirmPassword === password ? null : 'Passwords do not match')
                     ]}
                 />
             </div>

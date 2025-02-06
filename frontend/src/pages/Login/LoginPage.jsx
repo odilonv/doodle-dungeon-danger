@@ -72,7 +72,7 @@ function LoginPage() {
         <span style={backTextStyle}>Back</span>
       </div>
       <div className="login-container default-container">
-        <h1 style={{ textAlign: 'center' }}>Connexion</h1>
+        <h1 style={{ textAlign: 'center' }}>Login</h1>
         <Divider style={{ margin: '24px 0' }} flexItem />
         <form onKeyDown={handleKeyDown}>
           <div className="form-wrapper">
@@ -83,18 +83,18 @@ function LoginPage() {
               validators={[checkIsEmail]}
             />
             <InputPasswordComponent
-              label={'Mot de passe'}
+              label={'Password'}
               value={password}
               setValue={setPassword}
               validators={[]}
             />
-            <div onClick={handleForgotPassword} style={{ textDecoration: 'underline', cursor: 'pointer' }}>Mot de passe oublié ?</div>
-            <ButtonComponent onClick={handleLogin} type={'submit'} text={'Connexion'} />
+            <div onClick={handleForgotPassword} style={{ textDecoration: 'underline', cursor: 'pointer' }}>Forgot password?</div>
+            <ButtonComponent onClick={handleLogin} type={'submit'} text={'Login'} />
           </div>
         </form>
         <Divider style={{ margin: '24px 0' }} />
-        <p className="form-hint"><span style={{ opacity: 0.5 }}>Pas encore de compte ?</span> &nbsp;
-          <a className="form__link" href="/signUp" style={{ textDecoration: 'underline' }}>Inscrivez vous</a>
+        <p className="form-hint"><span style={{ opacity: 0.5 }}>Don't have an account yet?</span> &nbsp;
+          <a className="form__link" href="/signUp" style={{ textDecoration: 'underline' }}>Sign up</a>
         </p>
       </div>
     </div>

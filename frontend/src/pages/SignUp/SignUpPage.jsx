@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress, Backdrop } from '@mui/material';
 import { ButtonComponent, InputComponent, PasswordCreationComponent } from '../../components';
@@ -29,7 +29,7 @@ function SignUpPage() {
 
     const handleSignUp = async () => {
         if (!validate()) {
-            triggerNotification('Veuillez corriger les champs invalides.', 'error');
+            triggerNotification('Please correct the invalid fields.', 'error');
             return;
         }
         setIsLoading(true);
@@ -37,7 +37,7 @@ function SignUpPage() {
             const response = await signUp(user.firstName, user.lastName, user.email, user.password);
             console.log(response);
             if (response.status === 201) {
-                triggerNotification('Inscription réussie', 'success');
+                triggerNotification('Sign-up successful', 'success');
                 navigate('/login');
             } else {
                 const responseJson = await response.json();
@@ -45,7 +45,7 @@ function SignUpPage() {
             }
         } catch (error) {
             console.error(error);
-            triggerNotification('Une erreur s\'est produite', 'error');
+            triggerNotification('An error occurred', 'error');
         } finally {
             setIsLoading(false);
         }
@@ -54,17 +54,17 @@ function SignUpPage() {
     return (
         <div className="page">
             <div className="login-container default-container">
-                <h1 style={{ textAlign: 'center' }}>Inscription</h1>
+                <h1 style={{ textAlign: 'center' }}>Sign Up</h1>
                 <form style={{ minWidth: '100%' }}>
                     <div className="form-wrapper">
                         <InputComponent
-                            label="Nom"
+                            label="Last Name"
                             validators={[checkOnlyAlphabets]}
                             value={user.lastName}
                             setValue={(value) => setUser({ ...user, lastName: value })}
                         />
                         <InputComponent
-                            label="Prénom"
+                            label="First Name"
                             validators={[checkOnlyAlphabets]}
                             value={user.firstName}
                             setValue={(value) => setUser({ ...user, firstName: value })}
@@ -83,7 +83,7 @@ function SignUpPage() {
                         />
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <ButtonComponent onClick={handleSignUp} type={'submit'} text={"S'inscrire"}
+                        <ButtonComponent onClick={handleSignUp} type={'submit'} text={"Sign Up"}
                             preventValidation={!validate()} />
                     </div>
                 </form>
