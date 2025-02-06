@@ -11,6 +11,7 @@
 @import 'pages/User.css';
 @import 'pages/KeyFrames.css';
 @import 'pages/ErrorPages.css';
+@import 'pages/HomePage.css';
 @import './Notification.css';
 
 
@@ -297,6 +298,173 @@ footer {
     top: 0;
     right: 0;
     cursor: pointer;
+}
+
+.back-arrow {
+    font-size: 2rem;
+    color: black;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.back-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.home-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.home-icon {
+    font-size: 2rem;
+    color: black;
+}
+
+.home-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #ffffff;
+    color: black;
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.skin-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    min-height: 400px;
+}
+
+.customizable-player-container {
+    position: relative;
+}
+
+.skin {
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+    display: block;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: black;
+}
+
+.buttons-container {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.go-to-doodle-button {
+    padding: 1rem 2rem;
+    background-color: var(--main-color);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    height: 60px;
+}
+
+.create-hero-button {
+    padding: 1rem 2rem;
+    background-color: #FFB400;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 60px;
+}
+
+.create-icon {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.accessory-panel {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 250px;
+    z-index: 100;
+}
+
+.accessory-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.accessory-item {
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    object-fit: contain;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+    position: relative;
+}
+
+.create-icon {
+    font-size: 1.5rem;
+    color: white;
 }
 
 ::-webkit-scrollbar {

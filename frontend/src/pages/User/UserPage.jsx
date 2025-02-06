@@ -35,12 +35,11 @@ function UserPage() {
 
     return (
         <div style={{ paddingTop: "60px" }}>
-            <div style={backButtonStyle} onClick={handleBackClick}>
-                <ArrowBackIosIcon style={backArrowStyle} />
-                <span style={backTextStyle}>Back</span>
+            <div className="back-button" onClick={handleBackClick}>
+                <ArrowBackIosIcon className="back-arrow" />
+                <span className="back-text">Back</span>
             </div>
             <form>
-
                 <div className={"user-categories-container"}>
                     <div className="user-categories default-container" id="user-categories">
                         <UserInfoCategoryComponent entryLabel="Identity" icon={<IdentityIcon />} />
@@ -95,24 +94,5 @@ function UserPage() {
     );
 }
 
-const backArrowStyle = {
-    fontSize: "2rem",
-    color: "black",
-};
-
-const backButtonStyle = {
-    position: "absolute",
-    top: "20px",
-    left: "20px",
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-};
-
-const backTextStyle = {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    marginLeft: "8px",
-};
 
 export default UserPage;

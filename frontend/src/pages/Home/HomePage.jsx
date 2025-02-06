@@ -34,120 +34,36 @@ export default function HomePage() {
   };
 
   return (
-    <div style={containerStyle}>
-      <h1 style={titleStyle}>
+    <div className="container">
+      <h1 className="title">
         Welcome to
         <br />
         <span style={{ color: "var(--main-color)" }}>Doodle Dungeon Danger</span>
       </h1>
 
-      <div style={contentContainerStyle}>
-        <img src='sprites/characters/Player_1.png' alt="Player" style={imageStyle} />
+      <div className="content-container">
+        <img src='sprites/characters/Player_1.png' alt="Player" className="image" />
 
-        <div style={buttonContainerStyle}>
-          <button onClick={startNewGame} style={buttonStyle}>
+        <div className="button-container">
+          <button onClick={startNewGame} className="button">
             Create a new Game
           </button>
           <button
             onClick={continueGame}
             disabled={!user || !hasSavedGame}
-            style={!user || !hasSavedGame ? disabledButtonStyle : buttonStyle}
+            className={!user || !hasSavedGame ? "disabled-button" : "button"}
           >
             Continue
           </button>
         </div>
 
-        <img src='sprites/characters/Monster_1.png' alt="DogMan" style={imageStyle} />
+        <img src='sprites/characters/Monster_1.png' alt="DogMan" className="image" />
       </div>
 
-      <div style={loginBoxStyle} onClick={handleLoginClick}>
-        <span style={loginTextStyle}>{user ? user.firstName : "Log In"}</span>
-        <PersonRoundedIcon style={iconStyle} />
+      <div className="login-box" onClick={handleLoginClick}>
+        <span className="login-text">{user ? user.firstName : "Log In"}</span>
+        <PersonRoundedIcon className="icon" />
       </div>
     </div>
   );
 }
-
-
-const containerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100vh",
-  backgroundColor: "#ffffff",
-  color: "black",
-  position: "relative",
-};
-
-const titleStyle = {
-  fontSize: "3rem",
-  fontWeight: "bold",
-  marginBottom: "3rem",
-  textAlign: "center",
-};
-
-const contentContainerStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "2rem",
-};
-
-const buttonContainerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "1.5rem",
-  alignItems: "center",
-};
-
-const buttonStyle = {
-  padding: "1rem 2rem",
-  backgroundColor: "var(--main-color)",
-  color: "white",
-  fontSize: "1.5rem",
-  fontWeight: "bold",
-  borderRadius: "0.75rem",
-  border: "none",
-  cursor: "pointer",
-};
-
-const disabledButtonStyle = {
-  ...buttonStyle,
-  backgroundColor: "var(--disabled-color)",
-  cursor: "not-allowed",
-};
-
-const imageStyle = {
-  width: "400px",
-  height: "400px",
-  objectFit: "contain",
-};
-
-const loginBoxStyle = {
-  position: "absolute",
-  bottom: "20px",
-  left: "50%",
-  transform: "translateX(-50%)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "200px",
-  padding: "10px 15px",
-  backgroundColor: "white",
-  border: "2px solid black",
-  borderRadius: "10px",
-  cursor: "pointer",
-  boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
-};
-
-
-const loginTextStyle = {
-  fontSize: "1.2rem",
-  fontWeight: "bold",
-};
-
-const iconStyle = {
-  fontSize: "1.8rem",
-  color: "black",
-};
