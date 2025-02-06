@@ -63,13 +63,13 @@ function SignUpPage() {
 
     return (
         <div className="page">
-            <div style={backButtonStyle} onClick={handleBackClick}>
-                <ArrowBackIosIcon style={backArrowStyle} />
-                <span style={backTextStyle}>Back</span>
+            <div className="back-button" onClick={handleBackClick}>
+                <ArrowBackIosIcon className="back-arrow" />
+                <span className="back-text">Back</span>
             </div>
-            <div style={homeButtonStyle} onClick={handleHomeClick}>
-                <HomeIcon style={homeIconStyle} />
-                <span style={homeTextStyle}>Home</span>
+            <div className="home-button" onClick={handleHomeClick}>
+                <HomeIcon className="home-icon" />
+                <span className="home-text">Home</span>
             </div>
             <div className="login-container default-container">
                 <h1 style={{ textAlign: 'center' }}>Sign Up</h1>
@@ -112,45 +112,5 @@ function SignUpPage() {
         </div >
     );
 }
-
-const backArrowStyle = {
-    fontSize: "2rem",
-    color: "black",
-};
-
-const backButtonStyle = {
-    position: "absolute",
-    top: "20px",
-    left: "20px",
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-};
-
-const backTextStyle = {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    marginLeft: "8px",
-};
-
-const homeButtonStyle = {
-    position: "absolute",
-    top: "20px",
-    right: "20px",
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-};
-
-const homeIconStyle = {
-    fontSize: "2rem",
-    color: "black",
-};
-
-const homeTextStyle = {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    marginLeft: "8px",
-};
 
 export default SignUpPage;
