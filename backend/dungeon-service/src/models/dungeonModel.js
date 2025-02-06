@@ -1,5 +1,6 @@
 class Dungeon {
     static tableName = 'Dungeon';
+    static instanceTableName = 'Dungeon_Instance';
 
     constructor(id, name, map, monsters) {
         this.id = id;

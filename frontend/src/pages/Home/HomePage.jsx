@@ -15,7 +15,8 @@ export default function HomePage() {
 
   const startNewGame = () => {
     localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
-    navigate("/choose-your-hero");
+    navigate("/dungeons");
+    // navigate("/choose-your-hero");
   };
 
   const continueGame = () => {
