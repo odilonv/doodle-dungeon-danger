@@ -39,6 +39,7 @@ const Map1Component = ({ hero, setHero }) => {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
+            if (isInBattle) return;
             const position = hero.position;
             const newPosition = { x: position.x, y: position.y };
 
@@ -74,7 +75,7 @@ const Map1Component = ({ hero, setHero }) => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [hero.position, map]);
+    }, [hero.position, map, isInBattle]);
 
     return (
         <div
