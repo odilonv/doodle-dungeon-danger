@@ -22,7 +22,24 @@ async function getDungeons() {
     }
 };
 
+async function saveDungeonInstance(dungeonId, userId) {
+    const response = await fetch('http://localhost:5003/dungeons/instance', {
+        method: 'POST',
+        body: JSON.stringify({ dungeonInstance: { dungeonId: dungeonId, userId: userId } }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        return await response.json();
+    } else {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error);
+    }
+}
+
 export {
     getUserDungeons,
     getDungeons,
+    saveDungeonInstance
 };

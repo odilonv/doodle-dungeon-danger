@@ -114,11 +114,11 @@ class DungeonRepository {
         return results[0];
     }
 
-    static async createDungeonInstance(id) {
+    static async createDungeonInstance(dungeonInstance) {
         const connection = await this.getInstance();
         const [result] = await connection.query(
-            `INSERT INTO ${DungeonInstance.tableName} (dungeon_id) VALUES (?)`,
-            [id]
+            `INSERT INTO ${DungeonInstance.tableName} (dungeon_id, user_id) VALUES (?, ?)`,
+            [dungeonInstance.dungeonId, dungeonInstance.userId]
         );
         return result.insertId;
     }
