@@ -1,11 +1,12 @@
 import heroRepository from '../repositories/heroRepository.js';
 
 export const HeroService = {
-    createHero: async (name, userId) => {
+    createHero: async (name, userId, avatar) => {
         try {
             const newHero = {
                 name,
-                userId
+                userId,
+                avatar
             };
 
             const hero = await heroRepository.createHero(newHero);

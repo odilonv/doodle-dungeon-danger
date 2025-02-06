@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 import html2canvas from 'html2canvas';
+import { UserContext } from "../../contexts";
 
 const accessories = [null, "sprites/characters/custom/accessory/Accessory_1.png", "/sprites/characters/custom/accessory/Accessory_2.png", "sprites/characters/custom/accessory/Accessory_3.png"];
 const faces = ["sprites/characters/custom/face/Face_1.png", "sprites/characters/custom/face/Face_2.png", "sprites/characters/custom/face/Face_3.png", "sprites/characters/custom/face/Face_4.png"];
@@ -15,6 +16,8 @@ export default function HeroCustomizableSkinPage() {
   const [selectedSkin, setSelectedSkin] = useState(skinsCustom[1]);
   const navigate = useNavigate();
   const characterRef = useRef(null);
+  const { user } = useContext(UserContext);
+
   const customizablePlayer = "sprites/characters/custom/Base.png";
 
   const handleAccessoryClick = (accessory) => {
@@ -39,6 +42,7 @@ export default function HeroCustomizableSkinPage() {
 
   const validateSkin = async () => {
     console.log("validateSkin called!");
+    console.log(user);
     if (!characterRef.current) {
       console.log("characterRef is null");
       return;
@@ -47,10 +51,32 @@ export default function HeroCustomizableSkinPage() {
     const canvas = await html2canvas(characterRef.current, { backgroundColor: null, useCORS: true, scale: 2 });
     const dataURL = canvas.toDataURL("image/png");
 
-    console.log("Image captured:", dataURL);
+    const heroData = {
+      name: "Hero 1",
+      userId: user.id,
+      avatar: dataURL,
+    };
 
-    localStorage.setItem("characterImage", dataURL);
-    navigate("/dungeon-1");
+    try {
+      const response = await fetch("http://localhost:5001/heroes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(heroData),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Hero created successfully:", result);
+        navigate("/dungeon-1");
+      } else {
+        throw new Error("Error creating hero");
+      }
+    } catch (error) {
+      console.error("Error creating hero:", error);
+    }
   };
 
   return (
