@@ -27,12 +27,11 @@ export const createHero = async (req, res) => {
 };
 
 export const deleteHero = async (req, res) => {
-    const { userId, password } = req.body;
+    const { id } = req.params;
     try {
-        const success = await HeroService.deleteHero(userId, password);
-        console.log(success);
-        if (success) {
-            res.status(200).json({ message: 'Hero deleted successfully' });
+        const deletedHero = await HeroService.deleteHero(id);
+        if (deletedHero) {
+            res.json(deletedHero);
         } else {
             res.status(404).json({ message: 'Hero not found' });
         }
@@ -45,7 +44,6 @@ export const deleteHero = async (req, res) => {
 export const takeDamage = async (req, res) => {
     const { id } = req.params;
     const { damage } = req.body;
-
     if (!damage || typeof damage !== 'number' || damage <= 0) {
         return res.status(400).json({ message: 'Invalid damage value' });
     }
@@ -66,7 +64,6 @@ export const takeDamage = async (req, res) => {
 export const heal = async (req, res) => {
     const { id } = req.params;
     const { healthPoints } = req.body;
-
     if (!healthPoints || typeof healthPoints !== 'number' || healthPoints <= 0) {
         return res.status(400).json({ message: 'Invalid healthPoints value' });
     }
@@ -108,7 +105,6 @@ export const gainExperience = async (req, res) => {
 export const move = async (req, res) => {
     const { id } = req.params;
     const { position } = req.body;
-
     if (
         !position ||
         typeof position !== 'object' ||
@@ -205,7 +201,7 @@ export const useItem = async (req, res) => {
 
 export const getItemById = async (req, res) => {
     const { id } = req.params;
-    if (!await HeroService.getItemById(itemId)) {
+    if (!await HeroService.getItemById(id)) {
         return res.status(400).json({ message: 'Item not found' });
     }
     try {

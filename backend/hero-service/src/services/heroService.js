@@ -8,7 +8,6 @@ export const HeroService = {
                 userId,
                 avatar
             };
-
             const hero = await heroRepository.createHero(newHero);
             return hero;
         } catch (error) {

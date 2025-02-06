@@ -42,7 +42,6 @@ export default function HeroCustomizableSkinPage() {
 
   const validateSkin = async () => {
     console.log("validateSkin called!");
-    console.log(user);
     if (!characterRef.current) {
       console.log("characterRef is null");
       return;
@@ -58,7 +57,7 @@ export default function HeroCustomizableSkinPage() {
     };
 
     try {
-      const response = await fetch("http://localhost:5001/heroes", {
+      const response = await fetch("http://localhost:5002/heroes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

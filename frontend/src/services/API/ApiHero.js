@@ -1,5 +1,5 @@
 async function createHero(name, userId, avatar) {
-  const response = await fetch('http://localhost:5001/heroes', {
+  const response = await fetch('http://localhost:5002/heroes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ async function createHero(name, userId, avatar) {
 }
 
 async function getHeroById(id) {
-  const response = await fetch(`http://localhost:5001/heroes/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/${id}`, {
     method: 'GET',
     credentials: 'include',
   });
@@ -29,7 +29,7 @@ async function getHeroById(id) {
 }
 
 async function takeDamage(id, damage) {
-  const response = await fetch(`http://localhost:5001/heroes/takeDamage/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/takeDamage/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ async function takeDamage(id, damage) {
 }
 
 async function heal(id, healthPoints) {
-  const response = await fetch(`http://localhost:5001/heroes/heal/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/heal/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ async function heal(id, healthPoints) {
 }
 
 async function gainExperience(id, experiencePoints) {
-  const response = await fetch(`http://localhost:5001/heroes/gainExperience/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/gainExperience/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ async function gainExperience(id, experiencePoints) {
 }
 
 async function move(id, position) {
-  const response = await fetch(`http://localhost:5001/heroes/move/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/move/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ async function move(id, position) {
 }
 
 async function nextDungeon(id) {
-  const response = await fetch(`http://localhost:5001/heroes/nextDungeon/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/nextDungeon/${id}`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -110,7 +110,7 @@ async function nextDungeon(id) {
 }
 
 async function deleteHero(id) {
-  const response = await fetch(`http://localhost:5001/heroes/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/${id}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -123,7 +123,7 @@ async function deleteHero(id) {
 }
 
 async function pickUpItem(heroId, itemId) {
-  const response = await fetch(`http://localhost:5001/heroes/iventory/pickUpItem/hero/${heroId}/item/${itemId}`, {
+  const response = await fetch(`http://localhost:5002/heroes/iventory/pickUpItem/hero/${heroId}/item/${itemId}`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -136,7 +136,7 @@ async function pickUpItem(heroId, itemId) {
 }
 
 async function dropItem(heroId, itemId) {
-  const response = await fetch(`http://localhost:5001/heroes/iventory/dropItem/hero/${heroId}/item/${itemId}`, {
+  const response = await fetch(`http://localhost:5002/heroes/iventory/dropItem/hero/${heroId}/item/${itemId}`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -149,7 +149,7 @@ async function dropItem(heroId, itemId) {
 }
 
 async function useItem(heroId, itemId) {
-  const response = await fetch(`http://localhost:5001/heroes/iventory/useItem/hero/${heroId}/item/${itemId}`, {
+  const response = await fetch(`http://localhost:5002/heroes/iventory/useItem/hero/${heroId}/item/${itemId}`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -162,7 +162,7 @@ async function useItem(heroId, itemId) {
 }
 
 async function getInventory(heroId) {
-  const response = await fetch(`http://localhost:5001/heroes/iventory/hero/${heroId}`, {
+  const response = await fetch(`http://localhost:5002/heroes/iventory/hero/${heroId}`, {
     method: 'GET',
     credentials: 'include',
   });
@@ -175,7 +175,7 @@ async function getInventory(heroId) {
 }
 
 async function getItemById(id) {
-  const response = await fetch(`http://localhost:5001/heroes/item/${id}`, {
+  const response = await fetch(`http://localhost:5002/heroes/item/${id}`, {
     method: 'GET',
     credentials: 'include',
   });
