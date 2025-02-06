@@ -76,14 +76,14 @@ class HeroRepository {
         const itemsFile = './backend/hero-service/src/items/items.json';
         try {
             if (fs.existsSync(itemsFile)) {
-                const itemData = JSON.parse(fs.readFileSync(itemsFile, 'utf-8'));
+                const itemsData = JSON.parse(fs.readFileSync(itemsFile, 'utf-8'));
                 
-                for (const item of itemData) {
+                for (const item of itemsData) {
                     await connection.query(
-                        `INSERT INTO ${Item.tableName} (id, name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+                        `INSERT INTO ${Item.tableName} (name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?) 
                         ON DUPLICATE KEY UPDATE name = VALUES(name), min_level = VALUES(min_level), mana_cost = VALUES(mana_cost), health_cost = VALUES(health_cost), power = VALUES(power), health_bonus = VALUES(health_bonus), mana_bonus = VALUES(mana_bonus)`,
-                        [item.id, item.name, item.min_level, item.mana_cost, item.health_cost, item.power, item.health_bonus, item.mana_bonus]
+                        [item.name, item.min_level, item.mana_cost, item.health_cost, item.power, item.health_bonus, item.mana_bonus]
                     );
                     console.log(`- Item ${item.name} inserted`);
                 }

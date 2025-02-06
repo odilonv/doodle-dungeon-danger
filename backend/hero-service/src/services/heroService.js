@@ -7,7 +7,6 @@ export const HeroService = {
                 name,
                 userId
             };
-
             const hero = await heroRepository.createHero(newHero);
             return hero;
         } catch (error) {
