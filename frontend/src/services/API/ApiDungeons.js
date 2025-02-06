@@ -1,5 +1,17 @@
+async function getCurrentUserDungeon(user) {
+    const response = await fetch(`http://localhost:5003/dungeons/lastInstance/user/${user.id}`, {
+        method: 'GET',
+    });
+    if (response.ok) {
+        return await response.json();
+    } else {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error);
+    }
+};
+
 async function getUserDungeons(user) {
-    const response = await fetch(`http://localhost:5003/dungeons/user/${user.id}`, {
+    const response = await fetch(`http://localhost:5003/dungeons/instances/user/${user.id}`, {
         method: 'GET',
     });
     if (response.ok) {

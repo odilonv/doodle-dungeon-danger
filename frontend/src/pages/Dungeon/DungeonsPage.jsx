@@ -5,6 +5,8 @@ import { getUserDungeons, getDungeons, saveDungeonInstance } from '../../service
 
 import { UserContext } from "../../contexts/UserContext";
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 const weaponButtonStyle = {
     position: 'relative',
     overflow: 'hidden',
@@ -38,6 +40,7 @@ const DungeonsPage = () => {
     const [dungeons, setDungeons] = useState([]);
     const [userDungeons, setUserDungeons] = useState([]);
     const navigate = useNavigate();
+    const [creatingDungeonInstance, setCreatingDungeonInstance] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -56,13 +59,21 @@ const DungeonsPage = () => {
     };
 
     const onNotStartedDungeonClick = async (dungeon) => {
+        setCreatingDungeonInstance(true);
         const response = await saveDungeonInstance(dungeon.id, user.id);
-        
+        setCreatingDungeonInstance(false);
         navigate(`/dungeon`);
     }
 
     return (
         <div>
+            {
+                creatingDungeonInstance && (
+                    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(0, 0, 0, 0.5)' }}>
+                        <CircularProgress />
+                    </div>
+                )
+            }
             <h1>DungeonsPage</h1>
             <div style={actionsContainerStyle}>
                 <div style={weaponsContainerStyle}>

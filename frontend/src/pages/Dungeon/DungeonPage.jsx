@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Map1Component } from "../../components";
 
+import { getDungeon } from "../../services/API/ApiDungeons";
+
 const DungeonPage = () => {
+    const [dungeon, setDungeon] = useState(null);
     const characterImage = localStorage.getItem("characterImage");
 
     /* TODO REPLACE BY REAL DATA */
