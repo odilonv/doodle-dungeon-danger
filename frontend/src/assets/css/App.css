@@ -448,7 +448,8 @@ footer {
     gap: 10px;
 }
 
-.accessory-item {
+.accessory-item,
+.sub-accessory-item {
     width: 60px;
     height: 60px;
     align-items: center;
@@ -456,10 +457,11 @@ footer {
     display: flex;
     object-fit: contain;
     cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    transition: border-color 0.3s;
+}
+
+.sub-accessory-item {
     position: relative;
+    top: 10px;
 }
 
 .create-icon {
