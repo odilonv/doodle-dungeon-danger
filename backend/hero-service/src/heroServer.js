@@ -9,7 +9,8 @@ app.use(express.json());
 const PORT = 5002;
 
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    credentials: true
 }));
 
 app.use('/heroes', heroRouter);

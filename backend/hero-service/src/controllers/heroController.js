@@ -16,7 +16,8 @@ export const getHeroById = async (req, res) => {
 };
 
 export const createHero = async (req, res) => {
-    const { name, userId, avatar } = req.body.hero;
+    const { name, userId, avatar } = req.body;
+
     try {
         const newHero = await HeroService.createHero(name, userId, avatar);
         res.status(201).json(newHero);
