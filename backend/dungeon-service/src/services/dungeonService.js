@@ -16,7 +16,7 @@ export const DungeonService = {
     getUserDungeons: async (userId) => {
         try {
             const dungeonsData = await dungeonRepository.getUserDungeons(userId);
-            const dungeons = dungeonsData.map((dungeonData) => Dungeon.fromDatabase(dungeonData));
+            const dungeons = dungeonsData.map((dungeonData) => DungeonInstance.fromDatabase(dungeonData));
             return dungeons;
         } catch (error) {
             console.error("Error fetching user dungeons:", error);
