@@ -6,8 +6,6 @@ import { getUserDungeons, getDungeons } from '../../services/API/ApiDungeons';
 import { UserContext } from "../../contexts/UserContext";
 
 const weaponButtonStyle = {
-    // width: '20%',
-    // height: '100%',
     position: 'relative',
     overflow: 'hidden',
     background: 'none',
@@ -36,7 +34,7 @@ const weaponsContainerStyle = {
 };
 
 const DungeonsPage = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [dungeons, setDungeons] = useState([]);
     const [userDungeons, setUserDungeons] = useState([]);
     const navigate = useNavigate();
@@ -46,11 +44,10 @@ const DungeonsPage = () => {
             getDungeons()
                 .then(data => setDungeons(data))
                 .catch(error => console.error(error));
+
             getUserDungeons(user)
                 .then(data => setUserDungeons(data))
                 .catch(error => console.error(error));
-        } else {
-            // navigate('/');
         }
     }, [user]);
 
@@ -62,23 +59,29 @@ const DungeonsPage = () => {
             <h1>DungeonsPage</h1>
             <div style={actionsContainerStyle}>
                 <div style={weaponsContainerStyle}>
-                    {dungeons.map((dungeon, index) =>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '300px', width: '300px' }} key={dungeon.id}>
-                            <button key={dungeon.id} onClick={() => navigate("/dungeons/" + dungeon.id)} style={weaponButtonStyle}>
+                    {dungeons.map((dungeon, index) => (
+                        <div
+                            key={dungeon.id}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                height: '300px',
+                                width: '300px',
+                                border: userDungeons.some(ud => ud.dungeonId === dungeon.id) ? '2px solid green' : '2px solid red',
+                            }}
+                        >
+                            <button onClick={() => navigate("/dungeons/" + dungeon.id)} style={weaponButtonStyle}>
                                 <img src={`sprites/squares/Square_${index + 1}.png`} alt={dungeon.name} style={{ width: '100%', height: '100%' }} />
                                 <img src={`sprites/dungeons/${dungeon.name}.png`} alt={dungeon.name} style={{ width: '80%', height: '80%', position: 'absolute' }} />
                             </button>
-                            <span>
-                                {dungeon.name}
-                            </span>
+                            <span>{dungeon.name}</span>
                         </div>
-                    )}
+                    ))}
                 </div>
             </div>
-            <button onClick={() => navigate('/choose-your-hero')}>
-                Odilon
-            </button>
-        </div >
+            <button onClick={() => navigate('/choose-your-hero')}>Odilon</button>
+        </div>
     );
 }
 
