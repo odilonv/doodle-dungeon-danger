@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { ModalComponent, UserInfoComponent, UserInfoEntryComponent } from '../../components';
-import { getLoggedUser, logout } from '../../services/API/ApiUser';
+import { logout } from '../../services/API/ApiUser';
 import UserInfoCategoryComponent from "../../components/User/UserInfoCategoryComponent";
 import { Divider } from "@mui/material";
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
@@ -8,7 +8,6 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import IdentityIcon from '@mui/icons-material/PersonRounded';
 import ContactIcon from '@mui/icons-material/CallRounded';
 import { UserContext } from "../../contexts/UserContext";
-
 
 function UserPage() {
     const { user, setUser } = useContext(UserContext);
@@ -19,13 +18,12 @@ function UserPage() {
             await logout();
             window.location.href = '/';
         } catch (error) {
-            console.error('Erreur lors de la déconnexion :', error);
+            console.error('Error during logout:', error);
         }
     };
 
     const handleDeleteAccount = () => {
         console.log("delete account");
-        
         setIsModalVisible(true);
     };
 
@@ -33,15 +31,17 @@ function UserPage() {
         <form>
             <div className={"user-categories-container"}>
                 <div className="user-categories default-container" id="user-categories">
-                    <UserInfoCategoryComponent entryLabel="Identité" icon={<IdentityIcon />} />
+                    <UserInfoCategoryComponent entryLabel="Identity" icon={<IdentityIcon />} />
                     <Divider />
                     <UserInfoCategoryComponent entryLabel="Contact" icon={<ContactIcon />} />
                 </div>
                 <div className="manage-account-container">
-                    <div className="manage-account-button" onClick={handleLogout}>Se déconnecter<LogoutRoundedIcon />
+                    <div className="manage-account-button" onClick={handleLogout}>
+                        Log out <LogoutRoundedIcon />
                     </div>
-                    <div className="manage-account-button delete-account" onClick={handleDeleteAccount}>Supprimer
-                        mon compte<HighlightOffRoundedIcon /></div>
+                    <div className="manage-account-button delete-account" onClick={handleDeleteAccount}>
+                        Delete my account <HighlightOffRoundedIcon />
+                    </div>
                 </div>
             </div>
             <div className="user-info-container">
@@ -49,32 +49,30 @@ function UserPage() {
                     <>
                         <UserInfoComponent
                             key="identity"
-                            headerText="Identité"
-                            value={
-                                [
-                                    <UserInfoEntryComponent
-                                        key="firstName"
-                                        entryLabel="Prénom"
-                                        entryValue={user.firstName} />,
-                                    <UserInfoEntryComponent
-                                        key="lastName"
-                                        entryLabel="Nom"
-                                        entryValue={user.lastName} />,
-                                ]
-                            }
+                            headerText="Identity"
+                            value={[
+                                <UserInfoEntryComponent
+                                    key="firstName"
+                                    entryLabel="First Name"
+                                    entryValue={user.firstName}
+                                />,
+                                <UserInfoEntryComponent
+                                    key="lastName"
+                                    entryLabel="Last Name"
+                                    entryValue={user.lastName}
+                                />,
+                            ]}
                         />
                         <UserInfoComponent
                             key="contact"
                             headerText="Contact"
-                            value={
-                                [
-                                    <UserInfoEntryComponent
-                                        key="email"
-                                        entryLabel="Email"
-                                        entryValue={user.email}
-                                    />,
-                                ]
-                            }
+                            value={[
+                                <UserInfoEntryComponent
+                                    key="email"
+                                    entryLabel="Email"
+                                    entryValue={user.email}
+                                />,
+                            ]}
                         />
                     </>
                 ) : null}

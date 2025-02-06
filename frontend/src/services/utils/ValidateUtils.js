@@ -1,27 +1,27 @@
 function checkUppercase(password) {
-    return /[A-Z]/.test(password) ? null : "Le mot de passe doit contenir au moins une lettre majuscule.";
+    return /[A-Z]/.test(password) ? null : "The password must contain at least one uppercase letter.";
 }
 
 function checkSpecialCharacter(password) {
-    return /[!@#$&*%_-]/.test(password) ? null : "Le mot de passe doit contenir au moins un caractère spécial.";
+    return /[!@#$&*%_-]/.test(password) ? null : "The password must contain at least one special character.";
 }
 
 function checkDigit(password) {
-    return /[0-9]/.test(password) ? null : "Le mot de passe doit contenir au moins un chiffre.";
+    return /[0-9]/.test(password) ? null : "The password must contain at least one digit.";
 }
 
 function checkIsEmail(email) {
-    if (!email) return "L'adresse email est requise.";
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Adresse email invalide.";
+    if (!email) return "Email address is required.";
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? null : "Invalid email address.";
 }
 
 function checkIsPhoneNumber(phoneNumber) {
-    if (!phoneNumber) return "Le numéro de téléphone est requis.";
-    return /^\d{10}$/.test(phoneNumber) ? null : "Numéro de téléphone invalide.";
+    if (!phoneNumber) return "Phone number is required.";
+    return /^\d{10}$/.test(phoneNumber) ? null : "Invalid phone number.";
 }
 
 function checkAge(dateOfBirth) {
-    if (!dateOfBirth) return "La date de naissance est requise.";
+    if (!dateOfBirth) return "Date of birth is required.";
     const today = new Date();
     let age = today.getFullYear() - dateOfBirth.getFullYear();
     const monthDiff = today.getMonth() - dateOfBirth.getMonth();
@@ -29,26 +29,26 @@ function checkAge(dateOfBirth) {
         age--;
     }
     else if (age < 18)
-        return "Tu dois avoir au moins 18 ans pour t'inscrire.";
+        return "You must be at least 18 years old to register.";
     else if (age > 114)
-        return "Tu es trop vieux.";
+        return "You are too old.";
     return null;
-};
-
-function checkOnlyAlphabets(name) {
-    if (!name) return "Ce champ est requis.";
-    return /^[a-zA-ZÀ-ÿ- ]+$/.test(name) ? null : "Ce champ ne doit contenir que des lettres.";
 }
 
-// can container spaces, only alphabets, -
+function checkOnlyAlphabets(name) {
+    if (!name) return "This field is required.";
+    return /^[a-zA-ZÀ-ÿ- ]+$/.test(name) ? null : "This field must contain only letters.";
+}
+
+// Can contain spaces, only alphabets, and hyphens
 function checkCity(city) {
-    if (!city) return "La ville est requise.";
-    return /^[a-zA-Z- ]+$/.test(city) ? null : "La ville ne doit contenir que des lettres.";
+    if (!city) return "City is required.";
+    return /^[a-zA-Z- ]+$/.test(city) ? null : "City must contain only letters.";
 }
 
 function checkPassword(password) {
-    if (!password) return "Le mot de passe est requis.";
-    if (password.length < 8) return "Le mot de passe doit contenir au moins 8 caractères.";
+    if (!password) return "Password is required.";
+    if (password.length < 8) return "Password must be at least 8 characters long.";
     const uppercase = checkUppercase(password);
     if (uppercase !== null) return uppercase;
     const specialCharacter = checkSpecialCharacter(password);
@@ -58,7 +58,4 @@ function checkPassword(password) {
     return null;
 }
 
-
 export { checkIsEmail, checkCity, checkPassword, checkIsPhoneNumber, checkAge, checkUppercase, checkSpecialCharacter, checkDigit, checkOnlyAlphabets };
-
-
