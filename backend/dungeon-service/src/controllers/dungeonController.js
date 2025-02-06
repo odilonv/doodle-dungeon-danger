@@ -1,5 +1,26 @@
 import { DungeonService } from '../services/dungeonService.js';
 
+export const getDungeons = async (req, res) => {
+    try {
+        const dungeons = await DungeonService.getDungeons();
+        res.json(dungeons);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const getUserDungeons = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const dungeons = await DungeonService.getUserDungeons(userId);
+        res.json(dungeons);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const getDungeonById = async (req, res) => {
     const { id } = req.params;
     try {

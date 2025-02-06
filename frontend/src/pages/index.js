@@ -1,5 +1,6 @@
 export { default as HomePage } from './Home/HomePage';
-    export { default as Dungeon1Page } from './Dungeon/Dungeon1Page';
+export { default as Dungeon1Page } from './Dungeon/Dungeon1Page';
+export { default as DungeonsPage } from './Dungeon/DungeonsPage';
 export { default as HeroPresetSkinPage } from './Hero/HeroPresetSkinPage';
 export { default as HeroCustomizableSkinPage } from './Hero/HeroCustomizableSkinPage';
 export { default as LoginPage } from './Login/LoginPage';

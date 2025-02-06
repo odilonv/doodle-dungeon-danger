@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
 import path from 'path';
-import {Dungeon, DungeonInstance} from '../models/dungeonModel.js';
+import { Dungeon, DungeonInstance } from '../models/dungeonModel.js';
 
 class DungeonRepository {
     static #instance = null;
@@ -72,6 +72,18 @@ class DungeonRepository {
         console.log("- Dungeon service tables updated");
     }
 
+    static async getDungeons() {
+        const connection = await this.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${Dungeon.tableName}`);
+        return results;
+    }
+
+    static async getUserDungeons(userId) {
+        const connection = await this.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${Dungeon.instanceTableName} WHERE user_id = ?`, [userId]);
+        return results;
+    }
+
     static async insertDungeonsFromFiles(connection) {
         const dungeonsDir = './backend/dungeon-service/src/dungeons';
         try {
@@ -82,15 +94,15 @@ class DungeonRepository {
                     const filePath = path.join(dungeonsDir, file);
                     const filename = file.split('.json')[0];
                     const dungeonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    
+
                     const mapJson = JSON.stringify(dungeonData.map);
                     const monstersJson = JSON.stringify(dungeonData.monsters);
-    
+
                     await connection.query(
                         `INSERT INTO ${Dungeon.tableName} (name, map, monsters) VALUES (?, ?, ?)`,
                         [filename, mapJson, monstersJson]
                     );
-    
+
                     console.log(`- Dungeon "${filename}" inserted from ${file}`);
                 }
             }
@@ -114,7 +126,7 @@ class DungeonRepository {
     static async createDungeonInstance(id) {
         const connection = await this.getInstance();
         const [result] = await connection.query(
-            `INSERT INTO ${DungeonInstance.tableName} (dungeon_id) VALUES (?)`, 
+            `INSERT INTO ${DungeonInstance.tableName} (dungeon_id) VALUES (?)`,
             [id]
         );
         return result.insertId;
