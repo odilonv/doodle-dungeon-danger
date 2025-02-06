@@ -1,68 +1,40 @@
-import userRepository from '../repositories/userRepository.js';
 import bcrypt from 'bcrypt';
-import userModel from '../models/userModel.js';
+import UserRepository from '../repositories/userRepository.js';
 
-export const UserService = {
-    createUser: async (firstName, lastName, email, password) => {
+const userRepository = new UserRepository();
+
+class UserService {
+
+    async createUser(firstName, lastName, email, password) {
+        const existingUser = await userRepository.getUserByEmail(email);
+        if (existingUser) {
+            throw new Error('Email already in use');
+        }
+
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const newUser = {
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword
-        };
+        const newUser = { firstName, lastName, email, password: hashedPassword };
 
-        console.log("New user", newUser);
+        const userId = await userRepository.createUser(newUser);
+        return { id: userId, ...newUser };
+    }
 
-
-        try {
-            const connection = await userRepository.getInstance();
-            await connection.query(
-                `INSERT INTO ${userModel.tableName} (firstName, lastName, email, password) VALUES (?, ?, ?, ?)`,
-                [newUser.firstName, newUser.lastName, newUser.email, newUser.password]
-            );
-
-            const [rows] = await connection.query(`SELECT LAST_INSERT_ID() as id`);
-            newUser.id = rows[0].id;
-
-            console.log(newUser);
-
-            return newUser;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    },
-
-    loginUser: async (email, password) => {
-        const connection = await userRepository.getInstance();
-        const [results] = await connection.query(`SELECT * FROM ${userModel.tableName} WHERE email = ?`, [email]);
-        if (results.length > 0) {
-            const userData = results[0];
-            const hashedPassword = userData.password;
-            const passwordMatch = await bcrypt.compare(password, hashedPassword);
-            if (passwordMatch) {
-                return userModel.fromDatabase(userData);
-            }
-        }
-        return null;
-    },
-
-    deleteUser: async (userId) => {
-        const connection = await userRepository.getInstance();
-        const [result] = await connection.query(`DELETE FROM ${userModel.tableName} WHERE id = ?`, [userId]);
-        return result.affectedRows > 0;
-    },
-
-    getUserById: async (id) => {
-        const connection = await userRepository.getInstance();
-        const [results] = await connection.query(`SELECT * FROM ${userModel.tableName} WHERE id = ?`, [id]);
-        if (results.length > 0) {
-            const userData = results[0];
-            return userModel.fromDatabase(userData);
+    async loginUser(email, password) {
+        const user = await userRepository.getUserByEmail(email);
+        if (user && await bcrypt.compare(password, user.password)) {
+            return user;
         }
         return null;
     }
-};
+
+    async getUserById(id) {
+        return await userRepository.getUserById(id);
+    }
+
+    async deleteUser(id) {
+        return await userRepository.deleteUser(id);
+    }
+}
+
+export default new UserService();

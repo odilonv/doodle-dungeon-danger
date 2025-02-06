@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { userRouter } from './routes/userRoutes.js';
 import session from 'express-session';
-import userRepository from './repositories/userRepository.js';
+import UserRepository from './repositories/userRepository.js';
 
 const app = express();
 app.use(express.json());
@@ -20,9 +20,9 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        httpOnly: true, 
-        secure: false, 
-        sameSite: 'lax' 
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax'
     }
 }));
 
@@ -30,7 +30,7 @@ app.use('/users', userRouter);
 
 export const startUsersService = async () => {
     try {
-        await userRepository.getInstance();
+        await UserRepository.getInstance();
         console.log('User service database initialized');
         app.listen(PORT, () => {
             console.log(`User service is running on port ${PORT}`);
