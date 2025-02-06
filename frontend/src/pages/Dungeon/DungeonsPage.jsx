@@ -59,25 +59,66 @@ const DungeonsPage = () => {
             <h1>DungeonsPage</h1>
             <div style={actionsContainerStyle}>
                 <div style={weaponsContainerStyle}>
-                    {dungeons.map((dungeon, index) => (
-                        <div
-                            key={dungeon.id}
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                height: '300px',
-                                width: '300px',
-                                border: userDungeons.some(ud => ud.dungeonId === dungeon.id) ? '2px solid green' : '2px solid red',
-                            }}
-                        >
-                            <button onClick={() => navigate("/dungeons/" + dungeon.id)} style={weaponButtonStyle}>
-                                <img src={`sprites/squares/Square_${index + 1}.png`} alt={dungeon.name} style={{ width: '100%', height: '100%' }} />
-                                <img src={`sprites/dungeons/${dungeon.name}.png`} alt={dungeon.name} style={{ width: '80%', height: '80%', position: 'absolute' }} />
-                            </button>
-                            <span>{dungeon.name}</span>
-                        </div>
-                    ))}
+                    {dungeons.map((dungeon, index) => {
+                        const userDungeon = userDungeons.find(ud => ud.dungeonId === dungeon.id);
+                        const previousDungeon = dungeons[index - 1];
+                        const previousUserDungeon = previousDungeon
+                            ? userDungeons.find(ud => ud.dungeonId === previousDungeon.id)
+                            : null;
+
+                        // Vérification des conditions de déblocage
+                        const isUnlocked = dungeon.id === 1 || (previousUserDungeon && previousUserDungeon.status === 'Finished');
+                        const isBlocked = !isUnlocked;
+
+                        return (
+                            <div
+                                key={dungeon.id}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    height: '300px',
+                                    width: '300px',
+                                }}
+                            >
+                                <button
+                                    onClick={() => isUnlocked && navigate("/dungeons/" + dungeon.id)}
+                                    style={weaponButtonStyle}
+                                    disabled={isBlocked}
+                                >
+                                    <img src={`sprites/squares/Square_${index + 1}.png`} alt={dungeon.name} style={{ width: '100%', height: '100%' }} />
+                                    <img src={`sprites/dungeons/${dungeon.name}.png`} alt={dungeon.name} style={{ width: '80%', height: '80%', position: 'absolute' }} />
+
+                                    {userDungeon ? (
+                                        userDungeon.status === 'Ongoing' ? (
+                                            <div style={{
+                                                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                                                backdropFilter: 'blur(5px)', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center'
+
+                                            }}>
+                                                <span style={{
+                                                    color: 'black', fontSize: '40px',
+                                                    fontWeight: 'bold', textShadow: '2px 2px 4px #000000'
+                                                }}>
+                                                    Continu
+                                                </span>
+                                                <img src={`sprites/arrow.png`} alt="arrow" style={{ width: '100%' }} />
+                                            </div>
+                                        ) : userDungeon.status === 'Finished' ? (
+                                            <span>Terminé</span>
+                                        ) : null
+                                    ) : (
+                                        isBlocked ? (
+                                            <img src={`sprites/lock.png`} alt="lock" style={{ width: '50%', height: '50%', position: 'absolute' }} />
+                                        ) : (
+                                            <img src={`sprites/unlock.png`} alt="unlock" style={{ width: '50%', height: '50%', position: 'absolute' }} />
+                                        )
+                                    )}
+                                </button>
+                                <span>{dungeon.name}</span>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
             <button onClick={() => navigate('/choose-your-hero')}>Odilon</button>
