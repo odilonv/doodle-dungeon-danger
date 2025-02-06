@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Health Potion",
+    "min_level": 1,
+    "mana_cost": 0,
+    "health_cost": 0,
+    "power": 0,
+    "health_bonus": 50,
+    "mana_bonus": 0
+  },
+  {
+    "id": 2,
+    "name": "Mana Potion",
+    "min_level": 1,
+    "mana_cost": 0,
+    "health_cost": 0,
+    "power": 0,
+    "health_bonus": 0,
+    "mana_bonus": 50
+  },
+  {
+    "id": 3,
+    "name": "Sword of Power",
+    "min_level": 5,
+    "mana_cost": 10,
+    "health_cost": 0,
+    "power": 50,
+    "health_bonus": 0,
+    "mana_bonus": 0
+  }
+]
