@@ -21,17 +21,28 @@ const DungeonPage = () => {
         characterImage: characterImage,
     });
 
-    useEffect(async () => {
-        if (user) {
-            const response = await getCurrentUserDungeon(user);
-            const { dungeon, dungeonInstance } = response;
-            console.log("dungeonInstance", dungeonInstance);
-            console.log("dungeon", dungeon);
+    useEffect(() => {
+        const fetchDungeon = async () => {
+            if (user) {
+                try {
+                    const response = await getCurrentUserDungeon(user);
+                    const { dungeon, dungeonInstance } = response;
+                    console.log("dungeonInstance", dungeonInstance);
+                    console.log("dungeon", dungeon);
+                    setDungeon(dungeon);
+                } catch (error) {
+                    console.error("Failed to fetch dungeon", error);
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                setLoading(false);
+            }
+        };
 
-        } else {
-            setLoading(false);
-        }
+        fetchDungeon();
     }, [user]);
+
 
     if (loading) {
         return <p>Chargement du donjon...</p>;

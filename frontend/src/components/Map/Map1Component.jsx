@@ -7,6 +7,10 @@ const Map1Component = ({ hero, setHero, map }) => {
 
     const wall = "sprites/decoration/Wall.png";
 
+
+    const widthSize = map.length;
+    const heightSize = map[0].length;
+
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
 
     const [isInBattle, setIsInBattle] = React.useState(false);
@@ -14,14 +18,6 @@ const Map1Component = ({ hero, setHero, map }) => {
 
     const handleOpen = () => setIsInBattle(true);
     const handleClose = () => setIsInBattle(false);
-    const generateTileMap = () => {
-        return Array.from({ length: heightSize }, () =>
-            Array.from({ length: widthSize }, () => Math.floor(Math.random() * 3) + 1)
-        );
-    };
-
-    const [tileMap] = useState(generateTileMap);
-
 
     useEffect(() => {
         const handleResize = () => {
@@ -31,15 +27,6 @@ const Map1Component = ({ hero, setHero, map }) => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-
-    const generateMap = () => {
-        return Array.from({ length: heightSize }, () =>
-            Array.from({ length: widthSize }, () => (Math.random() < 0.2 ? 1 : Math.random() < 0.05 ? 2 : 0))
-        );
-    };
-
-    const [map] = useState(generateMap);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -97,7 +84,7 @@ const Map1Component = ({ hero, setHero, map }) => {
                     style={{
                         width: cellSize,
                         height: cellSize,
-                        backgroundImage: `url(sprites/decoration/Tile_${tileMap[Math.floor(index / widthSize)][index % widthSize]}.png)`,
+                        backgroundImage: `url(sprites/decoration/Tile_${map[Math.floor(index / widthSize)][index % widthSize]}.png)`,
                         backgroundSize: 'cover',
                         position: 'relative',
                     }}
