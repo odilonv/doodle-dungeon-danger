@@ -85,13 +85,13 @@ class DungeonRepository {
     }
 
     static async insertDungeonsFromFiles(connection) {
-        const mapsDir = './backend/dungeon-service/src/maps';
+        const dungeonsDir = './backend/dungeon-service/src/dungeons';
         try {
-            const files = fs.readdirSync(mapsDir);
+            const files = fs.readdirSync(dungeonsDir);
 
             for (const file of files) {
                 if (path.extname(file) === '.json') {
-                    const filePath = path.join(mapsDir, file);
+                    const filePath = path.join(dungeonsDir, file);
                     const filename = file.split('.json')[0];
                     const dungeonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 

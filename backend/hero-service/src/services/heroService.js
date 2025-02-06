@@ -1,10 +1,11 @@
 import heroRepository from '../repositories/heroRepository.js';
 
 export const HeroService = {
-    createHero: async (name) => {
+    createHero: async (name, userId) => {
         try {
             const newHero = {
-                name
+                name,
+                userId
             };
 
             const hero = await heroRepository.createHero(newHero);
@@ -76,6 +77,78 @@ export const HeroService = {
     nextDungeon: async (id) => {
         try {
             return await heroRepository.nextDungeon(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    pickUpItem: async (heroId, itemId) => {
+        try {
+            return await heroRepository.pickUpItem(heroId, itemId);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    dropItem: async (heroId, itemId) => {
+        try {
+            return await heroRepository.dropItem(heroId, itemId);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    useItem: async (heroId, itemId) => {
+        try {
+            return await heroRepository.useItem(heroId, itemId);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    getItemById: async (id) => {
+        try {
+            return await heroRepository.getItemById(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    getItemInInventory: async (heroId, itemId) => {
+        try {
+            return await heroRepository.getItemInInventory(heroId, itemId);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    exitDungeon: async (id) => {
+        try {
+            return await heroRepository.exitDungeon(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    updatePosition: async (id, position) => {
+        try {
+            return await heroRepository.updatePosition(id, position);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    getInventory: async (heroId) => {
+        try {
+            return await heroRepository.getInventory(heroId);
         } catch (error) {
             console.error(error);
             throw error;

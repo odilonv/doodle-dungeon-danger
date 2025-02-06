@@ -1,7 +1,9 @@
+import HeroRepository from '../repositories/heroRepository.js';
+
 class Hero {
     static tableName = 'Hero';
 
-    constructor(id, name, level, maxHealth, currentHealth, experience, currentDungeon, position) {
+    constructor(id, name, level, maxHealth, currentHealth, experience, currentDungeon, position, inventory = []) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -10,6 +12,7 @@ class Hero {
         this.experience = experience;
         this.currentDungeon = currentDungeon;
         this.position = position;
+        this.inventory = HeroRepository.getInventory(id)
     }
 
     static fromDatabase(data) {
@@ -21,7 +24,8 @@ class Hero {
             data.current_health,
             data.experience,
             data.current_dungeon,
-            data.position
+            data.position,
+            HeroRepository.getInventory(data.id)
         );
     }
 
@@ -34,9 +38,60 @@ class Hero {
             data.currentHealth,
             data.experience,
             data.currentDungeon,
-            data.position
+            data.position,
+            data.inventory || []
         );
     }
 }
 
-export default Hero;
+class Item {
+    static tableName = 'Item';
+
+    constructor(id, name, minLevel, manaCost, healthCost, power, healthBonus, manaBonus) {
+        this.id = id;
+        this.name = name;
+        this.minLevel = minLevel;
+        this.manaCost = manaCost;
+        this.healthCost = healthCost;
+        this.power = power;
+        this.healthBonus = healthBonus;
+        this.manaBonus = manaBonus;
+    }
+
+    static fromDatabase(data) {
+        return new Item(
+            data.id,
+            data.name,
+            data.min_level,
+            data.mana_cost,
+            data.health_cost,
+            data.power,
+            data.health_bonus,
+            data.mana_bonus
+        );
+    }
+
+    static fromJson(data) {
+        return new Item(
+            data.id,
+            data.name,
+            data.minLevel,
+            data.manaCost,
+            data.healthCost,
+            data.power,
+            data.healthBonus,
+            data.manaBonus
+        );
+    }
+}
+
+class Inventory {
+    static tableName = 'Inventory';
+
+    constructor(heroId, itemId) {
+        this.heroId = heroId;
+        this.itemId = itemId;
+    }
+}
+
+export { Hero, Item, Inventory };

@@ -1,5 +1,7 @@
 import mysql from 'mysql2/promise';
-import heroModel from '../models/heroModel.js';
+import fs from 'fs';
+import path from 'path';
+import { Hero, Item, Inventory } from '../models/heroModel.js';
 
 class HeroRepository {
     static #instance = null;
@@ -39,8 +41,9 @@ class HeroRepository {
                 port: 3307
             });
 
-            // await this.dropTables(connection);
-            // await this.createTables(connection);
+            await this.dropTables(connection);
+            await this.createTables(connection);
+            await this.insertItemsFromFiles(connection);
 
             return connection;
         } catch (err) {
@@ -49,11 +52,53 @@ class HeroRepository {
         }
     }
 
+     static async dropTables(connection) {
+            const dropTables = fs.readFileSync('./backend/hero-service/database/dropTableHero.sql', 'utf-8');
+            for (let query of dropTables.split(';')) {
+                if (query.trim() !== '') {
+                    await connection.query(query);
+                }
+            }
+            console.log("- Hero service tables dropped");
+        }
+    
+        static async createTables(connection) {
+            const creationTables = fs.readFileSync('./backend/hero-service/database/createTableHero.sql', 'utf-8');
+            for (let query of creationTables.split(';')) {
+                if (query.trim() !== '') {
+                    await connection.query(query);
+                }
+            }
+            console.log("- Hero service tables updated");
+        }
+
+    static async insertItemsFromFiles(connection) {
+        const itemsFile = './backend/hero-service/src/items/items.json';
+        try {
+            if (fs.existsSync(itemsFile)) {
+                const itemData = JSON.parse(fs.readFileSync(itemsFile, 'utf-8'));
+                
+                for (const item of itemData) {
+                    await connection.query(
+                        `INSERT INTO ${Item.tableName} (id, name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+                        ON DUPLICATE KEY UPDATE name = VALUES(name), min_level = VALUES(min_level), mana_cost = VALUES(mana_cost), health_cost = VALUES(health_cost), power = VALUES(power), health_bonus = VALUES(health_bonus), mana_bonus = VALUES(mana_bonus)`,
+                        [item.id, item.name, item.min_level, item.mana_cost, item.health_cost, item.power, item.health_bonus, item.mana_bonus]
+                    );
+                    console.log(`- Item ${item.name} inserted`);
+                }
+                console.log(`- Items inserted from ${itemsFile}`);
+            }
+        } catch (err) {
+            console.error("Error inserting items from file:", err);
+        }
+    }
+
     static async createHero(newHero) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `INSERT INTO ${heroModel.tableName} (name) VALUES (?)`,
-            [newHero.name]
+            `INSERT INTO ${Hero.tableName} (name, user_id) VALUES (?, ?)`,
+            [newHero.name, newHero.userId]
         );
         if (result.affectedRows > 0) {
             const [rows] = await connection.query(`SELECT LAST_INSERT_ID() as id`);
@@ -65,16 +110,16 @@ class HeroRepository {
 
     static async deleteHero(id) {
         const connection = await HeroRepository.getInstance();
-        const [result] = await connection.query(`DELETE FROM ${heroModel.tableName} WHERE id = ?`, [id]);
+        const [result] = await connection.query(`DELETE FROM ${Hero.tableName} WHERE id = ?`, [id]);
         return result.affectedRows > 0;
     }
 
     static async getHeroById(id) {
         const connection = await HeroRepository.getInstance();
-        const [results] = await connection.query(`SELECT * FROM ${heroModel.tableName} WHERE id = ?`, [id]);
+        const [results] = await connection.query(`SELECT * FROM ${Hero.tableName} WHERE id = ?`, [id]);
         if (results.length > 0) {
             const userData = results[0];
-            return heroModel.fromDatabase(userData);
+            return Hero.fromDatabase(userData);
         }
         return null;
     }
@@ -82,7 +127,7 @@ class HeroRepository {
     static async takeDamage(id, damage) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${heroModel.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`, 
             [damage, id]
         );
         if (result.affectedRows > 0) {
@@ -95,7 +140,7 @@ class HeroRepository {
     static async heal(id, healthPoints) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${heroModel.tableName} SET current_health = LEAST(max_health, current_health + ?) WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET current_health = LEAST(max_health, current_health + ?) WHERE id = ?`, 
             [healthPoints, id]
         );
         if (result.affectedRows > 0) {
@@ -108,7 +153,7 @@ class HeroRepository {
     static async gainExperience(id, experiencePoints) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${heroModel.tableName} SET experience = experience + ? WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET experience = experience + ? WHERE id = ?`, 
             [experiencePoints, id]
         );
         if (result.affectedRows > 0) {
@@ -122,7 +167,7 @@ class HeroRepository {
         const connection = await HeroRepository.getInstance();
         const positionJson = JSON.stringify(position);
         const [result] = await connection.query(
-            `UPDATE ${heroModel.tableName} SET position = ? WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET position = ? WHERE id = ?`, 
             [positionJson, id]
         );
         if (result.affectedRows > 0) {
@@ -135,7 +180,7 @@ class HeroRepository {
     static async nextDungeon(id) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${heroModel.tableName} 
+            `UPDATE ${Hero.tableName} 
             SET current_dungeon = IFNULL(current_dungeon, 0) + 1 
             WHERE id = ?`,
             [id]
@@ -145,6 +190,53 @@ class HeroRepository {
             return hero;
         }
         return null;
+    }
+
+    static async pickUpItem(heroId, itemId) {
+        const connection = await HeroRepository.getInstance();
+        await connection.query(`INSERT INTO ${Inventory.tableName} (hero_id, item_id) VALUES (?, ?)`, [heroId, itemId]);
+    }
+
+    static async dropItem(heroId, itemId) {
+        const connection = await HeroRepository.getInstance();
+        await connection.query(`DELETE FROM ${Inventory.tableName} WHERE hero_id = ? AND item_id = ?`, [heroId, itemId]);
+    }
+
+    static async getItemById(itemId) {
+        const connection = await HeroRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${Item.tableName} WHERE id = ?`, [itemId]);
+        return results.length > 0 ? results[0] : null;
+    }
+
+    static async getItemInInventory(heroId, itemId) {
+        const connection = await HeroRepository.getInstance();
+        const [results] = await connection.query(
+            `SELECT * FROM ${Inventory.tableName} WHERE item_id = ? AND hero_id = ?`, [itemId, heroId]);
+        return results.length > 0 ? results[0] : null;
+    }
+
+    static async getInventory(heroId) {
+        const connection = await HeroRepository.getInstance();
+        const [results] = await connection.query(
+            `SELECT item_id
+            FROM ${Inventory.tableName} AS inv 
+            JOIN Item AS i ON inv.item_id = i.id 
+            WHERE inv.hero_id = ?`, 
+            [heroId]
+        );
+        return results;
+    }
+
+    static async getInventory(heroId) {
+        const connection = await HeroRepository.getInstance();
+        const [results] = await connection.query(
+            `SELECT item_id, name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus
+            FROM ${Inventory.tableName} AS inv 
+            JOIN Item AS i ON inv.item_id = i.id 
+            WHERE inv.hero_id = ?`, 
+            [heroId]
+        );
+        return results;
     }
 }
 

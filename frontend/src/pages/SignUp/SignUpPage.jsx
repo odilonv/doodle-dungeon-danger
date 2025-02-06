@@ -34,13 +34,14 @@ function SignUpPage() {
         }
         setIsLoading(true);
         try {
-            const response = await signUp(user);
-            const json = await response.json();
-            if (response.ok) {
+            const response = await signUp(user.firstName, user.lastName, user.email, user.password);
+            console.log(response);
+            if (response.status === 201) {
                 triggerNotification('Inscription réussie', 'success');
                 navigate('/login');
             } else {
-                triggerNotification(json.error, 'error');
+                const responseJson = await response.json();
+                triggerNotification(responseJson.message, 'error');
             }
         } catch (error) {
             console.error(error);

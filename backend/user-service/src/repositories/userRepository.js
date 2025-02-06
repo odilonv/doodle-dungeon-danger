@@ -2,35 +2,35 @@ import mysql from 'mysql2/promise';
 import fs from 'fs';
 import bcrypt from 'bcrypt';
 
-class userRepository {
+class UserRepository {
     static #instance = null;
     static #initializing = false;
 
     static async getInstance() {
-        if (userRepository.#instance) {
-            return userRepository.#instance;
+        if (this.#instance) {
+            return this.#instance;
         }
 
-        if (userRepository.#initializing) {
+        if (this.#initializing) {
             await new Promise((resolve) => {
                 const interval = setInterval(() => {
-                    if (userRepository.#instance) {
+                    if (this.#instance) {
                         clearInterval(interval);
                         resolve();
                     }
                 }, 50);
             });
-            return userRepository.#instance;
+            return this.#instance;
         }
 
-        userRepository.#initializing = true;
-        userRepository.#instance = await this.initDatabase();
-        userRepository.#initializing = false;
+        this.#initializing = true;
+        this.#instance = await this.#initDatabase();
+        this.#initializing = false;
 
-        return userRepository.#instance;
+        return this.#instance;
     }
 
-    static async initDatabase() {
+    static async #initDatabase() {
         try {
             const connection = await mysql.createConnection({
                 host: 'localhost',
@@ -40,42 +40,66 @@ class userRepository {
                 port: 3306
             });
 
-            await this.dropTables(connection);
-            await this.createTables(connection);
+            await this.#dropTables(connection);
+            await this.#createTables(connection);
 
             return connection;
         } catch (err) {
-            console.error(err);
+            console.error('Database initialization error:', err);
             throw err;
         }
     }
 
-    static async dropTables(connection) {
+    static async #dropTables(connection) {
         const dropTables = fs.readFileSync('./backend/user-service/database/dropTableUser.sql', 'utf-8');
         for (let query of dropTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
             }
         }
-        console.log("- User's service tables dropped");
     }
 
-    static async createTables(connection) {
+    static async #createTables(connection) {
         const creationTables = fs.readFileSync('./backend/user-service/database/createTableUser.sql', 'utf-8');
         for (let query of creationTables.split(';')) {
             if (query.trim() !== '') {
                 await connection.query(query);
             }
         }
-        console.log("- User's service tables Updated");
 
-        connection.query(
+        await connection.query(
             'INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
             ['Admin', 'Admin', 'admin@admin.com', bcrypt.hashSync('admin', 10)]
         );
 
-        console.log("- Admin user created");
+    }
+
+    async createUser(user) {
+        const connection = await UserRepository.getInstance();
+        const [result] = await connection.query(
+            `INSERT INTO user (firstName, lastName, email, password) VALUES (?, ?, ?, ?)`,
+            [user.firstName, user.lastName, user.email, user.password]
+        );
+        return result.insertId;
+    }
+
+    async getUserByEmail(email) {
+        const connection = await UserRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM user WHERE email = ?`, [email]);
+        return results.length ? results[0] : null;
+    }
+
+    async getUserById(id) {
+        const connection = await UserRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM user WHERE id = ?`, [id]);
+        return results.length ? results[0] : null;
+    }
+
+    async deleteUser(id) {
+        const connection = await UserRepository.getInstance();
+        const [result] = await connection.query(`DELETE FROM user WHERE id = ?`, [id]);
+        return result.affectedRows > 0;
     }
 }
 
-export default userRepository;
+export default UserRepository;

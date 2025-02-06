@@ -36,8 +36,7 @@ function LoginPage() {
     }
 
     if (isValid) {
-      const user = { email, password };
-      login(user)
+      login(email, password)
         .then(response => {
           if (response) {
             console.log(response);
