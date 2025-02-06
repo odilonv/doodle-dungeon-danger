@@ -26,7 +26,7 @@ function App() {
             <Route exact path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/dungeons" element={<DungeonsPage />} /> 
-            <Route path="/dungeon/:idDungeon" element={<DungeonPage />} />
+            <Route path="/dungeon" element={<DungeonPage />} />
             <Route path="/choose-your-hero" element={<HeroPresetSkinPage />} />
             <Route path="/custom-your-hero" element={<HeroCustomizableSkinPage />} />
             <Route path="/logout" element={<HomePage />} />

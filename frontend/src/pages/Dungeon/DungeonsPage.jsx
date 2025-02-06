@@ -51,8 +51,13 @@ const DungeonsPage = () => {
         }
     }, [user]);
 
-    console.log(dungeons);
-    console.log(userDungeons);
+    const onStartedDungeonClick = (dungeon) => {
+        console.log("Started dungeon click", dungeon);
+    };
+
+    const onNotStartedDungeonClick = () => {
+        console.log('Non begun dungeon click');
+    }
 
     return (
         <div>
@@ -81,8 +86,7 @@ const DungeonsPage = () => {
                                     width: '300px',
                                 }}
                             >
-                                <button
-                                    onClick={() => isUnlocked && navigate("/dungeons/" + dungeon.id)}
+                                <div
                                     style={weaponButtonStyle}
                                     disabled={isBlocked}
                                 >
@@ -94,8 +98,9 @@ const DungeonsPage = () => {
                                             <div style={{
                                                 position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                                                 backdropFilter: 'blur(5px)', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center'
-
-                                            }}>
+                                            }}
+                                                onClick={() => onStartedDungeonClick(dungeon)}
+                                            >
                                                 <span style={{
                                                     color: 'black', fontSize: '40px',
                                                     fontWeight: 'bold', textShadow: '2px 2px 4px #000000'
@@ -105,16 +110,29 @@ const DungeonsPage = () => {
                                                 <img src={`sprites/arrow.png`} alt="arrow" style={{ width: '100%' }} />
                                             </div>
                                         ) : userDungeon.status === 'Finished' ? (
-                                            <span>Terminé</span>
+                                            <div style={{
+                                                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                                                backdropFilter: 'blur(5px)', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center'
+                                            }}>
+                                                <span style={{
+                                                    color: 'black', fontSize: '40px',
+                                                    fontWeight: 'bold', textShadow: '2px 2px 4px #000000'
+                                                }}>
+                                                    Finished
+                                                </span>
+                                                <img src={`sprites/tick.png`} alt="tick" style={{ width: '100%' }} />
+                                            </div>
                                         ) : null
                                     ) : (
                                         isBlocked ? (
                                             <img src={`sprites/lock.png`} alt="lock" style={{ width: '50%', height: '50%', position: 'absolute' }} />
                                         ) : (
-                                            <img src={`sprites/unlock.png`} alt="unlock" style={{ width: '50%', height: '50%', position: 'absolute' }} />
+                                            <img src={`sprites/unlock.png`} alt="unlock" style={{ width: '50%', height: '50%', position: 'absolute' }}
+                                                onClick={() => onNotStartedDungeonClick(dungeon)}
+                                            />
                                         )
                                     )}
-                                </button>
+                                </div>
                                 <span>{dungeon.name}</span>
                             </div>
                         );
