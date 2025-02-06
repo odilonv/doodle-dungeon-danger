@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
-import html2canvas from 'html2canvas';
 import { UserContext } from "../../contexts";
 
 const accessories = [null, "sprites/characters/custom/accessory/Accessory_1.png", "/sprites/characters/custom/accessory/Accessory_2.png", "sprites/characters/custom/accessory/Accessory_3.png"];
 const faces = ["sprites/characters/custom/face/Face_1.png", "sprites/characters/custom/face/Face_2.png", "sprites/characters/custom/face/Face_3.png", "sprites/characters/custom/face/Face_4.png"];
 const skinsCustom = [null, "sprites/characters/custom/skin/Skin_1.png", "sprites/characters/custom/skin/Skin_2.png", "sprites/characters/custom/skin/Skin_3.png", "sprites/characters/custom/skin/Skin_4.png"];
+const base = "sprites/characters/custom/Base.png";
 
 export default function HeroCustomizableSkinPage() {
   const [selectedAccessory, setSelectedAccessory] = useState(null);
@@ -47,13 +47,10 @@ export default function HeroCustomizableSkinPage() {
       return;
     }
 
-    const canvas = await html2canvas(characterRef.current, { backgroundColor: null, useCORS: true, scale: 2 });
-    const dataURL = canvas.toDataURL("image/png");
-
     const heroData = {
       name: "Hero 1",
       userId: user.id,
-      avatar: dataURL,
+      avatar: { skin: selectedSkin, face: selectedFace, accessory: selectedAccessory, body: base },
     };
 
     try {
@@ -69,7 +66,7 @@ export default function HeroCustomizableSkinPage() {
       if (response.ok) {
         const result = await response.json();
         console.log("Hero created successfully:", result);
-        navigate("/dungeon-1");
+        navigate("/dungeon");
       } else {
         throw new Error("Error creating hero");
       }

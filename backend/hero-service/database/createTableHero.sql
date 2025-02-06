@@ -7,7 +7,7 @@ CREATE TABLE Hero (
     experience INT DEFAULT 0,
     current_dungeon INT,
     position JSON,
-    avatar VARCHAR(255),
+    avatar JSON,
     user_id INT NOT NULL
 );
 
