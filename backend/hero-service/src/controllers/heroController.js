@@ -16,9 +16,9 @@ export const getHeroById = async (req, res) => {
 };
 
 export const createHero = async (req, res) => {
-    const { name } = req.body.hero;
+    const { name, userId } = req.body.hero; 
     try {
-        const newHero = await HeroService.createHero(name);
+        const newHero = await HeroService.createHero(name, userId);
         res.status(201).json(newHero);
     } catch (error) {
         console.log(error);
@@ -41,6 +41,7 @@ export const deleteHero = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 export const takeDamage = async (req, res) => {
     const { id } = req.params;
     const { damage } = req.body;
@@ -144,3 +145,103 @@ export const nextDungeon = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const pickUpItem = async (req, res) => {
+    const { heroId, itemId } = req.params;
+    if(!await HeroService.getItemById(itemId)) {
+        return res.status(400).json({ message: 'Item not found' });
+    }
+    if(!await HeroService.getHeroById(heroId)) {
+        return res.status(400).json({ message: 'Hero not found' });
+    }
+    if(await HeroService.getItemInInventory(heroId, itemId)) {
+        return res.status(400).json({ message: 'Item already in inventory' });
+    }
+    try {
+        await HeroService.pickUpItem(heroId, itemId);
+        res.status(200).json({ message: 'Item picked up successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const dropItem = async (req, res) => {
+    const { heroId, itemId } = req.params;
+    if(!await HeroService.getItemById(itemId)) {
+        return res.status(400).json({ message: 'Item not found' });
+    }
+    if(!await HeroService.getHeroById(heroId)) {
+        return res.status(400).json({ message: 'Hero not found' });
+    }
+    if(!await HeroService.getItemInInventory(heroId, itemId)) {
+        return res.status(400).json({ message: 'Item not in inventory' });
+    }
+    try {
+        await HeroService.dropItem(heroId, itemId);
+        res.status(200).json({ message: 'Item dropped successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const useItem = async (req, res) => {
+    const { heroId, itemId } = req.params;
+    if(!await HeroService.getItemById(itemId)) {
+        return res.status(400).json({ message: 'Item not found' });
+    }
+    if(!await HeroService.getHeroById(heroId)) {
+        return res.status(400).json({ message: 'Hero not found' });
+    }
+    if(!await HeroService.getItemInInventory(heroId, itemId)) {
+        return res.status(400).json({ message: 'Item not in inventory' });
+    }
+    try {
+        const item = await HeroService.getItemById(itemId);
+        res.json(item);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const getItemById = async (req, res) => {
+    const { id } = req.params;
+    if(!await HeroService.getItemById(itemId)) {
+        return res.status(400).json({ message: 'Item not found' });
+    }
+    try {
+        const item = await HeroService.getItemById(id);
+        res.json(item);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const getItemInInventory = async (req, res) => {
+    const { heroId, itemId } = req.params;
+    if(!await HeroService.getItemById(itemId)) {
+        return res.status(400).json({ message: 'Item not found' });
+    }
+    if(!await HeroService.getHeroById(heroId)) {
+        return res.status(400).json({ message: 'Hero not found' });
+    }
+    try {
+        const item = await HeroService.getItemInInventory(heroId, itemId);
+        res.json(item);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export const getInventory = async (req, res) => {
+    const { heroId } = req.params;
+    if(!await HeroService.getHeroById(heroId)) {
+        return res.status(400).json({ message: 'Hero not found' });
+    }
+    try {
+        const inventory = await HeroService.getInventory(heroId);
+        res.json(inventory);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+

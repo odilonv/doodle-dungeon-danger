@@ -6,7 +6,8 @@ CREATE TABLE Hero (
     current_health INT DEFAULT 100,
     experience INT DEFAULT 0,
     current_dungeon INT,
-    position JSON
+    position JSON,
+    user_id INT NOT NULL
 );
 
 CREATE TABLE Item (
