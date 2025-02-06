@@ -34,147 +34,39 @@ export default function HeroSkinPage() {
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={backButtonStyle} onClick={handleBackClick}>
-        <ArrowBackIosIcon style={backArrowStyle} />
-        <span style={backTextStyle}>Back</span>
+    <div className="container">
+      <div className="back-button" onClick={handleBackClick}>
+        <ArrowBackIosIcon className="back-arrow" />
+        <span className="back-text">Back</span>
       </div>
 
-      <h1 style={titleStyle}>
+      <h1 className="title">
         Choose a basic
         <br />
         <span style={{ color: "var(--main-color)" }}>doodle hero!</span>
       </h1>
 
-      <div style={skinContainerStyle}>
-        <ArrowBackIosIcon style={arrowStyle} onClick={prevSkin} />
-        <div style={customizablePlayerContainer}>
+      <div className="skin-container">
+        <ArrowBackIosIcon className="arrow" onClick={prevSkin} />
+        <div className="customizable-player-container">
           <img
             src={skins[selectedSkinIndex]}
             alt="Skin"
-            style={skinStyle}
+            className="skin"
           />
         </div>
-        <ArrowForwardIosIcon style={{ ...arrowStyle }} onClick={nextSkin} />
+        <ArrowForwardIosIcon className="arrow" onClick={nextSkin} />
       </div>
 
-
-
-
-
-      <div style={buttonsContainerStyle}>
-        <button onClick={handleCreateHeroClick} style={createHeroButtonStyle}>
-          <CreateRoundedIcon style={createIconStyle} />
+      <div className="buttons-container">
+        <button onClick={handleCreateHeroClick} className="create-hero-button">
+          <CreateRoundedIcon className="create-icon" />
           Create your own hero
         </button>
-        <button onClick={validateSkin} style={goToDoodleButtonStyle}>
+        <button onClick={validateSkin} className="go-to-doodle-button">
           Ready ? Go to doodle world :)
         </button>
       </div>
     </div>
   );
 }
-
-const containerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100vh",
-  backgroundColor: "#ffffff",
-  color: "black",
-  position: "relative",
-};
-
-const backButtonStyle = {
-  position: "absolute",
-  top: "20px",
-  left: "20px",
-  display: "flex",
-  alignItems: "center",
-  cursor: "pointer",
-};
-
-const backArrowStyle = {
-  fontSize: "2rem",
-  color: "black",
-};
-
-const backTextStyle = {
-  fontSize: "1.5rem",
-  fontWeight: "bold",
-  marginLeft: "8px",
-};
-
-const titleStyle = {
-  fontSize: "3rem",
-  fontWeight: "bold",
-  marginBottom: "3rem",
-  textAlign: "center",
-};
-
-const skinContainerStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: "2rem",
-  minHeight: "400px",
-};
-
-const customizablePlayerContainer = {
-  position: "relative",
-};
-
-const skinStyle = {
-  width: "400px",
-  height: "400px",
-  objectFit: "contain",
-  display: "block",
-};
-
-const arrowStyle = {
-  fontSize: "1.5rem",
-  cursor: "pointer",
-  color: "black",
-};
-
-const buttonsContainerStyle = {
-  marginTop: "3rem",
-  display: "flex",
-  gap: "1rem",
-  alignItems: "stretch",
-};
-
-const goToDoodleButtonStyle = {
-  padding: "1rem 2rem",
-  backgroundColor: "var(--main-color)",
-  color: "white",
-  fontSize: "1.5rem",
-  fontWeight: "bold",
-  borderRadius: "0.75rem",
-  border: "none",
-  cursor: "pointer",
-  height: "60px",
-};
-
-const createHeroButtonStyle = {
-  padding: "1rem 2rem",
-  backgroundColor: "#FFB400",
-  color: "white",
-  fontSize: "1.5rem",
-  fontWeight: "bold",
-  borderRadius: "0.75rem",
-  border: "none",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  height: "60px",
-};
-
-
-const createIconStyle = {
-  fontSize: "1.5rem",
-  color: "white",
-};
-
-

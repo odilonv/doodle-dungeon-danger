@@ -6,7 +6,6 @@ import { ModalBattleComponent } from '../';
 const Map1Component = ({ hero, setHero }) => {
 
     const wall = "sprites/decoration/Wall.png";
-    const ground = "sprites/decoration/ground.png";
 
     const widthSize = 10;
     const heightSize = 5;
@@ -18,6 +17,14 @@ const Map1Component = ({ hero, setHero }) => {
 
     const handleOpen = () => setIsInBattle(true);
     const handleClose = () => setIsInBattle(false);
+    const generateTileMap = () => {
+        return Array.from({ length: heightSize }, () =>
+            Array.from({ length: widthSize }, () => Math.floor(Math.random() * 3) + 1)
+        );
+    };
+
+    const [tileMap] = useState(generateTileMap);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -93,7 +100,7 @@ const Map1Component = ({ hero, setHero }) => {
                     style={{
                         width: cellSize,
                         height: cellSize,
-                        backgroundImage: `url(${ground})`,
+                        backgroundImage: `url(sprites/decoration/Tile_${tileMap[Math.floor(index / widthSize)][index % widthSize]}.png)`,
                         backgroundSize: 'cover',
                         position: 'relative',
                     }}

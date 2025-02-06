@@ -52,25 +52,25 @@ class HeroRepository {
         }
     }
 
-     static async dropTables(connection) {
-            const dropTables = fs.readFileSync('./backend/hero-service/database/dropTableHero.sql', 'utf-8');
-            for (let query of dropTables.split(';')) {
-                if (query.trim() !== '') {
-                    await connection.query(query);
-                }
+    static async dropTables(connection) {
+        const dropTables = fs.readFileSync('./backend/hero-service/database/dropTableHero.sql', 'utf-8');
+        for (let query of dropTables.split(';')) {
+            if (query.trim() !== '') {
+                await connection.query(query);
             }
-            console.log("- Hero service tables dropped");
         }
-    
-        static async createTables(connection) {
-            const creationTables = fs.readFileSync('./backend/hero-service/database/createTableHero.sql', 'utf-8');
-            for (let query of creationTables.split(';')) {
-                if (query.trim() !== '') {
-                    await connection.query(query);
-                }
+        console.log("- Hero service tables dropped");
+    }
+
+    static async createTables(connection) {
+        const creationTables = fs.readFileSync('./backend/hero-service/database/createTableHero.sql', 'utf-8');
+        for (let query of creationTables.split(';')) {
+            if (query.trim() !== '') {
+                await connection.query(query);
             }
-            console.log("- Hero service tables updated");
         }
+        console.log("- Hero service tables updated");
+    }
 
     static async insertItemsFromFiles(connection) {
         const itemsFile = './backend/hero-service/src/items/items.json';
@@ -97,8 +97,8 @@ class HeroRepository {
     static async createHero(newHero) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `INSERT INTO ${Hero.tableName} (name, user_id) VALUES (?, ?)`,
-            [newHero.name, newHero.userId]
+            `INSERT INTO ${Hero.tableName} (name, user_id) VALUES (?, ?, ?)`,
+            [newHero.name, newHero.userId, newHero.avatar]
         );
         if (result.affectedRows > 0) {
             const [rows] = await connection.query(`SELECT LAST_INSERT_ID() as id`);
@@ -127,7 +127,7 @@ class HeroRepository {
     static async takeDamage(id, damage) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${Hero.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`,
             [damage, id]
         );
         if (result.affectedRows > 0) {
@@ -140,7 +140,7 @@ class HeroRepository {
     static async heal(id, healthPoints) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${Hero.tableName} SET current_health = LEAST(max_health, current_health + ?) WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET current_health = LEAST(max_health, current_health + ?) WHERE id = ?`,
             [healthPoints, id]
         );
         if (result.affectedRows > 0) {
@@ -153,7 +153,7 @@ class HeroRepository {
     static async gainExperience(id, experiencePoints) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${Hero.tableName} SET experience = experience + ? WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET experience = experience + ? WHERE id = ?`,
             [experiencePoints, id]
         );
         if (result.affectedRows > 0) {
@@ -167,7 +167,7 @@ class HeroRepository {
         const connection = await HeroRepository.getInstance();
         const positionJson = JSON.stringify(position);
         const [result] = await connection.query(
-            `UPDATE ${Hero.tableName} SET position = ? WHERE id = ?`, 
+            `UPDATE ${Hero.tableName} SET position = ? WHERE id = ?`,
             [positionJson, id]
         );
         if (result.affectedRows > 0) {
@@ -221,7 +221,7 @@ class HeroRepository {
             `SELECT item_id
             FROM ${Inventory.tableName} AS inv 
             JOIN Item AS i ON inv.item_id = i.id 
-            WHERE inv.hero_id = ?`, 
+            WHERE inv.hero_id = ?`,
             [heroId]
         );
         return results;
@@ -233,7 +233,7 @@ class HeroRepository {
             `SELECT item_id, name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus
             FROM ${Inventory.tableName} AS inv 
             JOIN Item AS i ON inv.item_id = i.id 
-            WHERE inv.hero_id = ?`, 
+            WHERE inv.hero_id = ?`,
             [heroId]
         );
         return results;

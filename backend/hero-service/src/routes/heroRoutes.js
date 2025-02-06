@@ -1,17 +1,18 @@
 import express from 'express';
-import { getHeroById,
-    createHero,
-    deleteHero,
-    takeDamage,
-    heal, 
-    gainExperience,
-    move,
-    nextDungeon,
-    pickUpItem,
-    dropItem,
-    useItem,
-    getItemById,
-    getInventory
+import {
+  getHeroById,
+  createHero,
+  deleteHero,
+  takeDamage,
+  heal,
+  gainExperience,
+  move,
+  nextDungeon,
+  pickUpItem,
+  dropItem,
+  useItem,
+  getItemById,
+  getInventory
 } from '../controllers/heroController.js';
 
 export const heroRouter = express.Router();

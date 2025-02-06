@@ -16,9 +16,9 @@ export const getHeroById = async (req, res) => {
 };
 
 export const createHero = async (req, res) => {
-    const { name, userId } = req.body.hero; 
+    const { name, userId, avatar } = req.body.hero;
     try {
-        const newHero = await HeroService.createHero(name, userId);
+        const newHero = await HeroService.createHero(name, userId, avatar);
         res.status(201).json(newHero);
     } catch (error) {
         console.log(error);
@@ -106,9 +106,9 @@ export const move = async (req, res) => {
     const { id } = req.params;
     const { position } = req.body;
     if (
-        !position || 
-        typeof position !== 'object' || 
-        typeof position.x !== 'number' || 
+        !position ||
+        typeof position !== 'object' ||
+        typeof position.x !== 'number' ||
         typeof position.y !== 'number'
     ) {
         return res.status(400).json({ message: 'Invalid position format. Expected { "position": { "x": number, "y": number } }' });
@@ -144,13 +144,13 @@ export const nextDungeon = async (req, res) => {
 
 export const pickUpItem = async (req, res) => {
     const { heroId, itemId } = req.params;
-    if(!await HeroService.getItemById(itemId)) {
+    if (!await HeroService.getItemById(itemId)) {
         return res.status(400).json({ message: 'Item not found' });
     }
-    if(!await HeroService.getHeroById(heroId)) {
+    if (!await HeroService.getHeroById(heroId)) {
         return res.status(400).json({ message: 'Hero not found' });
     }
-    if(await HeroService.getItemInInventory(heroId, itemId)) {
+    if (await HeroService.getItemInInventory(heroId, itemId)) {
         return res.status(400).json({ message: 'Item already in inventory' });
     }
     try {
@@ -163,13 +163,13 @@ export const pickUpItem = async (req, res) => {
 
 export const dropItem = async (req, res) => {
     const { heroId, itemId } = req.params;
-    if(!await HeroService.getItemById(itemId)) {
+    if (!await HeroService.getItemById(itemId)) {
         return res.status(400).json({ message: 'Item not found' });
     }
-    if(!await HeroService.getHeroById(heroId)) {
+    if (!await HeroService.getHeroById(heroId)) {
         return res.status(400).json({ message: 'Hero not found' });
     }
-    if(!await HeroService.getItemInInventory(heroId, itemId)) {
+    if (!await HeroService.getItemInInventory(heroId, itemId)) {
         return res.status(400).json({ message: 'Item not in inventory' });
     }
     try {
@@ -182,13 +182,13 @@ export const dropItem = async (req, res) => {
 
 export const useItem = async (req, res) => {
     const { heroId, itemId } = req.params;
-    if(!await HeroService.getItemById(itemId)) {
+    if (!await HeroService.getItemById(itemId)) {
         return res.status(400).json({ message: 'Item not found' });
     }
-    if(!await HeroService.getHeroById(heroId)) {
+    if (!await HeroService.getHeroById(heroId)) {
         return res.status(400).json({ message: 'Hero not found' });
     }
-    if(!await HeroService.getItemInInventory(heroId, itemId)) {
+    if (!await HeroService.getItemInInventory(heroId, itemId)) {
         return res.status(400).json({ message: 'Item not in inventory' });
     }
     try {
@@ -201,7 +201,7 @@ export const useItem = async (req, res) => {
 
 export const getItemById = async (req, res) => {
     const { id } = req.params;
-    if(!await HeroService.getItemById(id)) {
+    if (!await HeroService.getItemById(id)) {
         return res.status(400).json({ message: 'Item not found' });
     }
     try {
@@ -214,10 +214,10 @@ export const getItemById = async (req, res) => {
 
 export const getItemInInventory = async (req, res) => {
     const { heroId, itemId } = req.params;
-    if(!await HeroService.getItemById(itemId)) {
+    if (!await HeroService.getItemById(itemId)) {
         return res.status(400).json({ message: 'Item not found' });
     }
-    if(!await HeroService.getHeroById(heroId)) {
+    if (!await HeroService.getHeroById(heroId)) {
         return res.status(400).json({ message: 'Hero not found' });
     }
     try {
@@ -230,7 +230,7 @@ export const getItemInInventory = async (req, res) => {
 
 export const getInventory = async (req, res) => {
     const { heroId } = req.params;
-    if(!await HeroService.getHeroById(heroId)) {
+    if (!await HeroService.getHeroById(heroId)) {
         return res.status(400).json({ message: 'Hero not found' });
     }
     try {

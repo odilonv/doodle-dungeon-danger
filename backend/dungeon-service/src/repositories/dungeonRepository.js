@@ -80,30 +80,21 @@ class DungeonRepository {
 
     static async getUserDungeons(userId) {
         const connection = await this.getInstance();
-        const [results] = await connection.query(`SELECT * FROM ${Dungeon.instanceTableName} WHERE user_id = ?`, [userId]);
+        const [results] = await connection.query(`SELECT * FROM ${DungeonInstance.tableName} WHERE user_id = ?`, [userId]);
         return results;
     }
 
     static async insertDungeonsFromFiles(connection) {
-        const dungeonsDir = './backend/dungeon-service/src/dungeons';
+        const dungeonsFile = './backend/dungeon-service/src/dungeons/dungeons.json';
         try {
-            const files = fs.readdirSync(dungeonsDir);
-
-            for (const file of files) {
-                if (path.extname(file) === '.json') {
-                    const filePath = path.join(dungeonsDir, file);
-                    const filename = file.split('.json')[0];
-                    const dungeonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-
-                    const mapJson = JSON.stringify(dungeonData.map);
-                    const monstersJson = JSON.stringify(dungeonData.monsters);
-
+            if (fs.existsSync(dungeonsFile)) {
+                const itemData = JSON.parse(fs.readFileSync(dungeonsFile, 'utf-8'));
+                for (const item of itemData) {
                     await connection.query(
                         `INSERT INTO ${Dungeon.tableName} (name, map, monsters) VALUES (?, ?, ?)`,
-                        [filename, mapJson, monstersJson]
+                        [item.name, JSON.stringify(item.map), JSON.stringify(item.monsters)]
                     );
-
-                    console.log(`- Dungeon "${filename}" inserted from ${file}`);
+                    console.log(`- Dungeon ${item.name} inserted`);
                 }
             }
         } catch (err) {

@@ -1,11 +1,11 @@
 class Battle {
     static tableName = 'Battle';
 
-    constructor(id, heroId, dungeonInstanceId, monsters, result) {
+    constructor(id, heroId, dungeonInstanceId, monsterInstanceId, result) {
         this.id = id;
         this.heroId = heroId;
         this.dungeonInstanceId = dungeonInstanceId;
-        this.monsters = monsters;
+        this.monsterInstanceId = monsterInstanceId;
         this.result = result;
     }
 
@@ -14,7 +14,7 @@ class Battle {
             data.id,
             data.hero_id,
             data.dungeon_instance_id,
-            JSON.parse(data.monsters),
+            data.monsterInstanceId,
             data.result
         );
     }
@@ -24,7 +24,7 @@ class Battle {
             data.id,
             data.heroId,
             data.dungeonInstanceId,
-            data.monsters,
+            data.monsterInstanceId,
             data.result
         );
     }

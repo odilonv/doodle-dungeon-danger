@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Map1Component } from "../../components";
 
-const Dungeon1Page = () => {
+const DungeonPage = () => {
     const characterImage = localStorage.getItem("characterImage");
 
     /* TODO REPLACE BY REAL DATA */
@@ -24,4 +24,4 @@ const Dungeon1Page = () => {
     );
 }
 
-export default Dungeon1Page;
+export default DungeonPage;
