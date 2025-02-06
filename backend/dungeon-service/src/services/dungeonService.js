@@ -1,5 +1,6 @@
 import dungeonRepository from '../repositories/dungeonRepository.js';
 import { Dungeon, DungeonInstance } from '../models/dungeonModel.js';
+import { getCurrentUserDungeon } from '../controllers/dungeonController.js';
 
 export const DungeonService = {
     getDungeons: async () => {
@@ -9,6 +10,19 @@ export const DungeonService = {
             return dungeons;
         } catch (error) {
             console.error("Error fetching dungeons:", error);
+            throw error;
+        }
+    },
+
+    getCurrentUserDungeon: async (userId) => {
+        try {
+            const dungeonData = await dungeonRepository.getCurrentUserDungeon(userId);
+            if (dungeonData) {
+                return DungeonInstance.fromDatabase(dungeonData);
+            }
+            return null;
+        } catch (error) {
+            console.error("Error fetching current user dungeon:", error);
             throw error;
         }
     },

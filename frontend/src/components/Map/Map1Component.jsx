@@ -3,12 +3,9 @@ import React, { useState, useEffect } from 'react';
 
 import { ModalBattleComponent } from '../';
 
-const Map1Component = ({ hero, setHero }) => {
+const Map1Component = ({ hero, setHero, map }) => {
 
     const wall = "sprites/decoration/Wall.png";
-
-    const widthSize = 10;
-    const heightSize = 5;
 
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
 

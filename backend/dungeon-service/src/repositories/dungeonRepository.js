@@ -78,6 +78,12 @@ class DungeonRepository {
         return results;
     }
 
+    static async getCurrentUserDungeon(userId) {
+        const connection = await this.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${DungeonInstance.tableName} WHERE user_id = ? ORDER BY id DESC LIMIT 1`, [userId]);
+        return results[0];
+    }
+
     static async getUserDungeons(userId) {
         const connection = await this.getInstance();
         const [results] = await connection.query(`SELECT * FROM ${DungeonInstance.tableName} WHERE user_id = ?`, [userId]);

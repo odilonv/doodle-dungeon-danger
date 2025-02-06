@@ -51,6 +51,7 @@ async function saveDungeonInstance(dungeonId, userId) {
 }
 
 export {
+    getCurrentUserDungeon,
     getUserDungeons,
     getDungeons,
     saveDungeonInstance
