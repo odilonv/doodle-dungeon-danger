@@ -12,7 +12,7 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }));
 
-app.use('/heroes', heroRouter); 
+app.use('/heroes', heroRouter);
 
 export const startHeroService = async () => {
     try {
