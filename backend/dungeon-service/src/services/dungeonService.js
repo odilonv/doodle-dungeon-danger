@@ -2,6 +2,28 @@ import dungeonRepository from '../repositories/dungeonRepository.js';
 import { Dungeon, DungeonInstance } from '../models/dungeonModel.js';
 
 export const DungeonService = {
+    getDungeons: async () => {
+        try {
+            const dungeonsData = await dungeonRepository.getDungeons();
+            const dungeons = dungeonsData.map((dungeonData) => Dungeon.fromDatabase(dungeonData));
+            return dungeons;
+        } catch (error) {
+            console.error("Error fetching dungeons:", error);
+            throw error;
+        }
+    },
+
+    getUserDungeons: async (userId) => {
+        try {
+            const dungeonsData = await dungeonRepository.getUserDungeons(userId);
+            const dungeons = dungeonsData.map((dungeonData) => Dungeon.fromDatabase(dungeonData));
+            return dungeons;
+        } catch (error) {
+            console.error("Error fetching user dungeons:", error);
+            throw error;
+        }
+    },
+
     getDungeonById: async (id) => {
         try {
             const dungeonData = await dungeonRepository.getDungeonById(id);
