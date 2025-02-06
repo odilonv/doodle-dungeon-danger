@@ -52,10 +52,13 @@ export const getDungeonInstanceById = async (req, res) => {
 };
 
 export const createDungeonInstance = async (req, res) => {
-    const { id } = req.params;
+    console.log("req.body", req.body);
+
+    const dungeonInstance = req.body.dungeonInstance;
+
     try {
-        const dungeonInstance = await DungeonService.createDungeonInstance(id);
-        res.json(dungeonInstance);
+        const dungeonInstanceInserted = await DungeonService.createDungeonInstance(dungeonInstance);
+        res.json(dungeonInstanceInserted);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });

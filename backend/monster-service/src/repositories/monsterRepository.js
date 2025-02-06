@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
+import {Monster, MonsterInstance} from '../models/monsterModel.js';
 
 class MonsterRepository {
     static #instance = null;
@@ -41,6 +42,7 @@ class MonsterRepository {
 
             await this.dropTables(connection);
             await this.createTables(connection);
+            await this.insertMonstersFromFiles(connection);
 
             return connection;
         } catch (err) {
@@ -67,6 +69,90 @@ class MonsterRepository {
             }
         }
         console.log("- Monster service tables updated");
+    }
+
+    static async insertMonstersFromFiles(connection) {
+        const monstersFile = './backend/monster-service/src/monsters/monsters.json';
+        try {
+            if (fs.existsSync(monstersFile)) {
+                const monstersData = JSON.parse(fs.readFileSync(monstersFile, 'utf-8'));
+                for (const monster of monstersData) {
+                    await connection.query(
+                        `INSERT INTO ${Monster.tableName} (name, health, power) VALUES (?, ?, ?)`,
+                        [monster.name, monster.health, monster.power]);
+                    console.log(`- Monster ${monster.name} inserted`);
+                }
+                console.log(`- Monsters inserted from ${monstersFile}`);
+            }
+        } catch (err) {
+            console.error("Error inserting items from file:", err);
+        }
+    }
+
+    static async takeDamage(id, damage) {
+        const connection = await MonsterRepository.getInstance();
+        const [result] = await connection.query(
+            `UPDATE ${MonsterInstance.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`, 
+            [damage, id]
+        );
+        if (result.affectedRows > 0) {
+            const monsterInstance = await MonsterRepository.getMonsterInstanceById(id);
+            return monsterInstance;
+        }
+        return null;
+    }
+
+    static async getMonsterById(id) {
+        const connection = await MonsterRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${Monster.tableName} WHERE id = ?`, [id]);
+        if (results.length > 0) {
+            const userData = results[0];
+            return Monster.fromDatabase(userData);
+        }
+        return null;
+    }
+
+    static async getMonsterInstanceById(monsterId) {
+        const connection = await MonsterRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${MonsterInstance.tableName} WHERE monster_id = ?`, [monsterId]);
+        if (results.length > 0) {
+            const monsterInstanceData = results[0];
+            return MonsterInstance.fromDatabase(monsterInstanceData);
+        }
+        return null;
+    }
+
+    static async createMonsterInstance(monsterId, dungeonInstanceId) {
+        const current_health = (await MonsterRepository.getMonsterById(monsterId)).health;
+        const connection = await MonsterRepository.getInstance();
+        const [result] = await connection.query(`INSERT INTO ${MonsterInstance.tableName} (monster_id, dungeon_instance_id, current_health) VALUES (?, ?, ?)`, [monsterId, dungeonInstanceId, current_health]);
+        if (result.affectedRows > 0) {
+            return await MonsterRepository.getMonsterInstanceById(result.insertId);
+        }
+        return null;
+    }
+
+    static async deleteMonsterInstance(monsterId) {
+        const connection = await MonsterRepository.getInstance();
+        const [result] = await connection.query(`DELETE FROM ${MonsterInstance.tableName} WHERE monster_id = ?`, [monsterId]);
+        if (result.affectedRows > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    static async move(id, position) {
+        const connection = await MonsterRepository.getInstance();
+        const positionJson = JSON.stringify(position);
+        const [result] = await connection.query(
+            `UPDATE ${MonsterInstance.tableName} SET position = ? WHERE id = ?`, 
+            [positionJson, id]
+        );
+        if (result.affectedRows > 0) {
+            const hero = await MonsterRepository.getMonsterInstanceById(id);
+            return hero;
+        }
+        return null;
     }
 }
 

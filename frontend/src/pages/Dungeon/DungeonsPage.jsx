@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { getUserDungeons, getDungeons } from '../../services/API/ApiDungeons';
+import { getUserDungeons, getDungeons, saveDungeonInstance } from '../../services/API/ApiDungeons';
 
 import { UserContext } from "../../contexts/UserContext";
 
@@ -52,11 +52,13 @@ const DungeonsPage = () => {
     }, [user]);
 
     const onStartedDungeonClick = (dungeon) => {
-        console.log("Started dungeon click", dungeon);
+        navigate(`/dungeon`);
     };
 
-    const onNotStartedDungeonClick = () => {
-        console.log('Non begun dungeon click');
+    const onNotStartedDungeonClick = async (dungeon) => {
+        const response = await saveDungeonInstance(dungeon.id, user.id);
+        
+        navigate(`/dungeon`);
     }
 
     return (

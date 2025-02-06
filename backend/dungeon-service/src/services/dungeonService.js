@@ -50,9 +50,9 @@ export const DungeonService = {
         }
     },
 
-    createDungeonInstance: async (id) => {
+    createDungeonInstance: async (dungeonInstance) => {
         try {
-            const instanceId = await dungeonRepository.createDungeonInstance(id);
+            const instanceId = await dungeonRepository.createDungeonInstance(dungeonInstance);
             return instanceId;
         } catch (error) {
             console.error("Error creating dungeon instance:", error);
