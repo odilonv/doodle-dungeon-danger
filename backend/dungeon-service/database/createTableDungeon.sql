@@ -8,7 +8,7 @@ CREATE TABLE Dungeon (
 CREATE TABLE Dungeon_Instance (
     id INT AUTO_INCREMENT PRIMARY KEY,
     dungeon_id INT,
-    status ENUM('En cours', 'Terminé') DEFAULT 'En cours',
+    status ENUM('Ongoing', 'Finished') DEFAULT 'Ongoing',
     user_id INT,
     FOREIGN KEY (dungeon_id) REFERENCES Dungeon(id) ON DELETE CASCADE
 );

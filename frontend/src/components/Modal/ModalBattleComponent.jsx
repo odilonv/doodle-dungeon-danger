@@ -205,7 +205,6 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                 style={{ ...lifeBarStyle, transform: 'rotateY(180deg)' }}
               />
             </div>
-
             <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
               <img src={currentCharacterImage} alt="Player" style={characterStyle(heroAttacking)} />
               <img src={currentEnnemyImage} alt="Ennemy" style={characterStyle(ennemyAttacking, false)} />
