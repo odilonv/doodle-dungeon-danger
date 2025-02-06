@@ -5,10 +5,20 @@ import { ButtonComponent, InputComponent, PasswordCreationComponent } from '../.
 import { signUp } from "../../services/API/ApiUser";
 import { useNotification } from '../../contexts/NotificationContext';
 import { checkPassword, checkIsEmail, checkOnlyAlphabets } from '../../services/utils/ValidateUtils';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
+import HomeIcon from "@mui/icons-material/HomeRounded";
 
 function SignUpPage() {
     const { triggerNotification } = useNotification();
     const navigate = useNavigate();
+
+    const handleBackClick = () => {
+        navigate("/login");
+    };
+
+    const handleHomeClick = () => {
+        navigate("/");
+    };
 
     const [user, setUser] = useState({
         lastName: '',
@@ -53,6 +63,14 @@ function SignUpPage() {
 
     return (
         <div className="page">
+            <div style={backButtonStyle} onClick={handleBackClick}>
+                <ArrowBackIosIcon style={backArrowStyle} />
+                <span style={backTextStyle}>Back</span>
+            </div>
+            <div style={homeButtonStyle} onClick={handleHomeClick}>
+                <HomeIcon style={homeIconStyle} />
+                <span style={homeTextStyle}>Home</span>
+            </div>
             <div className="login-container default-container">
                 <h1 style={{ textAlign: 'center' }}>Sign Up</h1>
                 <form style={{ minWidth: '100%' }}>
@@ -94,5 +112,45 @@ function SignUpPage() {
         </div >
     );
 }
+
+const backArrowStyle = {
+    fontSize: "2rem",
+    color: "black",
+};
+
+const backButtonStyle = {
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+};
+
+const backTextStyle = {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    marginLeft: "8px",
+};
+
+const homeButtonStyle = {
+    position: "absolute",
+    top: "20px",
+    right: "20px",
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+};
+
+const homeIconStyle = {
+    fontSize: "2rem",
+    color: "black",
+};
+
+const homeTextStyle = {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    marginLeft: "8px",
+};
 
 export default SignUpPage;
