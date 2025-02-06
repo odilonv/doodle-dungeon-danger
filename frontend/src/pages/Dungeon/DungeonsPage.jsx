@@ -6,8 +6,8 @@ import { getUserDungeons, getDungeons } from '../../services/API/ApiDungeons';
 import { UserContext } from "../../contexts/UserContext";
 
 const weaponButtonStyle = {
-    width: '20%',
-    height: '100%',
+    // width: '20%',
+    // height: '100%',
     position: 'relative',
     overflow: 'hidden',
     background: 'none',
@@ -29,6 +29,7 @@ const actionsContainerStyle = {
 
 const weaponsContainerStyle = {
     display: 'flex',
+    flexWrap: 'wrap',
     gap: '10px',
     height: '100%',
     width: '100%',
@@ -62,7 +63,7 @@ const DungeonsPage = () => {
             <div style={actionsContainerStyle}>
                 <div style={weaponsContainerStyle}>
                     {dungeons.map((dungeon, index) =>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '300px', width: '300px' }} key={dungeon.id}>
                             <button key={dungeon.id} onClick={() => navigate("/dungeons/" + dungeon.id)} style={weaponButtonStyle}>
                                 <img src={`sprites/squares/Square_${index + 1}.png`} alt={dungeon.name} style={{ width: '100%', height: '100%' }} />
                                 <img src={`sprites/dungeons/${dungeon.name}.png`} alt={dungeon.name} style={{ width: '80%', height: '80%', position: 'absolute' }} />
