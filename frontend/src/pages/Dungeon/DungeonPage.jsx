@@ -27,8 +27,8 @@ const DungeonPage = () => {
                 try {
                     const response = await getCurrentUserDungeon(user);
                     const { dungeon, dungeonInstance } = response;
-                    console.log("dungeonInstance", dungeonInstance);
-                    console.log("dungeon", dungeon);
+                    // console.log("dungeonInstance", dungeonInstance);
+                    // console.log("dungeon", dungeon);
                     setDungeon(dungeon);
                 } catch (error) {
                     console.error("Failed to fetch dungeon", error);
@@ -54,7 +54,7 @@ const DungeonPage = () => {
 
     return (
         <div>
-            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} />
+            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} monsters={dungeon.monsters} />
         </div>
     );
 };
