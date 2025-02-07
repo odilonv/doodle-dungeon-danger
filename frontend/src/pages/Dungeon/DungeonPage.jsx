@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Map1Component } from "../../components";
 import { getCurrentUserDungeon } from "../../services/API/ApiDungeons";
 import { UserContext, HeroContext } from "../../contexts";
+import { useNavigate } from "react-router-dom";
 
 const DungeonPage = () => {
     const { user } = useContext(UserContext);
     const { hero, setHero, loading: heroLoading, error: heroError } = useContext(HeroContext);
     const [dungeon, setDungeon] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDungeon = async () => {
@@ -30,6 +32,10 @@ const DungeonPage = () => {
 
         fetchDungeon();
     }, [user]);
+
+    useEffect(() => {
+        if (!user || !hero) navigate("/login");
+    }, [user, navigate]);
 
     if (loading || heroLoading) {
         return <p>Chargement en cours...</p>;

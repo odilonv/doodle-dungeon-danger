@@ -21,7 +21,7 @@ export default function HomePage() {
 
   const continueGame = () => {
     if (user && hasSavedGame) {
-      navigate("/game");
+      navigate("/dungeon");
     }
   };
 
