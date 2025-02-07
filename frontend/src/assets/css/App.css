@@ -81,6 +81,14 @@ body.dark-mode {
     margin: 0;
 }
 
+.MuiInputBase-root,
+label,
+input,
+button,
+a {
+    font-family: var(--font) !important;
+}
+
 html,
 body,
 #root {
