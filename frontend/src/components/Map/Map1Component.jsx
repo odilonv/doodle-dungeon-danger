@@ -10,8 +10,6 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
     const [ennemy, setEnnemy] = useState(null);
     const [monsterPositions, setMonsterPositions] = useState([]);
 
-    console.log("map", map);
-
     const handleOpen = () => setIsInBattle(true);
     const handleClose = () => setIsInBattle(false);
 
@@ -38,8 +36,6 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
                 if (availableCells.length === 0) break;
                 const randomIndex = Math.floor(Math.random() * availableCells.length);
                 const position = availableCells.splice(randomIndex, 1)[0];
-                console.log('Monster', monster.id, 'placed at', position);
-
                 placedMonsters.push({ id: monster.id, position });
             }
         });
@@ -74,7 +70,7 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
             }
 
             const encounteredMonster = monsterPositions.find(monster =>
-                monster.position.x === newPosition.x && monster.position.y === newPosition.y
+                monster.position.y === newPosition.x && monster.position.x === newPosition.y
             );
 
             if (encounteredMonster) {
