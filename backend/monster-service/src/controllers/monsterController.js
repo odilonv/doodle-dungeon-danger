@@ -15,6 +15,17 @@ export const getMonsterById = async (req, res) => {
     }
 };
 
+export const getMonstersByDungeonInstanceId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const monsters = await MonsterService.getMonstersByDungeonInstanceId(id);
+        res.json(monsters);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const getMonsterInstanceById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -51,7 +62,7 @@ export const takeDamage = async (req, res) => {
 };
 
 export const createMonsterInstance = async (req, res) => {
-    const { monsterId, dungeonInstanceId } = req.body.monsterInstance;
+    const { monsterId, dungeonInstanceId, position } = req.body;
     if (!monsterId || typeof monsterId !== 'number' || monsterId <= 0) {
         return res.status(400).json({ message: 'Invalid monsterId value' });
     }
@@ -62,7 +73,7 @@ export const createMonsterInstance = async (req, res) => {
         return res.status(400).json({ message: 'Monster not found' });
     }
     try {
-        const monsterInstance = await MonsterService.createMonsterInstance(monsterId, dungeonInstanceId);
+        const monsterInstance = await MonsterService.createMonsterInstance(monsterId, dungeonInstanceId, position);
         res.status(201).json(monsterInstance);
     } catch (error) {
         console.log(error);

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { getUserDungeons, getDungeons, saveDungeonInstance } from '../../services/API/ApiDungeons';
 
+import { saveMonsterInstance } from '../../services/API/ApiMonsters';
+
 import { UserContext } from "../../contexts/UserContext";
 
 import CircularProgress from '@mui/material/CircularProgress';
@@ -60,7 +62,25 @@ const DungeonsPage = () => {
 
     const onNotStartedDungeonClick = async (dungeon) => {
         setCreatingDungeonInstance(true);
-        const response = await saveDungeonInstance(dungeon.id, user.id);
+        const responseDungeonInstance = await saveDungeonInstance(dungeon.id, user.id);
+
+        const availableCells = [];
+        dungeon.map.forEach((column, y) => {
+            column.forEach((cell, x) => {
+                if (cell === 0) availableCells.push({ y, x });
+            });
+        });
+
+        for (const monster of dungeon.monsters) {
+            for (let i = 0; i < monster.amount; i++) {
+                if (availableCells.length === 0) break;
+                const randomIndex = Math.floor(Math.random() * availableCells.length);
+                const { x, y } = availableCells.splice(randomIndex, 1)[0];
+                const position = { x: x, y: y };
+                await saveMonsterInstance(monster.id, responseDungeonInstance, position);
+            }
+        }
+
         setCreatingDungeonInstance(false);
         navigate(`/dungeon`);
     }

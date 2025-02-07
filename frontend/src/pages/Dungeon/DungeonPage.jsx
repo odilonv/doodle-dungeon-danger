@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Map1Component } from "../../components";
-import { getCurrentUserDungeon } from "../../services/API/ApiDungeons";
-import { UserContext, HeroContext } from "../../contexts";
 import { useNavigate } from "react-router-dom";
+
+import { Map1Component } from "../../components";
+
+import { getCurrentUserDungeon } from "../../services/API/ApiDungeons";
+import { getMonstersByDungeonInstanceId } from "../../services/API/ApiMonsters";
+
+import { UserContext, HeroContext } from "../../contexts";
+
 
 const DungeonPage = () => {
     const { user } = useContext(UserContext);
@@ -15,11 +20,13 @@ const DungeonPage = () => {
         const fetchDungeon = async () => {
             if (user) {
                 try {
-                    const response = await getCurrentUserDungeon(user);
-                    const { dungeon, dungeonInstance } = response;
-                    // console.log("dungeonInstance", dungeonInstance);
-                    // console.log("dungeon", dungeon);
+                    const currentUserDungeon = await getCurrentUserDungeon(user);
+                    const { dungeon, dungeonInstance } = currentUserDungeon;
                     setDungeon(dungeon);
+
+                    console.log("Dungeon", dungeon);
+                    const monsters = await getMonstersByDungeonInstanceId(dungeonInstance.id);
+                    console.log("Monsters", monsters);
                 } catch (error) {
                     console.error("Failed to fetch dungeon", error);
                 } finally {
@@ -34,7 +41,7 @@ const DungeonPage = () => {
     }, [user]);
 
     useEffect(() => {
-        if (!user || !hero) navigate("/login");
+        // if (!user || !hero) navigate("/login");
     }, [user, navigate]);
 
     if (loading || heroLoading) {

@@ -11,6 +11,15 @@ export const MonsterService = {
         }
     },
 
+    getMonstersByDungeonInstanceId: async (id) => {
+        try {
+            return await monsterRepository.getMonstersByDungeonInstanceId(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
     getMonsterInstanceById: async (id) => {
         try {
             const monsterInstance = await monsterRepository.getMonsterInstanceById(id);
@@ -34,9 +43,9 @@ export const MonsterService = {
         }
     },
 
-    createMonsterInstance: async (monsterId, dungeonInstanceId) => {
+    createMonsterInstance: async (monsterId, dungeonInstanceId, position) => {
         try {
-            const monsterInstance = await monsterRepository.createMonsterInstance(monsterId, dungeonInstanceId);
+            const monsterInstance = await monsterRepository.createMonsterInstance(monsterId, dungeonInstanceId, position);
             return monsterInstance;
         } catch (error) {
             console.error(error);

@@ -14,6 +14,8 @@ export const getCurrentUserDungeon = async (req, res) => {
     const { userId } = req.params;
     try {
         const lastDungeonInstance = await DungeonService.getCurrentUserDungeon(userId);
+        console.log("lastDungeonInstance", lastDungeonInstance);
+        
         if (!lastDungeonInstance) {
             res.status(404).json({ message: 'No dungeon instance found for this user' });
         }
@@ -67,8 +69,6 @@ export const getDungeonInstanceById = async (req, res) => {
 };
 
 export const createDungeonInstance = async (req, res) => {
-    console.log("req.body", req.body);
-
     const dungeonInstance = req.body.dungeonInstance;
 
     try {

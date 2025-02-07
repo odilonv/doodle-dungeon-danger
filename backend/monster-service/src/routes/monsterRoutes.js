@@ -1,5 +1,7 @@
 import express from 'express';
-import { getMonsterById,
+import {
+    getMonsterById,
+    getMonstersByDungeonInstanceId,
     getMonsterInstanceById,
     takeDamage,
     createMonsterInstance,
@@ -10,6 +12,7 @@ import { getMonsterById,
 export const monsterRouter = express.Router();
 
 monsterRouter.get('/:id', getMonsterById);
+monsterRouter.get('/dungeonInstance/:id', getMonstersByDungeonInstanceId);
 monsterRouter.post('/instance', createMonsterInstance);
 monsterRouter.delete('/instance/:id', deleteMonsterInstance);
 monsterRouter.put('/instance/takeDamage/:id', takeDamage);

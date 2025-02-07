@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
-import {Monster, MonsterInstance} from '../models/monsterModel.js';
+import { Monster, MonsterInstance } from '../models/monsterModel.js';
 
 class MonsterRepository {
     static #instance = null;
@@ -92,7 +92,7 @@ class MonsterRepository {
     static async takeDamage(id, damage) {
         const connection = await MonsterRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${MonsterInstance.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`, 
+            `UPDATE ${MonsterInstance.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`,
             [damage, id]
         );
         if (result.affectedRows > 0) {
@@ -100,6 +100,20 @@ class MonsterRepository {
             return monsterInstance;
         }
         return null;
+    }
+
+    static async getMonstersByDungeonInstanceId(dungeonInstanceId) {
+        const connection = await MonsterRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${MonsterInstance.tableName} JOIN ${Monster.tableName} ON ${MonsterInstance.tableName}.monster_id = ${Monster.tableName}.id WHERE dungeon_instance_id = ?`, [dungeonInstanceId]);
+        console.log(results);
+        
+        if (results.length > 0) {
+            let monsterAndMonstersInstance = results.map((monsterInstanceData) => MonsterInstance.fromDatabase(monsterInstanceData));
+            monsterAndMonstersInstance.forEach((monsterInstance) => {
+                monsterInstance.monster = Monster.fromDatabase(monsterInstance);
+            });
+            return monsterAndMonstersInstance;
+        }
     }
 
     static async getMonsterById(id) {
@@ -122,10 +136,10 @@ class MonsterRepository {
         return null;
     }
 
-    static async createMonsterInstance(monsterId, dungeonInstanceId) {
+    static async createMonsterInstance(monsterId, dungeonInstanceId, position) {
         const current_health = (await MonsterRepository.getMonsterById(monsterId)).health;
         const connection = await MonsterRepository.getInstance();
-        const [result] = await connection.query(`INSERT INTO ${MonsterInstance.tableName} (monster_id, dungeon_instance_id, current_health) VALUES (?, ?, ?)`, [monsterId, dungeonInstanceId, current_health]);
+        const [result] = await connection.query(`INSERT INTO ${MonsterInstance.tableName} (monster_id, dungeon_instance_id, current_health, position) VALUES (?, ?, ?, ?)`, [monsterId, dungeonInstanceId, current_health, JSON.stringify(position)]);
         if (result.affectedRows > 0) {
             return await MonsterRepository.getMonsterInstanceById(result.insertId);
         }
@@ -145,7 +159,7 @@ class MonsterRepository {
         const connection = await MonsterRepository.getInstance();
         const positionJson = JSON.stringify(position);
         const [result] = await connection.query(
-            `UPDATE ${MonsterInstance.tableName} SET position = ? WHERE id = ?`, 
+            `UPDATE ${MonsterInstance.tableName} SET position = ? WHERE id = ?`,
             [positionJson, id]
         );
         if (result.affectedRows > 0) {
