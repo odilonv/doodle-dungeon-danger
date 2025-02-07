@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../contexts";
+import { getCurrentHero } from '../../services/API/ApiHero';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -9,14 +10,30 @@ export default function HomePage() {
   const [hasSavedGame, setHasSavedGame] = useState(false);
 
   useEffect(() => {
-    const savedGame = localStorage.getItem("savedGame");
-    setHasSavedGame(!!savedGame);
-  }, []);
+    const fetchHero = async () => {
+      try {
+        if(!user) return;
+        let hero = await getCurrentHero(user.id);
+        if (hero) {
+          setHasSavedGame(true);
+        }
+      } catch (error) {
+        setHasSavedGame(false);
+      }
+    };
+
+    fetchHero();
+  }, [user]);
 
   const startNewGame = () => {
-    localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
-    // navigate("/dungeons");
-    navigate("/choose-your-hero");
+
+    if(user){
+      localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
+      navigate("/choose-your-hero");
+    }
+    else{
+      navigate("/login");
+    }
   };
 
   const continueGame = () => {

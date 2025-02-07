@@ -3,7 +3,7 @@ import HeroRepository from '../repositories/heroRepository.js';
 class Hero {
     static tableName = 'Hero';
 
-    constructor(id, name, level, maxHealth, currentHealth, experience, currentDungeon, position, avatar, inventory = []) {
+    constructor(id, name, level, maxHealth, currentHealth, experience, currentDungeon, position, avatar, userId, inventory = []) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -13,6 +13,7 @@ class Hero {
         this.currentDungeon = currentDungeon;
         this.position = position;
         this.avatar = avatar;
+        this.userId = userId;
         this.inventory = HeroRepository.getInventory(id)
     }
 
@@ -27,6 +28,7 @@ class Hero {
             data.current_dungeon,
             data.position,
             data.avatar,
+            data.user_id,
             HeroRepository.getInventory(data.id)
         );
     }
@@ -42,6 +44,7 @@ class Hero {
             data.currentDungeon,
             data.position,
             data.avatar,
+            data.userId,
             data.inventory || []
         );
     }

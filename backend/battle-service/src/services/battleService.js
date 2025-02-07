@@ -44,5 +44,15 @@ export const BattleService = {
         const connection = await battleRepository.getInstance();
         const [result] = await connection.query(`DELETE FROM ${battleModel.tableName} WHERE id = ?`, [battleId]);
         return result.affectedRows > 0;
-    }
+    },
+
+    getMonsterById: async (id) => {
+        const connection = await battleRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${battleModel.tableName} WHERE id = ?`, [id]);
+        if (results.length > 0) {
+            const battleData = results[0];
+            return battleModel.fromDatabase(battleData);
+        }
+        return null;
+    },
 };

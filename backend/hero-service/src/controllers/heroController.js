@@ -1,4 +1,5 @@
 import { HeroService } from '../services/heroService.js';
+import { sendHeroProgression } from '../rabbitmq/publisher.js';
 
 export const getHeroById = async (req, res) => {
     const { id } = req.params;
@@ -150,6 +151,7 @@ export const nextDungeon = async (req, res) => {
         const updatedHero = await HeroService.nextDungeon(id);
         if (updatedHero) {
             res.json(updatedHero);
+            await sendHeroProgression(updatedHero.userId, updatedHero.currentDungeon);
         } else {
             res.status(404).json({ message: 'Hero not found' });
         }

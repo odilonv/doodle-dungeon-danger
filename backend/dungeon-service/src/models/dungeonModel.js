@@ -1,7 +1,7 @@
 class Dungeon {
     static tableName = 'Dungeon';
 
-    constructor(id, name, map, monsters) {       
+    constructor(id, name, map, monsters) {
         this.id = id;
         this.name = name;
         this.map = map;

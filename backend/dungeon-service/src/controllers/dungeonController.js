@@ -14,13 +14,13 @@ export const getCurrentUserDungeon = async (req, res) => {
     const { userId } = req.params;
     try {
         const lastDungeonInstance = await DungeonService.getCurrentUserDungeon(userId);
-        console.log("lastDungeonInstance", lastDungeonInstance);
-        
         if (!lastDungeonInstance) {
             res.status(404).json({ message: 'No dungeon instance found for this user' });
         }
-        const dungeon = await DungeonService.getDungeonById(lastDungeonInstance.dungeonId);
-        res.json({ dungeon: dungeon, dungeonInstance: lastDungeonInstance });
+        else{
+            const dungeon = await DungeonService.getDungeonById(lastDungeonInstance.dungeonId);
+            res.json({ dungeon: dungeon, dungeonInstance: lastDungeonInstance });
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });
@@ -62,18 +62,6 @@ export const getDungeonInstanceById = async (req, res) => {
         } else {
             res.status(404).json({ message: 'Dungeon instance not found' });
         }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export const createDungeonInstance = async (req, res) => {
-    const dungeonInstance = req.body.dungeonInstance;
-
-    try {
-        const dungeonInstanceInserted = await DungeonService.createDungeonInstance(dungeonInstance);
-        res.json(dungeonInstanceInserted);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });

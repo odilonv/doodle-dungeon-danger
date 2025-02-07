@@ -56,7 +56,6 @@ export const updateUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-    console.log(req.body);
     const { email, password } = req.body;
     try {
         const user = await userService.loginUser(email, password);

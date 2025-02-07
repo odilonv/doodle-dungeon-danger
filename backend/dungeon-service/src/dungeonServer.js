@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { dungeonRouter } from './routes/dungeonRoutes.js';
 import dungeonRepository from './repositories/dungeonRepository.js';
+import { consumeHeroProgression } from './rabbitmq/consumer.js';
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,7 @@ export const startDungeonService = async () => {
         app.listen(PORT, () => {
             console.log(`Dungeon service is running on port ${PORT}`);
         });
+        consumeHeroProgression();
     } catch (error) {
         console.error('Error initializing the database:', error);
     }

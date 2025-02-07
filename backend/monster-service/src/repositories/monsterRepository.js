@@ -105,7 +105,6 @@ class MonsterRepository {
     static async getMonstersByDungeonInstanceId(dungeonInstanceId) {
         const connection = await MonsterRepository.getInstance();
         const [results] = await connection.query(`SELECT * FROM ${MonsterInstance.tableName} JOIN ${Monster.tableName} ON ${MonsterInstance.tableName}.monster_id = ${Monster.tableName}.id WHERE dungeon_instance_id = ?`, [dungeonInstanceId]);
-        console.log(results);
         
         if (results.length > 0) {
             let monsterAndMonstersInstance = results.map((monsterInstanceData) => MonsterInstance.fromDatabase(monsterInstanceData));
