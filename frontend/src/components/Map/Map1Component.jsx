@@ -112,17 +112,75 @@ const Map1Component = ({ hero, setHero, map }) => {
                     ) : null}
                 </div>
             ))}
-            <img
-                src={hero.characterImage}
-                alt="Player"
+            <div
                 style={{
                     position: 'absolute',
-                    width: `${cellSize - 30}px`,
                     top: hero.position.y * cellSize,
                     left: hero.position.x * cellSize,
+                    width: `${cellSize - 30}px`,
+                    height: `${cellSize - 30}px`,
                     transition: 'top 0.1s, left 0.1s',
                 }}
-            />
+            >
+                <img
+                    src={hero.body}
+                    alt="Base"
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        zIndex: 1,
+                        width: '100%',
+                        height: '100%',
+                    }}
+                />
+
+                {hero.skin && (
+                    <img
+                        src={hero.skin}
+                        alt="Skin"
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            zIndex: 2,
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    />
+                )}
+
+                {hero.face && (
+                    <img
+                        src={hero.face}
+                        alt="Face"
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            zIndex: 3,
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    />
+                )}
+
+                {hero.accessory && (
+                    <img
+                        src={hero.accessory}
+                        alt="Accessory"
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            zIndex: 4,
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    />
+                )}
+            </div>
+
             {isInBattle &&
                 <ModalBattleComponent isInBattle={isInBattle} handleClose={handleClose} hero={hero} ennemy={ennemy} />
             }

@@ -15,6 +15,22 @@ export const getHeroById = async (req, res) => {
     }
 };
 
+export const getCurrentHeroByUserId = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const hero = await HeroService.getCurrentHeroByUserId(userId);
+        if (hero) {
+            res.json(hero);
+        } else {
+            res.status(404).json({ message: 'No hero found for this user' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 export const createHero = async (req, res) => {
     const { name, userId, avatar } = req.body;
 

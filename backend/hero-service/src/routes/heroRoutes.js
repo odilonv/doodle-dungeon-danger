@@ -12,13 +12,15 @@ import {
   dropItem,
   useItem,
   getItemById,
-  getInventory
+  getInventory,
+  getCurrentHeroByUserId
 } from '../controllers/heroController.js';
 
 export const heroRouter = express.Router();
 
 heroRouter.post('/', createHero);
 heroRouter.get('/:id', getHeroById);
+heroRouter.get('/user/:userId/currentHero', getCurrentHeroByUserId);
 heroRouter.put('/takeDamage/:id', takeDamage);
 heroRouter.put('/heal/:id', heal);
 heroRouter.put('/gainExperience/:id', gainExperience);

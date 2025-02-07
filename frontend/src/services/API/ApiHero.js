@@ -28,6 +28,19 @@ async function getHeroById(id) {
   }
 }
 
+async function getCurrentHero(userId) {
+  const response = await fetch(`http://localhost:5002/heroes/user/${userId}/currentHero`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error('Current hero not found');
+  }
+}
+
 async function takeDamage(id, damage) {
   const response = await fetch(`http://localhost:5002/heroes/takeDamage/${id}`, {
     method: 'PUT',
@@ -201,4 +214,5 @@ export {
   useItem,
   getInventory,
   getItemById,
+  getCurrentHero,
 };

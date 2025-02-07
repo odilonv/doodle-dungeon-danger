@@ -34,6 +34,16 @@ export const HeroService = {
         }
     },
 
+    getCurrentHeroByUserId: async (userId) => {
+        try {
+            return await heroRepository.getCurrentHeroByUserId(userId);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+
     takeDamage: async (id, damage) => {
         try {
             const hero = await heroRepository.takeDamage(id, damage);

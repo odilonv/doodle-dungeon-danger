@@ -77,7 +77,7 @@ class HeroRepository {
         try {
             if (fs.existsSync(itemsFile)) {
                 const itemsData = JSON.parse(fs.readFileSync(itemsFile, 'utf-8'));
-                
+
                 for (const item of itemsData) {
                     await connection.query(
                         `INSERT INTO ${Item.tableName} (name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus) 
@@ -123,6 +123,16 @@ class HeroRepository {
         }
         return null;
     }
+
+    static async getCurrentHeroByUserId(userId) {
+        const connection = await HeroRepository.getInstance();
+        const [results] = await connection.query(
+            `SELECT * FROM ${Hero.tableName} WHERE user_id = ? ORDER BY id DESC LIMIT 1`,
+            [userId]
+        );
+        return results.length > 0 ? Hero.fromDatabase(results[0]) : null;
+    }
+
 
     static async takeDamage(id, damage) {
         const connection = await HeroRepository.getInstance();

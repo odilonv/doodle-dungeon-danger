@@ -1,25 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Map1Component } from "../../components";
 import { getCurrentUserDungeon } from "../../services/API/ApiDungeons";
-import { UserContext } from "../../contexts";
+import { UserContext, HeroContext, HeroProvider } from "../../contexts";
 
 const DungeonPage = () => {
     const { user } = useContext(UserContext);
+    const { hero, setHero, loading: heroLoading, error: heroError } = useContext(HeroContext);
     const [dungeon, setDungeon] = useState(null);
     const [loading, setLoading] = useState(true);
-    const characterImage = localStorage.getItem("characterImage");
-
-    // Déplacer useState avant tout return conditionnel
-    const [hero, setHero] = useState({
-        position: { x: 0, y: 0 },
-        name: "Hero",
-        level: 1,
-        power: 10,
-        max_health: 110,
-        current_health: 5,
-        experience: 0,
-        characterImage: characterImage,
-    });
 
     useEffect(() => {
         const fetchDungeon = async () => {
@@ -43,19 +31,28 @@ const DungeonPage = () => {
         fetchDungeon();
     }, [user]);
 
-
-    if (loading) {
-        return <p>Chargement du donjon...</p>;
+    if (loading || heroLoading) {
+        return <p>Chargement en cours...</p>;
     }
 
     if (!dungeon) {
         return <p>Aucun donjon trouvé. Veuillez réessayer plus tard.</p>;
     }
 
+    if (heroError) {
+        return <p>Erreur: {heroError}</p>;
+    }
+
+    if (!hero) {
+        return <p>Héros introuvable. Veuillez en créer un.</p>;
+    }
+
     return (
-        <div>
-            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} />
-        </div>
+        <HeroProvider userId={user?.id}>
+            <div>
+                <Map1Component hero={hero} setHero={setHero} map={dungeon.map} />
+            </div>
+        </HeroProvider>
     );
 };
 
