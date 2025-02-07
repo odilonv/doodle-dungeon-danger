@@ -7,20 +7,22 @@ export const HeroContext = createContext(null);
 export const useHero = () => useContext(HeroContext);
 
 export const HeroProvider = ({ children }) => {
-
   const { user } = useContext(UserContext);
   const [hero, setHero] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('je fetch');
     const fetchHero = async () => {
       if (!user) {
-        setError("No user ID provided");
+        setHero(null);  // Réinitialise le héros si l'utilisateur est null
+        setError(null);
         setLoading(false);
         return;
       }
+
+      setLoading(true); // Active le chargement uniquement si une requête va être faite
+      setError(null);
 
       try {
         const data = await getCurrentHero(user.id);

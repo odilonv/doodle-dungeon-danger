@@ -6,7 +6,8 @@ export const HeroService = {
             const newHero = {
                 name,
                 userId,
-                avatar
+                avatar,
+                position: { x: 0, y: 0 }
             };
             const hero = await heroRepository.createHero(newHero);
             return hero;

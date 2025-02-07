@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ModalBattleComponent } from '../';
 
+import {move} from '../../services/API/ApiHero';
+
 const Map1Component = ({ hero, setHero, map, monsters }) => {
     const wall = "sprites/decoration/Wall.png";
     const widthSize = map.length;
@@ -40,7 +42,7 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
             }
         });
         setMonsterPositions(placedMonsters);
-    }, [map, monsters]);
+    }, [map, monsters]);    
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -85,8 +87,10 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
                     characterImage: `sprites/characters/Monster_${encounteredMonster.id}.png`
                 });
             }
-
+            
             setHero({ ...hero, position: newPosition });
+            move(hero.id, newPosition);
+
         };
 
         window.addEventListener('keydown', handleKeyDown);

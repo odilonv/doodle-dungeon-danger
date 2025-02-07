@@ -49,7 +49,7 @@ export default function HeroSkinPage() {
 
       if (response.ok) {
         console.log("Hero created successfully:", await response.json());
-        navigate("/dungeon");
+        navigate("/dungeons");
       } else {
         throw new Error("Error creating hero");
       }

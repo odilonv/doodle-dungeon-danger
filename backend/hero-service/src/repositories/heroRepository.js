@@ -97,8 +97,8 @@ class HeroRepository {
     static async createHero(newHero) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
-            `INSERT INTO ${Hero.tableName} (name, user_id, avatar) VALUES (?, ?, ?)`,
-            [newHero.name, newHero.userId, JSON.stringify(newHero.avatar)]
+            `INSERT INTO ${Hero.tableName} (name, user_id, avatar, position) VALUES (?, ?, ?, ?)`,
+            [newHero.name, newHero.userId, JSON.stringify(newHero.avatar), JSON.stringify(newHero.position)]
         );
         if (result.affectedRows > 0) {
             const [rows] = await connection.query(`SELECT LAST_INSERT_ID() as id`);
