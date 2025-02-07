@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Map1Component } from "../../components";
 import { getCurrentUserDungeon } from "../../services/API/ApiDungeons";
-import { UserContext, HeroContext, HeroProvider } from "../../contexts";
+import { UserContext, HeroContext } from "../../contexts";
 
 const DungeonPage = () => {
     const { user } = useContext(UserContext);
@@ -15,8 +15,8 @@ const DungeonPage = () => {
                 try {
                     const response = await getCurrentUserDungeon(user);
                     const { dungeon, dungeonInstance } = response;
-                    console.log("dungeonInstance", dungeonInstance);
-                    console.log("dungeon", dungeon);
+                    // console.log("dungeonInstance", dungeonInstance);
+                    // console.log("dungeon", dungeon);
                     setDungeon(dungeon);
                 } catch (error) {
                     console.error("Failed to fetch dungeon", error);
@@ -48,11 +48,9 @@ const DungeonPage = () => {
     }
 
     return (
-        <HeroProvider userId={user?.id}>
-            <div>
-                <Map1Component hero={hero} setHero={setHero} map={dungeon.map} />
-            </div>
-        </HeroProvider>
+        <div>
+            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} monsters={dungeon.monsters} />
+        </div>
     );
 };
 

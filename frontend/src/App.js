@@ -14,27 +14,29 @@ import {
   DungeonsPage,
   HeroSkinPage
 } from './pages';
-import { NotificationProvider, UserProvider } from './contexts';
+import { HeroProvider, NotificationProvider, UserProvider } from './contexts';
 
 function App() {
   return (
     <Router>
       <UserProvider>
         <NotificationProvider>
-          <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/dungeons" element={<DungeonsPage />} />
-            <Route path="/dungeon" element={<DungeonPage />} />
-            <Route path="/choose-your-hero" element={<HeroSkinPage />} />
-            <Route path="/logout" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/verifyEmail/:token" element={<VerifyEmailPage />} />
-            <Route path="/signUp" element={<SignUpPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/user" element={<UserPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <HeroProvider>
+            <Routes>
+              <Route exact path="/" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/dungeons" element={<DungeonsPage />} />
+              <Route path="/dungeon" element={<DungeonPage />} />
+              <Route path="/choose-your-hero" element={<HeroSkinPage />} />
+              <Route path="/logout" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/verifyEmail/:token" element={<VerifyEmailPage />} />
+              <Route path="/signUp" element={<SignUpPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/user" element={<UserPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </HeroProvider>
         </NotificationProvider>
         <FooterComponent />
       </UserProvider>
