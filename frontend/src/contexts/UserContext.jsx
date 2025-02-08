@@ -8,12 +8,13 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:5001/users/session', {
-            credentials: 'include'
-        })
-            .then(res => res.json())
-            .then(data => setUser(data));
+        fetch('http://localhost:5001/users/session', { credentials: 'include' })
+            .then(async res => res.ok ? res.json() : null)
+            .then(data => setUser(data))
+            .catch(() => setUser(null));
     }, []);
+
+
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

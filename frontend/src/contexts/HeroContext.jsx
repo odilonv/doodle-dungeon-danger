@@ -15,13 +15,13 @@ export const HeroProvider = ({ children }) => {
   useEffect(() => {
     const fetchHero = async () => {
       if (!user) {
-        setHero(null);  // Réinitialise le héros si l'utilisateur est null
+        setHero(null);
         setError(null);
         setLoading(false);
         return;
       }
 
-      setLoading(true); // Active le chargement uniquement si une requête va être faite
+      setLoading(true);
       setError(null);
 
       try {

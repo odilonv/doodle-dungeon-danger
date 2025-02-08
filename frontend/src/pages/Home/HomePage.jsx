@@ -12,7 +12,8 @@ export default function HomePage() {
   useEffect(() => {
     const fetchHero = async () => {
       try {
-        if(!user) return;
+        if (!user || !user.id) return;
+
         let hero = await getCurrentHero(user.id);
         if (hero) {
           setHasSavedGame(true);
@@ -27,11 +28,11 @@ export default function HomePage() {
 
   const startNewGame = () => {
 
-    if(user){
+    if (user) {
       localStorage.setItem("savedGame", JSON.stringify({ level: 1, score: 0 }));
       navigate("/choose-your-hero");
     }
-    else{
+    else {
       navigate("/login");
     }
   };

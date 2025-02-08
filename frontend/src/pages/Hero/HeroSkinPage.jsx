@@ -4,7 +4,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import RadioButtonUncheckedRoundedIcon from "@mui/icons-material/RadioButtonUncheckedRounded";
-import { UserContext } from "../../contexts";
+import { UserContext, HeroContext } from "../../contexts";
 
 const presetSkins = ["sprites/characters/Player_1.png", "sprites/characters/Player_2.png", "sprites/characters/Player_3.png"];
 const accessories = [null, "sprites/characters/custom/accessory/Accessory_1.png", "sprites/characters/custom/accessory/Accessory_2.png", "sprites/characters/custom/accessory/Accessory_3.png"];
@@ -21,6 +21,7 @@ export default function HeroSkinPage() {
   const [selectedFace, setSelectedFace] = useState(faces[1]);
   const [selectedSkin, setSelectedSkin] = useState(skinsCustom[1]);
   const characterRef = useRef(null);
+  const { setHero } = useContext(HeroContext);
 
   const nextSkin = () => setSelectedSkinIndex((prev) => (prev + 1) % presetSkins.length);
   const prevSkin = () => setSelectedSkinIndex((prev) => (prev - 1 + presetSkins.length) % presetSkins.length);
@@ -29,8 +30,6 @@ export default function HeroSkinPage() {
   const handleToggleCustomize = () => setIsCustomizing(!isCustomizing);
 
   const validateSkin = async () => {
-    console.log("validateSkin called!");
-
     const heroData = {
       name: "Hero 1",
       userId: user.id,
@@ -48,7 +47,8 @@ export default function HeroSkinPage() {
       });
 
       if (response.ok) {
-        console.log("Hero created successfully:", await response.json());
+        const newHero = await response.json();
+        setHero(newHero);
         navigate("/dungeons");
       } else {
         throw new Error("Error creating hero");
