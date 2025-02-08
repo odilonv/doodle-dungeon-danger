@@ -13,6 +13,7 @@ const DungeonPage = () => {
     const { user } = useContext(UserContext);
     const { hero, setHero, loading: heroLoading, error: heroError } = useContext(HeroContext);
     const [dungeon, setDungeon] = useState(null);
+    const [monsters, setMonsters] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -24,9 +25,8 @@ const DungeonPage = () => {
                     const { dungeon, dungeonInstance } = currentUserDungeon;
                     setDungeon(dungeon);
 
-                    console.log("Dungeon", dungeon);
                     const monsters = await getMonstersByDungeonInstanceId(dungeonInstance.id);
-                    console.log("Monsters", monsters);
+                    setMonsters(monsters);
                 } catch (error) {
                     console.error("Failed to fetch dungeon", error);
                 } finally {
@@ -62,7 +62,7 @@ const DungeonPage = () => {
 
     return (
         <div>
-            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} monsters={dungeon.monsters} />
+            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} monsters={monsters} />
         </div>
     );
 };

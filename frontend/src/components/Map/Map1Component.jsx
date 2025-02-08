@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ModalBattleComponent } from '../';
 
-import {move} from '../../services/API/ApiHero';
+import { move } from '../../services/API/ApiHero';
 
 const Map1Component = ({ hero, setHero, map, monsters }) => {
     const wall = "sprites/decoration/Wall.png";
@@ -10,7 +10,6 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
     const [isInBattle, setIsInBattle] = useState(false);
     const [ennemy, setEnnemy] = useState(null);
-    const [monsterPositions, setMonsterPositions] = useState([]);
 
     const handleOpen = () => setIsInBattle(true);
     const handleClose = () => setIsInBattle(false);
@@ -22,27 +21,6 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    useEffect(() => {
-        // Placement aléatoire des monstres
-        const availableCells = [];
-        map.forEach((column, y) => {
-            column.forEach((cell, x) => {
-                if (cell === 0) availableCells.push({ y, x });
-            });
-        });
-
-        let placedMonsters = [];
-        monsters.forEach(monster => {
-            for (let i = 0; i < monster.amount; i++) {
-                if (availableCells.length === 0) break;
-                const randomIndex = Math.floor(Math.random() * availableCells.length);
-                const position = availableCells.splice(randomIndex, 1)[0];
-                placedMonsters.push({ id: monster.id, position });
-            }
-        });
-        setMonsterPositions(placedMonsters);
-    }, [map, monsters]);    
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -71,7 +49,7 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
                     return;
             }
 
-            const encounteredMonster = monsterPositions.find(monster =>
+            const encounteredMonster = monsters.find(monster =>
                 monster.position.y === newPosition.x && monster.position.x === newPosition.y
             );
 
@@ -87,7 +65,7 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
                     characterImage: `sprites/characters/Monster_${encounteredMonster.id}.png`
                 });
             }
-            
+
             setHero({ ...hero, position: newPosition });
             move(hero.id, newPosition);
 
@@ -95,7 +73,7 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [hero.position, map, isInBattle, monsterPositions]);
+    }, [hero.position, map, isInBattle]);
 
     return (
         <div
@@ -128,7 +106,10 @@ const Map1Component = ({ hero, setHero, map, monsters }) => {
                 </div>
             )}
 
-            {monsterPositions.map((monster, index) => (
+            {console.log("Monsters", monsters)}
+
+
+            {monsters.map((monster, index) => (
                 <img
                     key={index}
                     src={`sprites/characters/Monster_${monster.id}.png`}
