@@ -29,7 +29,7 @@ const startServer = async () => {
     await execCommand('docker-compose up -d --remove-orphans');
 
     console.log('Attente de 2 secondes pour que MySQL démarre...');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     console.log('Démarrage du serveur USER ...');
     const usersServerProcess = spawnProcess('node', ['backend/user-service/src/userServer.js']);

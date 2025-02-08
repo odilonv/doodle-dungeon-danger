@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { getUserDungeons, getDungeons, saveDungeonInstance } from '../../services/API/ApiDungeons';
-
+import { getUserDungeons, getDungeons, getCurrentUserDungeon } from '../../services/API/ApiDungeons';
+import { getCurrentHero, nextDungeon } from '../../services/API/ApiHero';
 import { saveMonsterInstance } from '../../services/API/ApiMonsters';
 
 import { UserContext } from "../../contexts/UserContext";
@@ -62,7 +62,19 @@ const DungeonsPage = () => {
 
     const onNotStartedDungeonClick = async (dungeon) => {
         setCreatingDungeonInstance(true);
-        const responseDungeonInstance = await saveDungeonInstance(dungeon.id, user.id);
+        const response = await getCurrentHero(user.id);
+        const heroId = response.id;
+        await nextDungeon(heroId);
+        let dungeonInstance = null;
+        while(dungeonInstance === null) {
+            try {
+                const response = await getCurrentUserDungeon(user);
+                dungeonInstance = response.dungeonInstance;
+                setCreatingDungeonInstance(false);
+            } catch (error) {
+                setTimeout(() => {}, 10000);
+            }
+        }
 
         const availableCells = [];
         dungeon.map.forEach((column, y) => {
@@ -70,14 +82,13 @@ const DungeonsPage = () => {
                 if (cell === 0) availableCells.push({ y, x });
             });
         });
-
         for (const monster of dungeon.monsters) {
             for (let i = 0; i < monster.amount; i++) {
                 if (availableCells.length === 0) break;
                 const randomIndex = Math.floor(Math.random() * availableCells.length);
                 const { x, y } = availableCells.splice(randomIndex, 1)[0];
                 const position = { x: x, y: y };
-                await saveMonsterInstance(monster.id, responseDungeonInstance, position);
+                await saveMonsterInstance(monster.id, dungeonInstance.id, position);
             }
         }
 
@@ -172,7 +183,6 @@ const DungeonsPage = () => {
                     })}
                 </div>
             </div>
-            <button onClick={() => navigate('/choose-your-hero')}>Odilon</button>
         </div>
     );
 }

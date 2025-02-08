@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 import fs from 'fs';
 import path from 'path';
 import { Dungeon, DungeonInstance } from '../models/dungeonModel.js';
+import { clearQueue } from '../rabbitmq/consumer.js';
 
 class DungeonRepository {
     static #instance = null;
@@ -44,6 +45,7 @@ class DungeonRepository {
             await this.dropTables(connection);
             await this.createTables(connection);
             await this.insertDungeonsFromFiles(connection);
+            clearQueue();
 
             return connection;
         } catch (err) {
@@ -120,11 +122,11 @@ class DungeonRepository {
         return results[0];
     }
 
-    static async createDungeonInstance(dungeonInstance) {
+    static async createDungeonInstance(userId, dungeonId) {
         const connection = await this.getInstance();
         const [result] = await connection.query(
             `INSERT INTO ${DungeonInstance.tableName} (dungeon_id, user_id) VALUES (?, ?)`,
-            [dungeonInstance.dungeonId, dungeonInstance.userId]
+            [dungeonId, userId]
         );
         return result.insertId;
     }
