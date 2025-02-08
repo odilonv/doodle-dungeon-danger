@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress, Backdrop } from '@mui/material';
 import { ButtonComponent, InputComponent, PasswordCreationComponent } from '../../components';
-import { signUp } from "../../services/API/ApiUser";
+import { login, signUp } from "../../services/API/ApiUser";
 import { useNotification } from '../../contexts/NotificationContext';
 import { checkPassword, checkIsEmail, checkOnlyAlphabets } from '../../services/utils/ValidateUtils';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIosRounded";
 import HomeIcon from "@mui/icons-material/HomeRounded";
+import { UserContext } from '../../contexts/UserContext';
 
 function SignUpPage() {
     const { triggerNotification } = useNotification();
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
 
     const handleBackClick = () => {
         navigate("/login");
@@ -20,7 +22,7 @@ function SignUpPage() {
         navigate("/");
     };
 
-    const [user, setUser] = useState({
+    const [user, setUserData] = useState({
         lastName: '',
         firstName: '',
         email: '',
@@ -48,7 +50,17 @@ function SignUpPage() {
             console.log(response);
             if (response.status === 201) {
                 triggerNotification('Sign-up successful', 'success');
-                navigate('/login');
+                login(user.email, user.password)
+                    .then(response => {
+                        if (response) {
+                            console.log(response);
+                            setUser(response);
+                            window.location.href = `/`;
+                        }
+                    }).catch(error => {
+                        triggerNotification(error.message, 'error');
+                    });
+                navigate('/home');
             } else {
                 const responseJson = await response.json();
                 triggerNotification(responseJson.message, 'error');
@@ -79,25 +91,25 @@ function SignUpPage() {
                             label="Last Name"
                             validators={[checkOnlyAlphabets]}
                             value={user.lastName}
-                            setValue={(value) => setUser({ ...user, lastName: value })}
+                            setValue={(value) => setUserData({ ...user, lastName: value })}
                         />
                         <InputComponent
                             label="First Name"
                             validators={[checkOnlyAlphabets]}
                             value={user.firstName}
-                            setValue={(value) => setUser({ ...user, firstName: value })}
+                            setValue={(value) => setUserData({ ...user, firstName: value })}
                         />
                         <InputComponent
                             label="Email"
                             validators={[checkIsEmail]}
                             value={user.email}
-                            setValue={(value) => setUser({ ...user, email: value })}
+                            setValue={(value) => setUserData({ ...user, email: value })}
                         />
                         <PasswordCreationComponent
                             password={user.password}
                             confirmPassword={user.confirmPassword}
-                            setPassword={(value) => setUser({ ...user, password: value })}
-                            setConfirmPassword={(value) => setUser({ ...user, confirmPassword: value })}
+                            setPassword={(value) => setUserData({ ...user, password: value })}
+                            setConfirmPassword={(value) => setUserData({ ...user, confirmPassword: value })}
                         />
                     </div>
                     <div style={{ textAlign: 'center' }}>

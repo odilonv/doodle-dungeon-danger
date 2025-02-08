@@ -16,13 +16,21 @@ export const getUserById = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!password || password.trim() === '') {
+        return res.status(400).json({ message: 'Password is required' });
+    }
+
     try {
-        res.status(201).json({ message: 'The user has been created.' });
+        const newUser = await userService.createUser(firstName, lastName, email, password);
+        res.status(201).json({ message: 'The user has been created.', user: newUser });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while creating the user.' });
     }
 };
+
 
 export const deleteUser = async (req, res) => {
     const { id } = req.params;

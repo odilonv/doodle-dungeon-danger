@@ -6,18 +6,27 @@ const userRepository = new UserRepository();
 class UserService {
 
     async createUser(firstName, lastName, email, password) {
+        if (!password || password.length === 0) {
+            throw new Error('Password is required');
+        }
+
         const existingUser = await userRepository.getUserByEmail(email);
         if (existingUser) {
             throw new Error('Email already in use');
         }
 
         const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const newUser = { firstName, lastName, email, password: hashedPassword };
+        try {
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const userId = await userRepository.createUser(newUser);
-        return { id: userId, ...newUser };
+            const newUser = { firstName, lastName, email, password: hashedPassword };
+
+            const userId = await userRepository.createUser(newUser);
+            return { id: userId, ...newUser };
+        } catch (error) {
+            throw new Error('Error hashing password: ' + error.message);
+        }
     }
 
     async loginUser(email, password) {
