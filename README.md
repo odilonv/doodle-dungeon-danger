@@ -32,9 +32,6 @@ DoodleDungeonDanger is an adventure game where the player progresses by fighting
 
 DoodleDungeonDanger is built on a microservices architecture with a monorepo containing a frontend and a backend exclusively composed of services.
 
-![Doodle Dungeon Danger](docs/doodle-dungeon-danger-architecture.png)
-***Diagram : Doodle dungeon danger architecture***
-
 ### Technologies Used
 - **Frontend**: React
 - **Backend**: Node.js (Microservices architecture)
@@ -48,6 +45,9 @@ DoodleDungeonDanger is built on a microservices architecture with a monorepo con
 3. **DungeonService**: Manages dungeon logic.
 4. **BattleService**: Handles battles.
 5. **HeroService**: Manages player characters.
+
+![Doodle Dungeon Danger](docs/doodle-dungeon-danger-architecture.png)
+***Diagram : Doodle dungeon danger architecture***
 
 ---
 
