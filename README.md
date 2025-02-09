@@ -1,81 +1,154 @@
 # DoodleDungeonDanger
 
-## Version: 1.0.0
 
-Desc
 
----
+## About the Project
 
-### Authors
+**Version: 1.0.0**  
 
-- ESCLAPEZ Loïc
-- DIMECK Raphaël
-- VIDAL Odilon
+DoodleDungeonDanger is an adventure game where the player progresses by fighting monsters and completing dungeons one by one. The ultimate goal is to finish all dungeons by defeating all the monsters inside. Players can create an account or log in to save their progress and resume their game later.
 
 ---
 
-### Architecture
+## Table of Contents
 
-![Doodle Dungeon Danger](docs/Doodle%20Dungeon%20Danger%20Architecture%20Diagram.svg)
+- [About the Project](#about-the-project)
+- [Architecture](#architecture)
+  - [Technologies Used](#technologies-used)
+  - [Backend Services](#backend-services)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Project Installation](#project-installation)
+- [Usage](#usage)
+- [Available Scripts](#available-scripts)
+- [Database Configuration](#database-configuration)
+- [Graphics](#graphics)
+- [Authors](#authors)
+- [License](#license)
 
 ---
 
-### Installation
+## Architecture
 
-To install DoodleDungeonDanger, follow these steps:
+DoodleDungeonDanger is built on a microservices architecture with a monorepo containing a frontend and a backend exclusively composed of services.
 
-1. Clone this repository to your local machine.
-2. Navigate to the cloned directory.
-3. Run the following command to install the frontend and backend dependencies:
+![Doodle Dungeon Danger](docs/doodle-dungeon-danger-architecture.png)
+***Diagram : Doodle dungeon danger architecture***
 
+### Technologies Used
+- **Frontend**: React
+- **Backend**: Node.js (Microservices architecture)
+- **Database**: MySQL (one DB per service)
+- **Messaging**: RabbitMQ
+- **Containerization**: Docker
+
+### Backend Services
+1. **UserService**: Manages authentication and user accounts.
+2. **MonsterService**: Handles game monsters.
+3. **DungeonService**: Manages dungeon logic.
+4. **BattleService**: Handles battles.
+5. **HeroService**: Manages player characters.
+
+---
+
+## Installation
+
+### Prerequisites
+- **Docker** must be installed on your machine.
+- **Node.js** (recommended version: 16+).
+
+### Project Installation
+
+1. **Clone** this repository to your local machine:
+    ```sh
+    git clone https://github.com/odilonv/doodle-dungeon-danger.git
+    cd doodle-dungeon-danger
     ```
+
+2. **Install dependencies** for both frontend and backend:
+    ```sh
     npm install
     ```
 
----
-
-### Installation de la base de données
-
-To install and configure the database for DoodleDungeonDanger, follow these steps:
-
-1. Start the Docker containers:
-
-    ```
-    npm run database
-    ```
-
-2. Configure the database connection:
-    - Name : `DoodleDungeonDanger`
-    - Host : `localhost`
-    - Port : `3306`
-    - User : `admin`
-    - Password : `admin`
-    - Database : `doodle_db`
-    - URL : `jdbc:mysql://localhost:3307/doodle_db`
+3. **Launch the application**:
+    - Start both frontend and backend in development mode:
+      ```sh
+      npm run dev
+      ```
+    - Start frontend and backend separately:
+      ```sh
+      npm run server  # Backend (all services)
+      npm run client  # Frontend
+      ```
 
 ---
 
-### Usage
-To run the application in development mode, execute the following command:
+## Usage
 
-    npm run dev
-
-This will start the backend server and launch the frontend.
+- **Create an account** or **log in**.
+- **Start a new game** via "Create a new game".
+- **Create your character**.
+- **Explore dungeons** and fight monsters.
+- **Complete a dungeon** by defeating all its monsters.
+- **Resume your game** anytime by pressing the "Continue" button.
+- **Reach the final goal**: complete all dungeons.
 
 ---
 
-### Available Scripts
+## Available Scripts
 
 - `npm run client`: Starts the frontend.
-- `npm run server`: Starts the backend server.
-- `npm run dev`:  Starts both the backend server and the frontend in development mode.
-- `npm test`:  Runs the tests. (Currently unspecified)
+- `npm run server`: Starts the backend.
+- `npm run dev`: Starts both the frontend and backend in development mode.
+- `npm test`: Runs tests (if defined).
 
 ---
 
-### Licence
+## Database Configuration
 
-This project is licensed under the MIT License.
+Each service has its own MySQL database. General configuration parameters:
+
+- **Database Name**: `service_db`
+- **Host**: `localhost`
+- **Port**: `port_db`
+- **User**: `admin`
+- **Password**: `admin`
+- **Connection URL**: `jdbc:mysql://localhost:3307/service_db`
 
 ---
 
+## Graphics
+
+All game graphics were created by the development team.
+
+Here are some previews of the game:
+
+![Home Screen](docs/screenshots/home-screen.png)  
+*Main menu of the game*
+
+![Hero Customization](docs/screenshots/hero-customization.png)  
+*Main menu of the game*
+
+![Dungeons List](docs/screenshots/dungeons-list.png)  
+*Exploring a dungeon*
+
+![Dungeon exploration](docs/screenshots/dungeon-exploration.png)  
+*Exploring a dungeon*
+
+![Fighting a monster](docs/screenshots/fight.png)  
+*Fighting a monster*
+
+
+---
+
+## Authors
+
+- **ESCLAPEZ Loïc**
+- **DIMECK Raphaël**
+- **VIDAL Odilon**
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.

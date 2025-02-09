@@ -27,6 +27,7 @@ const actionsContainerStyle = {
     width: '100%',
     height: '150px',
     alignItems: 'center',
+    marginTop: '25px'
 };
 
 const weaponsContainerStyle = {
@@ -68,13 +69,13 @@ const DungeonsPage = () => {
         await new Promise(resolve => setTimeout(resolve, 200));
 
         let dungeonInstance = null;
-        while(dungeonInstance === null) {
+        while (dungeonInstance === null) {
             try {
                 const response = await getCurrentUserDungeon(user);
                 dungeonInstance = response.dungeonInstance;
                 setCreatingDungeonInstance(false);
             } catch (error) {
-                setTimeout(() => {}, 10000);
+                setTimeout(() => { }, 10000);
             }
         }
         const availableCells = [];
@@ -106,7 +107,6 @@ const DungeonsPage = () => {
                     </div>
                 )
             }
-            <h1>DungeonsPage</h1>
             <div style={actionsContainerStyle}>
                 <div style={weaponsContainerStyle}>
                     {dungeons.map((dungeon, index) => {
