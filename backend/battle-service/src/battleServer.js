@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { battleRouter } from './routes/battleRoutes.js';
 import battleRepository from './repositories/battleRepository.js';
-import { consumeItemInfo, consumeMonsterXP, consumeMonsterPower } from './rabbitmq/consumer.js';
+import { consumeItemInfo, consumeMonsterXP, consumeMonsterPower, consumeHeroDied } from './rabbitmq/consumer.js';
 
 const app = express();
 app.use(express.json());
