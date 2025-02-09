@@ -77,7 +77,6 @@ const DungeonsPage = () => {
                 setTimeout(() => {}, 10000);
             }
         }
-        console.log(dungeon)
         const availableCells = [];
         dungeon.map.forEach((column, y) => {
             column.forEach((cell, x) => {

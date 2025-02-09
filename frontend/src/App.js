@@ -12,7 +12,9 @@ import {
   VerifyEmailPage,
   DungeonPage,
   DungeonsPage,
-  HeroSkinPage
+  HeroSkinPage,
+  VictoryPage,
+  DefeatPage
 } from './pages';
 import { HeroProvider, NotificationProvider, UserProvider } from './contexts';
 
@@ -35,6 +37,8 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/user" element={<UserPage />} />
               <Route path="*" element={<NotFoundPage />} />
+              <Route path="/victory" element={<VictoryPage />} />
+              <Route path="/defeat" element={<DefeatPage />} />
             </Routes>
           </HeroProvider>
         </NotificationProvider>

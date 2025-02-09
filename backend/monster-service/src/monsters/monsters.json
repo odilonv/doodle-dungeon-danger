@@ -12,8 +12,8 @@
     "experience": 5
   },
   {
-    "name": "Skeleton",
-    "health": 50,
+    "name": "Demon",
+    "health": 40,
     "power": 20,
     "experience": 150
   }

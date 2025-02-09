@@ -61,7 +61,7 @@ const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
             }
 
             if(map[newPosition.x][newPosition.y] === 2) {
-                if(hero.current_dungeon == 5) {
+                if(hero.current_dungeon == 4) {
                     window.location.href = '/victory'; 
                 }
                 else{

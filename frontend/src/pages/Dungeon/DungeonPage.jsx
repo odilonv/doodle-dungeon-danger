@@ -7,6 +7,7 @@ import { getCurrentUserDungeon } from "../../services/API/ApiDungeons";
 import { getMonstersByDungeonInstanceId } from "../../services/API/ApiMonsters";
 
 import { UserContext, HeroContext } from "../../contexts";
+import { getHeroById } from "../../services/API/ApiHero";
 
 const DungeonPage = () => {
     const { user } = useContext(UserContext);
@@ -23,6 +24,7 @@ const DungeonPage = () => {
                     const currentUserDungeon = await getCurrentUserDungeon(user);
                     const { dungeon, dungeonInstance } = currentUserDungeon;
                     setDungeon(dungeon);
+                    setHero(await getHeroById(hero.id));
 
                     const monsters = await getMonstersByDungeonInstanceId(dungeonInstance.id);
 

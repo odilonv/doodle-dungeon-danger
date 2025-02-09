@@ -8,4 +8,6 @@ export { default as SettingsPage } from './Settings/SettingsPage';
 export { default as UserPage } from './User/UserPage';
 export { default as VerifyEmailPage } from './Login/VerifyEmailPage'
 export { default as NotFoundPage } from './Errors/NotFoundPage';
+export { default as VictoryPage } from './Victory/VictoryPage';
+export { default as DefeatPage } from './Defeat/DefeatPage';
 
