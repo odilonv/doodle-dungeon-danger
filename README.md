@@ -127,10 +127,10 @@ Here are some previews of the game:
 *Main menu of the game*
 
 ![Hero Customization](docs/screenshots/hero-customization.png)  
-*Main menu of the game*
+*Hero Customization*
 
 ![Dungeons List](docs/screenshots/dungeons-list.png)  
-*Exploring a dungeon*
+*Dungeons List*
 
 ![Dungeon exploration](docs/screenshots/dungeon-exploration.png)  
 *Exploring a dungeon*
