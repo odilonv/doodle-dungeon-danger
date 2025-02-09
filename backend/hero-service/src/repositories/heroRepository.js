@@ -80,10 +80,10 @@ class HeroRepository {
 
                 for (const item of itemsData) {
                     await connection.query(
-                        `INSERT INTO ${Item.tableName} (name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?) 
-                        ON DUPLICATE KEY UPDATE name = VALUES(name), min_level = VALUES(min_level), mana_cost = VALUES(mana_cost), health_cost = VALUES(health_cost), power = VALUES(power), health_bonus = VALUES(health_bonus), mana_bonus = VALUES(mana_bonus)`,
-                        [item.name, item.min_level, item.mana_cost, item.health_cost, item.power, item.health_bonus, item.mana_bonus]
+                        `INSERT INTO ${Item.tableName} (name, min_level, health_cost, power, health_bonus) 
+                        VALUES (?, ?, ?, ?, ?) 
+                        ON DUPLICATE KEY UPDATE name = VALUES(name), min_level = VALUES(min_level), health_cost = VALUES(health_cost), power = VALUES(power), health_bonus = VALUES(health_bonus)`,
+                        [item.name, item.min_level, item.health_cost, item.power, item.health_bonus]
                     );
                     console.log(`- Item ${item.name} inserted`);
                 }
@@ -240,7 +240,7 @@ class HeroRepository {
     static async getInventory(heroId) {
         const connection = await HeroRepository.getInstance();
         const [results] = await connection.query(
-            `SELECT item_id, name, min_level, mana_cost, health_cost, power, health_bonus, mana_bonus
+            `SELECT item_id, name, min_level, health_cost, power, health_bonus
             FROM ${Inventory.tableName} AS inv 
             JOIN Item AS i ON inv.item_id = i.id 
             WHERE inv.hero_id = ?`,

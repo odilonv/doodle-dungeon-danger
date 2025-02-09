@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../contexts";
 import { getCurrentHero } from '../../services/API/ApiHero';
-import { getCurrentHero } from '../../services/API/ApiHero';
 
 export default function HomePage() {
   const navigate = useNavigate();

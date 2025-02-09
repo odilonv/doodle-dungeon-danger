@@ -15,11 +15,9 @@ CREATE TABLE Item (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     min_level INT DEFAULT 1,
-    mana_cost INT DEFAULT 0,
     health_cost INT DEFAULT 0,
     power INT DEFAULT 10,
-    health_bonus INT DEFAULT 0,
-    mana_bonus INT DEFAULT 0
+    health_bonus INT DEFAULT 0
 );
 
 CREATE TABLE Inventory (

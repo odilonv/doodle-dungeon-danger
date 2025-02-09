@@ -92,7 +92,7 @@ class MonsterRepository {
     static async takeDamage(id, damage) {
         const connection = await MonsterRepository.getInstance();
         const [result] = await connection.query(
-            `UPDATE ${MonsterInstance.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE id = ?`,
+            `UPDATE ${MonsterInstance.tableName} SET current_health = GREATEST(current_health - ?, 0) WHERE monster_instance_id = ?`,
             [damage, id]
         );
         if (result.affectedRows > 0) {
@@ -122,7 +122,7 @@ class MonsterRepository {
 
     static async getMonsterInstanceById(monsterId) {
         const connection = await MonsterRepository.getInstance();
-        const [results] = await connection.query(`SELECT * FROM ${MonsterInstance.tableName} WHERE monster_id = ?`, [monsterId]);
+        const [results] = await connection.query(`SELECT * FROM ${MonsterInstance.tableName} WHERE monster_instance_id = ?`, [monsterId]);
         if (results.length > 0) {
             const monsterInstanceData = results[0];
             return MonsterInstance.fromDatabase(monsterInstanceData);
@@ -142,7 +142,7 @@ class MonsterRepository {
 
     static async deleteMonsterInstance(monsterId) {
         const connection = await MonsterRepository.getInstance();
-        const [result] = await connection.query(`DELETE FROM ${MonsterInstance.tableName} WHERE monster_id = ?`, [monsterId]);
+        const [result] = await connection.query(`DELETE FROM ${MonsterInstance.tableName} WHERE monster_instance_id = ?`, [monsterId]);
         if (result.affectedRows > 0) {
             return true;
         }
@@ -153,7 +153,7 @@ class MonsterRepository {
         const connection = await MonsterRepository.getInstance();
         const positionJson = JSON.stringify(position);
         const [result] = await connection.query(
-            `UPDATE ${MonsterInstance.tableName} SET position = ? WHERE id = ?`,
+            `UPDATE ${MonsterInstance.tableName} SET position = ? WHERE monster_instance_id = ?`,
             [positionJson, id]
         );
         if (result.affectedRows > 0) {

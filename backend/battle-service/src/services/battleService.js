@@ -47,9 +47,9 @@ export const BattleService = {
         return null;
     },
 
-    getBattleByHeroId: async (heroId) => {
+    getCurrentBattleByHeroId: async (heroId) => {
         const connection = await battleRepository.getInstance();
-        const [results] = await connection.query(`SELECT * FROM ${battleModel.tableName} WHERE hero_id = ?`, [heroId]);
+        const [results] = await connection.query(`SELECT * FROM ${battleModel.tableName} WHERE hero_id = ? AND result = ?`, [heroId, battleModel.BattleResult.ONGOING]);
         if (results.length > 0) {
             const battleData = results[0];
             return battleModel.fromDatabase(battleData);
@@ -80,5 +80,14 @@ export const BattleService = {
         const connection = await battleRepository.getInstance();
         const [result] = await connection.query(`UPDATE ${battleModel.tableName} SET result = ? WHERE id = ?`, [status, battleId]);
         return result.affectedRows > 0;
-    }
+    },
+
+    battleAlreadyExists: async (heroId, dungeonInstanceId, monsterInstanceId) => {
+        const connection = await battleRepository.getInstance();
+        const [results] = await connection.query(
+            `SELECT * FROM ${battleModel.tableName} WHERE hero_id = ? AND dungeon_instance_id = ? AND monsterInstanceId = ?`,
+            [heroId, dungeonInstanceId, monsterInstanceId]
+        );
+        return results.length > 0;
+    },
 };

@@ -1,19 +1,19 @@
 [
   {
     "name": "Skeleton",
-    "health": 20,
+    "health": 30,
     "power": 10,
     "experience": 10
   },
   {
     "name": "Goblin",
-    "health": 50,
+    "health": 15,
     "power": 30,
     "experience": 5
   },
   {
     "name": "Marineche",
-    "health": 300,
+    "health": 50,
     "power": 15,
     "experience": 150
   }

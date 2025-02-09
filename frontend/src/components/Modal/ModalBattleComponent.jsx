@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/CloseRounded';
-import {battleUseItem} from '../../services/API/ApiHero';
+import { battleUseItem, getHeroById } from '../../services/API/ApiHero';
+import { startBattle, getCurrentBattleByHeroId } from '../../services/API/ApiBattle.js';
+import { getMonsterInstanceById } from '../../services/API/ApiMonsters.js';
 
 const attackAnimationDuration = 300;
 const characterSize = 300;
@@ -115,25 +117,36 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
   });
 
   useEffect(() => {
-    // Préchargement des images de transition
-    const transitionImages = Array.from({ length: 11 }, (_, i) => `sprites/rectangles/BigRectangle_${i * 10}.png`);
-    preloadImages(transitionImages);
+    const fetchData = async () => {
+        const transitionImages = Array.from({ length: 11 }, (_, i) => `sprites/rectangles/BigRectangle_${i * 10}.png`);
+        preloadImages(transitionImages);
 
-    if (isTransitionning) {
-      const interval = setInterval(() => {
+        if (isTransitionning) {
+          updateHeroAndEnnemy();
+            if(!await getCurrentBattleByHeroId(hero.id)) {
+              console.log(ennemy)
+              await startBattle(hero.id, ennemy.monster_instance_id, hero.currentDungeon);
+            }
+        }
+    };
+
+    fetchData();
+
+    const interval = setInterval(() => {
         setTransitionningState((prevState) => {
-          if (prevState >= 100) {
-            clearInterval(interval);
-            setIsTransitionning(false);
-            return 100;
-          }
-          return prevState + 10;
+            if (prevState >= 100) {
+                clearInterval(interval);
+                setIsTransitionning(false);
+                return 100;
+            }
+            return prevState + 10;
         });
-      }, 50);
+    }, 50);
 
-      return () => clearInterval(interval);
-    }
-  }, [isTransitionning]);
+    return () => clearInterval(interval); 
+
+}, [isTransitionning]);
+
 
   const [modalSize, setModalSize] = useState({ width: 0, height: 0 });
   const [heroAttacking, setHeroAttacking] = useState(false);
@@ -159,20 +172,60 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
     }
   }, [isInBattle]);
 
-  const handleAttack = (item) => {
-    setHeroAttacking(true);
-    setDialogue(`The hero attacks with ${item.name}!`);
-    battleUseItem(hero.id, item.item_id);
-    setTimeout(() => setHeroAttacking(false), attackAnimationDuration);
+  const updateHeroAndEnnemy = async () => {
+    try {
+      const updatedHero = await getHeroById(hero.id);
+      const updatedEnnemy = await getMonsterInstanceById(ennemy.monster_instance_id);
+      hero.currentHealth = updatedHero.currentHealth;
+      ennemy.current_health = updatedEnnemy.currentHealth;
+    } catch (error) {
+      console.error('Error updating hero and ennemy:', error);
+    }
   };
+
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const handleAttack = async (item) => {
+    setHeroAttacking(true);
+    battleUseItem(hero.id, item.item_id);
+
+    setDialogue(`The hero attacks with ${item.name}!`);
+
+    if (item.health_cost) {
+        await delay(1000);
+        setDialogue(`You hurt yourself!`);
+        return;
+    }
+
+    await delay(attackAnimationDuration);
+    setHeroAttacking(false);
+    await delay(500);
+    await updateHeroAndEnnemy();
+
+    if (hero.currentHealth <= 0) {
+        setDialogue('You lost the battle! GAME OVER');
+        await delay(2000);
+        handleClose();
+    } else if (ennemy.current_health <= 0) {
+        setDialogue(`You won the battle! Experience points earned: ${ennemy.experience}`);
+        await delay(2000);
+        handleClose();
+    } else {
+        setDialogue('Enemy attacks!');
+        setEnnemyAttacking(true);
+        await delay(attackAnimationDuration);
+        setEnnemyAttacking(false);
+    }
+};
+
 
   const [currentCharacterImage, setCurrentCharacterImage] = useState(hero.avatar.body.replace('.png', ''));
 
   useEffect(() => {
     if (hero.current_health / hero.max_health <= 0.1) {
-      setCurrentCharacterImage(currentCharacterImage + '_dead.png');
+      setCurrentCharacterImage(hero.avatar.body.replace('.png', '_dead.png'));
     } else {
-      setCurrentCharacterImage(currentCharacterImage + '.png');
+      setCurrentCharacterImage(hero.avatar.body);
     }
   }, [hero.current_health]);
 
@@ -180,18 +233,15 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
 
   useEffect(() => {
     if (ennemy.current_health / ennemy.max_health <= 0.1) {
-      setCurrentEnnemyImage(currentEnnemyImage + '_dead.png');
+      setCurrentEnnemyImage(ennemy.characterImage.replace('.png', '_dead.png'));
     } else {
-      setCurrentEnnemyImage(currentEnnemyImage + '.png');
+      setCurrentEnnemyImage(ennemy.characterImage);
     }
-  }, [ennemy.current_health]);
+  }, [ennemy.current_health, ennemy.characterImage]);
 
   return (
-    <Modal open={isInBattle} onClose={handleClose} disableAutoFocus disableEnforceFocus>
+    <Modal open={isInBattle} onClose={null} disableAutoFocus disableEnforceFocus>
       <div ref={containerRef} style={modalContainerStyle(isTransitionning, modalSize)}>
-        <button onClick={handleClose} style={buttonStyle}>
-          <CloseIcon />
-        </button>
         {!isTransitionning && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
@@ -201,7 +251,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                 style={lifeBarStyle}
               />
               <img
-                src={`/sprites/life_bar/${Math.round((ennemy.current_health / ennemy.max_health) * 20) * 5}.png`}
+                src={`/sprites/life_bar/${Math.round((ennemy.current_health / ennemy.health) * 20) * 5}.png`}
                 alt="Life bar"
                 style={{ ...lifeBarStyle, transform: 'rotateY(180deg)' }}
               />
@@ -218,7 +268,7 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
                     return (
                       <button 
                         key={index} 
-                        onClick={() => item && handleAttack(item)} 
+                        onClick={() => item && hero.currentHealth > 0 && !heroAttacking && handleAttack(item)} 
                         style={{ ...weaponButtonStyle, position: 'relative' }} 
                         disabled={!item}
                       >

@@ -33,8 +33,8 @@ class Monster {
 class MonsterInstance {
     static tableName = 'Monster_Instance';
 
-    constructor(id, monsterId, dungeonInstanceId, position, currentHealth) {
-        this.id = id;
+    constructor(monsterInstanceId, monsterId, dungeonInstanceId, position, currentHealth) {
+        this.monsterInstanceId = monsterInstanceId;
         this.monsterId = monsterId;
         this.dungeonInstanceId = dungeonInstanceId;
         this.position = position;
@@ -43,7 +43,7 @@ class MonsterInstance {
 
     static fromDatabase(data) {
         return new MonsterInstance(
-            data.id,
+            data.monsterInstanceId,
             data.monster_id,
             data.dungeon_instance_id,
             data.position,
@@ -53,7 +53,7 @@ class MonsterInstance {
 
     static fromJson(data) {
         return new MonsterInstance(
-            data.id,
+            data.monsterInstanceId,
             data.monsterId,
             data.dungeonInstanceId,
             data.position,

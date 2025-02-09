@@ -39,7 +39,6 @@ function LoginPage() {
       login(email, password)
         .then(response => {
           if (response) {
-            console.log(response);
             setUser(response);
             window.location.href = `/`;
           }

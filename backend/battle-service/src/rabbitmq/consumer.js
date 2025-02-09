@@ -22,7 +22,7 @@ export const consumeItemInfo = async () => {
             if (msg !== null) {
                 try {
                     const { heroId, itemId, damage } = JSON.parse(msg.content.toString());
-                    const battle = await BattleService.getBattleByHeroId(heroId);
+                    const battle = await BattleService.getCurrentBattleByHeroId(heroId);
                     if (!battle) {
                         console.error(`Battle not found for hero ${heroId}`);
                         channel.ack(msg);
@@ -83,10 +83,10 @@ export const consumeMonsterXP = async () => {
             if (msg !== null) {
                 try {
                     const { monsterInstanceId, experience } = JSON.parse(msg.content.toString());
-                    sendMontserXP(monsterInstanceId, experience);
+                    const battle = await BattleService.getBattleByMonsterInstanceId(monsterInstanceId);
+                    sendMontserXP(battle.heroId, experience);
                     console.log(`Monster ${monsterInstanceId} gave XP: ${experience}`);
-                    BattleService.updateBattleStatus(monsterInstanceId, Battle.BattleResult.VICTORY);
-                    console.log(`Battle over`);
+                    BattleService.updateBattleStatus(battle.id, Battle.BattleResult.VICTORY);
 
                     channel.ack(msg);
                 } catch (error) {
@@ -119,7 +119,7 @@ export const consumeHeroDied = async () => {
                         return;
                     }
                     console.log(`Battle over`);
-                    BattleService.updateBattleStatus(battle.monsterInstanceId, Battle.BattleResult.DEFEAT);
+                    BattleService.updateBattleStatus(battle.id, Battle.BattleResult.DEFEAT);
                     channel.ack(msg);
                 } catch (error) {
                     console.error("Error processing hero death:", error);

@@ -47,13 +47,11 @@ function SignUpPage() {
         setIsLoading(true);
         try {
             const response = await signUp(user.firstName, user.lastName, user.email, user.password);
-            console.log(response);
             if (response.status === 201) {
                 triggerNotification('Sign-up successful', 'success');
                 login(user.email, user.password)
                     .then(response => {
                         if (response) {
-                            console.log(response);
                             setUser(response);
                             window.location.href = `/`;
                         }

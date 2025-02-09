@@ -2,28 +2,22 @@
   {
     "name": "Sword",
     "min_level": 1,
-    "mana_cost": 0,
     "health_cost": 0,
     "power": 10,
-    "health_bonus": 0,
-    "mana_bonus": 0
+    "health_bonus": 0
   },
   {
-    "name": "Axe",
+    "name": "Health potion",
     "min_level": 1,
-    "mana_cost": 0,
-    "health_cost": 10,
-    "power": 30,
-    "health_bonus": 0,
-    "mana_bonus": 50
+    "health_cost": 0,
+    "power": 0,
+    "health_bonus": 50
   },
   {
-    "name": "Gun",
-    "min_level": 5,
-    "mana_cost": 10,
-    "health_cost": 0,
+    "name": "Bomb",
+    "min_level": 1,
+    "health_cost": 20,
     "power": 50,
-    "health_bonus": 0,
-    "mana_bonus": 0
+    "health_bonus": 0
   }
 ]

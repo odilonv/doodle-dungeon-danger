@@ -62,7 +62,7 @@ const DungeonPage = () => {
 
     return (
         <div>
-            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} monsters={monsters} />
+            <Map1Component hero={hero} setHero={setHero} map={dungeon.map} monsters={monsters} setMonsters={setMonsters} />
         </div>
     );
 };

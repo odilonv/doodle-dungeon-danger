@@ -24,7 +24,18 @@ async function getMonstersByDungeonInstanceId(dungeonInstanceId) {
     }
 }
 
+async function getMonsterInstanceById(monsterInstanceId) {
+    const response = await fetch(`http://localhost:5005/monsters/instance/${monsterInstanceId}`);
+    if (response.ok) {
+        return await response.json();
+    } else {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error);
+    }
+}
+
 export {
     saveMonsterInstance,
-    getMonstersByDungeonInstanceId
+    getMonstersByDungeonInstanceId,
+    getMonsterInstanceById
 };

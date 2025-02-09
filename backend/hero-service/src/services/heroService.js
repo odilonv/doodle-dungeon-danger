@@ -1,4 +1,5 @@
 import heroRepository from '../repositories/heroRepository.js';
+import { Item } from '../models/heroModel.js';
 
 export const HeroService = {
     createHero: async (name, userId, avatar) => {
@@ -10,7 +11,8 @@ export const HeroService = {
                 position: { x: 0, y: 0 }
             };
             const hero = await heroRepository.createHero(newHero);
-            await heroRepository.pickUpItem(hero.id, 1);
+            await heroRepository.pickUpItem(hero.id, 1); //sword
+            await heroRepository.pickUpItem(hero.id, 2); //health potion
             return hero;
         } catch (error) {
             console.error(error);
@@ -115,7 +117,15 @@ export const HeroService = {
 
     useItem: async (heroId, itemId) => {
         try {
-            return await heroRepository.useItem(heroId, itemId);
+            let hero = await heroRepository.getHeroById(heroId);
+            const item = Item.fromDatabase(await heroRepository.getItemById(itemId));
+            if(item.healthBonus) {
+                hero = await heroRepository.heal(heroId, item.healthBonus);
+            }
+            if(item.healthCost) {
+                hero = await heroRepository.takeDamage(heroId, item.healthCost);
+            }
+            return hero;
         } catch (error) {
             console.error(error);
             throw error;

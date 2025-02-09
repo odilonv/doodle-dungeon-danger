@@ -55,15 +55,13 @@ class Hero {
 class Item {
     static tableName = 'Item';
 
-    constructor(id, name, minLevel, manaCost, healthCost, power, healthBonus, manaBonus) {
+    constructor(id, name, minLevel, healthCost, power, healthBonus) {
         this.id = id;
         this.name = name;
         this.minLevel = minLevel;
-        this.manaCost = manaCost;
         this.healthCost = healthCost;
         this.power = power;
         this.healthBonus = healthBonus;
-        this.manaBonus = manaBonus;
     }
 
     static fromDatabase(data) {
@@ -71,11 +69,9 @@ class Item {
             data.id,
             data.name,
             data.min_level,
-            data.mana_cost,
             data.health_cost,
             data.power,
-            data.health_bonus,
-            data.mana_bonus
+            data.health_bonus
         );
     }
 
@@ -84,11 +80,9 @@ class Item {
             data.id,
             data.name,
             data.minLevel,
-            data.manaCost,
             data.healthCost,
             data.power,
-            data.healthBonus,
-            data.manaBonus
+            data.healthBonus
         );
     }
 }

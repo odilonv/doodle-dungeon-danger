@@ -26,7 +26,6 @@ function UserPage() {
     };
 
     const handleDeleteAccount = () => {
-        console.log("delete account");
         setIsModalVisible(true);
     };
     const handleBackClick = () => {
