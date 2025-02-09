@@ -8,10 +8,9 @@ import { getMonstersByDungeonInstanceId } from "../../services/API/ApiMonsters";
 
 import { UserContext, HeroContext } from "../../contexts";
 
-
 const DungeonPage = () => {
     const { user } = useContext(UserContext);
-    const { hero, setHero, loading: heroLoading, error: heroError } = useContext(HeroContext);
+    const { hero, setHero, loading: heroLoading } = useContext(HeroContext);
     const [dungeon, setDungeon] = useState(null);
     const [monsters, setMonsters] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -51,10 +50,6 @@ const DungeonPage = () => {
 
     if (!dungeon) {
         return <p>Aucun donjon trouvé. Veuillez réessayer plus tard.</p>;
-    }
-
-    if (heroError) {
-        return <p>Erreur: {heroError}</p>;
     }
 
     if (!hero) {
