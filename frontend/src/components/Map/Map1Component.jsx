@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ModalBattleComponent } from '../';
-import { getMonsterById } from '../../services/API/ApiMonsters';
+import { finishDungeon } from '../../services/API/ApiHero';
 
 import { move } from '../../services/API/ApiHero';
 
 const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
     const wall = "sprites/decoration/Wall.png";
+    const exit = "sprites/decoration/Exit.png";
     const widthSize = map.length;
     const heightSize = map[0].length;
     const [cellSize, setCellSize] = useState(window.innerWidth / widthSize);
@@ -17,11 +18,10 @@ const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
         if (hero.currentHealth <= 0) {
             //PAGE DE GAME OVER
         } else if (ennemy && ennemy.current_health <= 0) {
-            const updatedMonsters = monsters.filter(monster => monster.monster_instance_id !== ennemy.id);
+            const updatedMonsters = monsters.filter(monster => monster.monster_instance_id !== ennemy.monster_instance_id);
             setMonsters(updatedMonsters);
         }
     
-        // Ferme la modale
         setIsInBattle(false);
     };
 
@@ -59,19 +59,31 @@ const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
                 default:
                     return;
             }
-    
-            const encounteredMonster = monsters.find(monster =>
-                monster.position.y === newPosition.x && monster.position.x === newPosition.y
-            );
-    
-            if (encounteredMonster && encounteredMonster.current_health > 0) {
-                encounteredMonster.characterImage = `sprites/characters/Monster_${encounteredMonster.id}.png`;
-                setIsInBattle(true);
-                setEnnemy({...encounteredMonster});
+
+            if(map[newPosition.x][newPosition.y] === 2) {
+                if(hero.current_dungeon == 5) {
+                    window.location.href = '/victory'; 
+                }
+                else{
+                    await finishDungeon(hero.id);
+                    window.location.href = '/dungeons';
+                }
             }
-    
-            setHero({ ...hero, position: newPosition });
-            move(hero.id, newPosition);
+            else
+            {
+                const encounteredMonster = monsters.find(monster =>
+                    monster.position.y === newPosition.x && monster.position.x === newPosition.y
+                );
+        
+                if (encounteredMonster && encounteredMonster.current_health > 0) {
+                    encounteredMonster.characterImage = `sprites/characters/Monster_${encounteredMonster.monster_id}.png`;
+                    setIsInBattle(true);
+                    setEnnemy({...encounteredMonster});
+                }
+                setHero({ ...hero, position: newPosition });
+                move(hero.id, newPosition);
+            }
+            
         };
     
         const encounteredMonster = monsters.find(monster =>
@@ -79,7 +91,7 @@ const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
         );
     
         if (encounteredMonster && encounteredMonster.current_health > 0) {
-            encounteredMonster.characterImage = `sprites/characters/Monster_${encounteredMonster.id}.png`;
+            encounteredMonster.characterImage = `sprites/characters/Monster_${encounteredMonster.monster_id}.png`;
             setIsInBattle(true);
             setEnnemy({...encounteredMonster});
         }
@@ -113,6 +125,9 @@ const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
                             {cell === 1 && (
                                 <img src={wall} alt="Wall" style={{ position: 'absolute', width: '100%', height: '100%' }} />
                             )}
+                            {cell === 2 && (
+                                <img src={exit} alt="Exit" style={{ position: 'absolute', width: '100%', height: '100%' }} />
+                            )}
                         </div>
                     ))
                     }
@@ -122,7 +137,7 @@ const Map1Component = ({ hero, setHero, map, monsters, setMonsters }) => {
                 {monsters.filter(monster => monster.current_health > 0).map((monster, index) => (
                     <img
                         key={index}
-                        src={`sprites/characters/Monster_${monster.id}.png`}
+                        src={`sprites/characters/Monster_${monster.monster_id}.png`}
                         alt={`Monster ${monster.monster_instance_id}`}
                         style={{
                             position: 'absolute',

@@ -3,7 +3,6 @@ import {
     getMonsterById,
     getMonstersByDungeonInstanceId,
     getMonsterInstanceById,
-    takeDamage,
     createMonsterInstance,
     deleteMonsterInstance,
     move

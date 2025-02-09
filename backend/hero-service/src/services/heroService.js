@@ -97,6 +97,15 @@ export const HeroService = {
         }
     },
 
+    finishDungeon: async (id) => {
+        try {
+            return await heroRepository.finishDungeon(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
     pickUpItem: async (heroId, itemId) => {
         try {
             return await heroRepository.pickUpItem(heroId, itemId);

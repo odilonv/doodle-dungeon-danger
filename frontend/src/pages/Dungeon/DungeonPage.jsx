@@ -26,6 +26,7 @@ const DungeonPage = () => {
                     setDungeon(dungeon);
 
                     const monsters = await getMonstersByDungeonInstanceId(dungeonInstance.id);
+
                     setMonsters(monsters);
                 } catch (error) {
                     console.error("Failed to fetch dungeon", error);

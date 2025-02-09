@@ -2,7 +2,8 @@ import amqp from 'amqplib';
 
 const RABBITMQ_URL =  'amqp://admin:admin@localhost:5672';
 const USE_ITEM_QUEUE =  'use_item_queue';
-const DUNGEON_PROGRESS_QUEUE = 'dungeon_progress_queue';7
+const DUNGEON_PROGRESS_QUEUE = 'dungeon_progress_queue';
+const DUNGEON_FINISHED_QUEUE = 'dungeon_finished_queue';
 const HERO_DIED_QUEUE = 'hero_died_queue';
 
 export const sendHeroProgression = async (userId, dungeonId) => {
@@ -13,6 +14,7 @@ export const sendHeroProgression = async (userId, dungeonId) => {
         await channel.assertQueue(DUNGEON_PROGRESS_QUEUE, { durable: true });
 
         const message = JSON.stringify({ userId, dungeonId });
+        console.log(` Sending hero progression message to queue: ${message}`);
         channel.sendToQueue(DUNGEON_PROGRESS_QUEUE, Buffer.from(message), { persistent: true });
         setTimeout(() => {
             connection.close();
@@ -21,6 +23,24 @@ export const sendHeroProgression = async (userId, dungeonId) => {
         console.error(' Error sending hero progression:', error);
     }
 };
+
+export const sendHeroFinishedDungeon = async (userId, dungeonId) => {
+    try {
+        const connection = await amqp.connect(RABBITMQ_URL);
+        const channel = await connection.createChannel();
+
+        await channel.assertQueue(DUNGEON_FINISHED_QUEUE, { durable: true });
+
+        const message = JSON.stringify({ userId, dungeonId });
+        channel.sendToQueue(DUNGEON_FINISHED_QUEUE, Buffer.from(message), { persistent: true });
+        setTimeout(() => {
+            connection.close();
+        }, 500);
+    } catch (error) {
+        console.error(' Error sending hero finished dungeon:', error);
+    }
+}
+
 
 export const sendItemInfo = async (heroId, damage) => {
     try {

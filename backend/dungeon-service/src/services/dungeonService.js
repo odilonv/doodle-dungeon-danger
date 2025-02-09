@@ -74,6 +74,16 @@ export const DungeonService = {
         }
     },
 
+    completeDungeonInstance: async (userId, dungeonId) => {
+        try {
+            const result = await dungeonRepository.completeDungeonInstance(userId, dungeonId);
+            return result;
+        } catch (error) {
+            console.error("Error completing dungeon instance:", error);
+            throw error;
+        }
+    },
+
     deleteDungeonInstance: async (id) => {
         try {
             const result = await dungeonRepository.deleteDungeonInstance(id);

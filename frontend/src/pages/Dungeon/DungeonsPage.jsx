@@ -65,6 +65,8 @@ const DungeonsPage = () => {
         const response = await getCurrentHero(user.id);
         const heroId = response.id;
         await nextDungeon(heroId);
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         let dungeonInstance = null;
         while(dungeonInstance === null) {
             try {
@@ -75,7 +77,7 @@ const DungeonsPage = () => {
                 setTimeout(() => {}, 10000);
             }
         }
-
+        console.log(dungeon)
         const availableCells = [];
         dungeon.map.forEach((column, y) => {
             column.forEach((cell, x) => {

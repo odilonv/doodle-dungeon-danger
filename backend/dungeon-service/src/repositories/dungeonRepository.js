@@ -131,6 +131,15 @@ class DungeonRepository {
         return result.insertId;
     }
 
+    static async completeDungeonInstance(userId, dungeonId) {
+        const connection = await this.getInstance();
+        const [result] = await connection.query(
+            `UPDATE ${DungeonInstance.tableName} SET status = 'Finished' WHERE user_id = ? AND dungeon_id = ?`,
+            [userId, dungeonId]
+        );
+        return result.affectedRows > 0;
+    }
+
     static async deleteDungeonInstance(id) {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(`DELETE FROM ${DungeonInstance.tableName} WHERE id = ?`, [id]);

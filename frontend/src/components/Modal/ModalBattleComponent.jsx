@@ -124,7 +124,6 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
         if (isTransitionning) {
           updateHeroAndEnnemy();
             if(!await getCurrentBattleByHeroId(hero.id)) {
-              console.log(ennemy)
               await startBattle(hero.id, ennemy.monster_instance_id, hero.currentDungeon);
             }
         }

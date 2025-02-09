@@ -1,6 +1,6 @@
 [
   {
-    "name": "Skeleton",
+    "name": "Dogman",
     "health": 30,
     "power": 10,
     "experience": 10
@@ -12,9 +12,9 @@
     "experience": 5
   },
   {
-    "name": "Marineche",
+    "name": "Skeleton",
     "health": 50,
-    "power": 15,
+    "power": 20,
     "experience": 150
   }
 ]

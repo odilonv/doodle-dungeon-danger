@@ -1,5 +1,5 @@
 import { HeroService } from '../services/heroService.js';
-import { sendHeroDied, sendHeroProgression, sendItemInfo } from '../rabbitmq/publisher.js';
+import { sendHeroDied, sendHeroFinishedDungeon, sendHeroProgression, sendItemInfo } from '../rabbitmq/publisher.js';
 
 export const getHeroById = async (req, res) => {
     const { id } = req.params;
@@ -160,6 +160,22 @@ export const nextDungeon = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const finishDungeon = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const hero = await HeroService.finishDungeon(id);
+        if(hero){
+            await sendHeroFinishedDungeon(hero.userId, hero.currentDungeon);
+            res.json(hero);
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+        
 
 export const pickUpItem = async (req, res) => {
     const { heroId, itemId } = req.params;

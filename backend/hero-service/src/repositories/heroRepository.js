@@ -191,8 +191,22 @@ class HeroRepository {
         const connection = await HeroRepository.getInstance();
         const [result] = await connection.query(
             `UPDATE ${Hero.tableName} 
-            SET current_dungeon = IFNULL(current_dungeon, 0) + 1 
+            SET current_dungeon = IFNULL(current_dungeon, 0) + 1,
+                position = '{"x": 0, "y": 0}'
             WHERE id = ?`,
+            [id]
+        );
+        if (result.affectedRows > 0) {
+            const hero = await HeroRepository.getHeroById(id);
+            return hero;
+        }
+        return null;
+    }
+
+    static async finishDungeon(id) {
+        const connection = await HeroRepository.getInstance();
+        const [result] = await connection.query(
+            `UPDATE ${Hero.tableName} SET position = '{"x": 0, "y": 0}' WHERE id = ?`,
             [id]
         );
         if (result.affectedRows > 0) {

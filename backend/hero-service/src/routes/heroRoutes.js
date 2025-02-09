@@ -8,6 +8,7 @@ import {
   gainExperience,
   move,
   nextDungeon,
+  finishDungeon,
   pickUpItem,
   dropItem,
   useItem,
@@ -23,6 +24,7 @@ heroRouter.get('/:id', getHeroById);
 heroRouter.get('/user/:userId/currentHero', getCurrentHeroByUserId);
 heroRouter.put('/move/:id', move);
 heroRouter.post('/nextDungeon/:id', nextDungeon);
+heroRouter.post('/finishDungeon/:id', finishDungeon);
 heroRouter.delete('/:id', deleteHero);
 
 heroRouter.post('/iventory/pickUpItem/hero/:heroId/item/:itemId', pickUpItem);

@@ -122,6 +122,19 @@ async function nextDungeon(id) {
   }
 }
 
+async function finishDungeon(id) {
+  const response = await fetch(`http://localhost:5002/heroes/finishDungeon/${id}`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error('Error finishing dungeon');
+  }
+}
+
 async function deleteHero(id) {
   const response = await fetch(`http://localhost:5002/heroes/${id}`, {
     method: 'DELETE',
@@ -208,6 +221,7 @@ export {
   gainExperience,
   move,
   nextDungeon,
+  finishDungeon,
   deleteHero,
   pickUpItem,
   dropItem,
