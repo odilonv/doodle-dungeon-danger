@@ -1,7 +1,7 @@
 [
   {
     "name": "Skeleton",
-    "health": 150,
+    "health": 20,
     "power": 10,
     "experience": 10
   },

@@ -1,11 +1,12 @@
 class Monster {
     static tableName = 'Monster';
 
-    constructor(id, name, health, power) {
+    constructor(id, name, health, power, experience) {
         this.id = id;
         this.name = name;
         this.health = health;
         this.power = power;
+        this.experience = experience;
     }
 
     static fromDatabase(data) {
@@ -13,7 +14,8 @@ class Monster {
             data.id,
             data.name,
             data.health,
-            data.power
+            data.power,
+            data.experience
         );
     }
 
@@ -22,7 +24,8 @@ class Monster {
             data.id,
             data.name,
             data.health,
-            data.power
+            data.power,
+            data.experience
         );
     }
 }

@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { heroRouter } from './routes/heroRoutes.js';
 import heroRepository from './repositories/heroRepository.js';
+import { consumeHeroDamageTaken, consumeMonsterXP } from './rabbitmq/consumer.js';
 
 const app = express();
 app.use(express.json());
@@ -22,6 +23,8 @@ export const startHeroService = async () => {
         app.listen(PORT, () => {
             console.log(`Hero service is running on port ${PORT}`);
         });
+        consumeHeroDamageTaken();
+        consumeMonsterXP();
     } catch (error) {
         console.error('Error initializing the database:', error);
     }

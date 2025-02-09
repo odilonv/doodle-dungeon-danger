@@ -78,8 +78,8 @@ class MonsterRepository {
                 const monstersData = JSON.parse(fs.readFileSync(monstersFile, 'utf-8'));
                 for (const monster of monstersData) {
                     await connection.query(
-                        `INSERT INTO ${Monster.tableName} (name, health, power) VALUES (?, ?, ?)`,
-                        [monster.name, monster.health, monster.power]);
+                        `INSERT INTO ${Monster.tableName} (name, health, power, experience) VALUES (?, ?, ?, ?)`,
+                        [monster.name, monster.health, monster.power, monster.experience]);
                     console.log(`- Monster ${monster.name} inserted`);
                 }
                 console.log(`- Monsters inserted from ${monstersFile}`);

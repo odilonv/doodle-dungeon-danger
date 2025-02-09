@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/CloseRounded';
+import {battleUseItem} from '../../services/API/ApiHero';
 
 const attackAnimationDuration = 300;
 const characterSize = 300;
@@ -158,13 +159,14 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
     }
   }, [isInBattle]);
 
-  const handleAttack = (weapon) => {
+  const handleAttack = (item) => {
     setHeroAttacking(true);
-    setDialogue(`The hero attacks with ${weapon}!`);
+    setDialogue(`The hero attacks with ${item.name}!`);
+    battleUseItem(hero.id, item.item_id);
     setTimeout(() => setHeroAttacking(false), attackAnimationDuration);
   };
 
-  const [currentCharacterImage, setCurrentCharacterImage] = useState(hero.characterImage.replace('.png', ''));
+  const [currentCharacterImage, setCurrentCharacterImage] = useState(hero.avatar.body.replace('.png', ''));
 
   useEffect(() => {
     if (hero.current_health / hero.max_health <= 0.1) {
@@ -190,12 +192,11 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
         <button onClick={handleClose} style={buttonStyle}>
           <CloseIcon />
         </button>
-
         {!isTransitionning && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
               <img
-                src={`/sprites/life_bar/${Math.round((hero.current_health / hero.max_health) * 20) * 5}.png`}
+                src={`/sprites/life_bar/${Math.round((hero.currentHealth / hero.maxHealth) * 20) * 5}.png`}
                 alt="Life bar"
                 style={lifeBarStyle}
               />
@@ -212,13 +213,32 @@ const ModalBattleComponent = ({ isInBattle, handleClose, hero, ennemy }) => {
 
             <div style={actionsContainerStyle}>
               <div style={weaponsContainerStyle}>
-                {['Hoe', 'Gun', 'Sword'].map((weapon, index) => (
-                  <button key={weapon} onClick={() => handleAttack(weapon)} style={weaponButtonStyle}>
-                    <img src={`sprites/squares/Square_${index + 1}.png`} alt={weapon} style={{ width: '100%', height: '100%' }} />
-                    <img src={`sprites/weapons/Item_${index + 1}.png`} alt={weapon} style={{ width: '80%', height: '80%', position: 'absolute' }} />
-                  </button>
-                ))}
-              </div>
+                  {Array.from({ length: 3 }).map((_, index) => {
+                    const item = hero.inventory[index];
+                    return (
+                      <button 
+                        key={index} 
+                        onClick={() => item && handleAttack(item)} 
+                        style={{ ...weaponButtonStyle, position: 'relative' }} 
+                        disabled={!item}
+                      >
+                      
+                        <img 
+                          src={`sprites/squares/Square_${index + 1}.png`} 
+                          alt={`Slot ${index + 1}`} 
+                          style={{ width: '100%', height: '100%' }} 
+                        />
+                        {item && (
+                          <img 
+                            src={`sprites/weapons/Item_${item.item_id}.png`} 
+                            alt={item.name} 
+                            style={{ width: '80%', height: '80%', position: 'absolute', top: '10%', left: '10%' }} 
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               <div style={dialogueContainerStyle}>
                 <img src={`sprites/rectangles/Rectangle_1.png`} alt="dialogue-box" style={dialogueBoxStyle} />
                 <div style={dialogueTextStyle}>{dialogue}</div>

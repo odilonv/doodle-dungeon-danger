@@ -1,6 +1,12 @@
 class Battle {
     static tableName = 'Battle';
 
+    static BattleResult = Object.freeze({
+        VICTORY: 'Victory',
+        DEFEAT: 'Defeat',
+        ONGOING: 'Ongoing'
+    });
+
     constructor(id, heroId, dungeonInstanceId, monsterInstanceId, result) {
         this.id = id;
         this.heroId = heroId;

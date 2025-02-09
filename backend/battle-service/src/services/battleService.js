@@ -2,28 +2,19 @@ import battleRepository from '../repositories/battleRepository.js';
 import battleModel from '../models/battleModel.js';
 
 export const BattleService = {
-    createBattle: async (heroId, dungeonId, status) => {
-        const newBattle = {
-            heroId,
-            dungeonId,
-            status
-        };
-
-        console.log("New battle", newBattle);
-
+    createBattle: async (heroId, monsterInstanceId, dungeonInstanceId) => {
         try {
             const connection = await battleRepository.getInstance();
             await connection.query(
-                `INSERT INTO ${battleModel.tableName} (heroId, dungeonId, status) VALUES (?, ?, ?)`,
-                [newBattle.heroId, newBattle.dungeonId, newBattle.status]
+                `INSERT INTO ${battleModel.tableName} (hero_id, dungeon_instance_id, monsterInstanceId) VALUES (?, ?, ?)`,
+                [heroId, dungeonInstanceId, monsterInstanceId]
             );
 
-            const [rows] = await connection.query(`SELECT LAST_INSERT_ID() as id`);
-            newBattle.id = rows[0].id;
-
-            console.log(newBattle);
-
-            return newBattle;
+            const [results] = await connection.query(`SELECT * FROM ${battleModel.tableName} WHERE hero_id = ?`, [heroId]);
+            if (results.length > 0) {
+                const battleData = results[0];
+                return battleModel.fromDatabase(battleData);
+            }
         } catch (error) {
             console.error(error);
             throw error;
@@ -55,4 +46,39 @@ export const BattleService = {
         }
         return null;
     },
+
+    getBattleByHeroId: async (heroId) => {
+        const connection = await battleRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${battleModel.tableName} WHERE hero_id = ?`, [heroId]);
+        if (results.length > 0) {
+            const battleData = results[0];
+            return battleModel.fromDatabase(battleData);
+        }
+        return null;
+    },
+
+    getBattleByMonsterInstanceId: async (monsterInstanceId) => {
+        const connection = await battleRepository.getInstance();
+        const [results] = await connection.query(`SELECT * FROM ${battleModel.tableName} WHERE monsterInstanceId = ?`, [monsterInstanceId]);
+        if (results.length > 0) {
+            const battleData = results[0];
+            return battleModel.fromDatabase(battleData);
+        }
+        return null;
+    },
+
+    getMonsterInstanceIdInBattle: async (battleId) => {
+        const connection = await battleRepository.getInstance();
+        const [results] = await connection.query(`SELECT monsterInstanceId FROM ${battleModel.tableName} WHERE id = ?`, [battleId]);
+        if (results.length > 0) {
+            return results[0].monsterInstanceId;
+        }
+        return null;
+    },
+
+    updateBattleStatus: async (battleId, status) => {
+        const connection = await battleRepository.getInstance();
+        const [result] = await connection.query(`UPDATE ${battleModel.tableName} SET result = ? WHERE id = ?`, [status, battleId]);
+        return result.affectedRows > 0;
+    }
 };

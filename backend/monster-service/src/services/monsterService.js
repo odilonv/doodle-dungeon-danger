@@ -33,9 +33,6 @@ export const MonsterService = {
     takeDamage: async (id, damage) => {
         try {
             const monster = await monsterRepository.takeDamage(id, damage);
-            if (monster && monster.current_health === 0) {
-                // MONSTER IS DEAD
-            }
             return monster;
         } catch (error) {
             console.error(error);
@@ -71,5 +68,4 @@ export const MonsterService = {
             throw error;
         }
     },
-
 };

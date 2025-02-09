@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { battleRouter } from './routes/battleRoutes.js';
 import battleRepository from './repositories/battleRepository.js';
+import { consumeItemInfo, consumeMonsterXP, consumeMonsterPower } from './rabbitmq/consumer.js';
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,10 @@ export const startBattleService = async () => {
         app.listen(PORT, () => {
             console.log(`Battle service is running on port ${PORT}`);
         });
+        consumeItemInfo();
+        consumeMonsterPower();
+        consumeMonsterXP();
+        consumeHeroDied();
     } catch (error) {
         console.error('Error initializing the database:', error);
     }

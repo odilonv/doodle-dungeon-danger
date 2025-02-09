@@ -119,7 +119,7 @@ class HeroRepository {
         const [results] = await connection.query(`SELECT * FROM ${Hero.tableName} WHERE id = ?`, [id]);
         if (results.length > 0) {
             const userData = results[0];
-            return Hero.fromDatabase(userData);
+            return await Hero.fromDatabase(userData);
         }
         return null;
     }
@@ -130,7 +130,7 @@ class HeroRepository {
             `SELECT * FROM ${Hero.tableName} WHERE user_id = ? ORDER BY id DESC LIMIT 1`,
             [userId]
         );
-        return results.length > 0 ? Hero.fromDatabase(results[0]) : null;
+        return results.length > 0 ? await Hero.fromDatabase(results[0]) : null;
     }
 
 

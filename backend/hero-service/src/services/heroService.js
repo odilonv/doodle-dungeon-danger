@@ -10,6 +10,7 @@ export const HeroService = {
                 position: { x: 0, y: 0 }
             };
             const hero = await heroRepository.createHero(newHero);
+            await heroRepository.pickUpItem(hero.id, 1);
             return hero;
         } catch (error) {
             console.error(error);

@@ -161,7 +161,7 @@ async function dropItem(heroId, itemId) {
   }
 }
 
-async function useItem(heroId, itemId) {
+async function battleUseItem(heroId, itemId) {
   const response = await fetch(`http://localhost:5002/heroes/iventory/useItem/hero/${heroId}/item/${itemId}`, {
     method: 'POST',
     credentials: 'include',
@@ -211,7 +211,7 @@ export {
   deleteHero,
   pickUpItem,
   dropItem,
-  useItem,
+  battleUseItem,
   getInventory,
   getItemById,
   getCurrentHero,

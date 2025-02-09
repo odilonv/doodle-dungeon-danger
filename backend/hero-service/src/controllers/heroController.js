@@ -1,5 +1,5 @@
 import { HeroService } from '../services/heroService.js';
-import { sendHeroProgression } from '../rabbitmq/publisher.js';
+import { sendHeroProgression, sendItemInfo } from '../rabbitmq/publisher.js';
 
 export const getHeroById = async (req, res) => {
     const { id } = req.params;
@@ -213,6 +213,7 @@ export const useItem = async (req, res) => {
     try {
         const item = await HeroService.getItemById(itemId);
         res.json(item);
+        await sendItemInfo(heroId, item.power);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

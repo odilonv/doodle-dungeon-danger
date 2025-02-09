@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { monsterRouter } from './routes/monsterRoutes.js';
 import monsterRepository from './repositories/monsterRepository.js';
+import { consumeHeroDamage } from './rabbitmq/consumer.js';
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,7 @@ export const startMonsterService = async () => {
         app.listen(PORT, () => {
             console.log(`Monster service is running on port ${PORT}`);
         });
+        consumeHeroDamage();
     } catch (error) {
         console.error('Error initializing the database:', error);
     }

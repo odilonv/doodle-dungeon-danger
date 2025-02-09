@@ -1,20 +1,19 @@
 import amqp from 'amqplib';
 import { DungeonService } from '../services/dungeonService.js';
-import { DungeonInstance } from '../models/dungeonModel.js';
 
-const RABBITMQ_URL = 'amqp://admin:admin@localhost:5672';
-const QUEUE_NAME = 'hero_dungeon_progress';
+const RABBITMQ_URL =  'amqp://admin:admin@localhost:5672';
+const DUNGEON_PROGRESS_QUEUE = 'dungeon_progress_queue';
 
-const consumeHeroProgression = async () => {
+export const consumeHeroProgression = async () => {
     try {
         const connection = await amqp.connect(RABBITMQ_URL);
         const channel = await connection.createChannel();
 
-        await channel.assertQueue(QUEUE_NAME, { durable: true });
+        await channel.assertQueue(DUNGEON_PROGRESS_QUEUE, { durable: true });
 
         console.log(` Waiting for hero dungeon progress messages...`);
 
-        channel.consume(QUEUE_NAME, async (message) => {
+        channel.consume(DUNGEON_PROGRESS_QUEUE, async (message) => {
             if (message !== null) {
                 const { userId, dungeonId } = JSON.parse(message.content.toString());
                 DungeonService.createDungeonInstance(userId, dungeonId);
@@ -31,9 +30,9 @@ const clearQueue = async () => {
     try {
         const connection = await amqp.connect(RABBITMQ_URL);
         const channel = await connection.createChannel();
-        await channel.purgeQueue(QUEUE_NAME);
+        await channel.purgeQueue(DUNGEON_PROGRESS_QUEUE);
 
-        console.log(`Queue ${QUEUE_NAME} has been cleared`);
+        console.log(`Queue ${DUNGEON_PROGRESS_QUEUE} has been cleared`);
 
         await channel.close();
         await connection.close();
@@ -42,4 +41,4 @@ const clearQueue = async () => {
     }
 };
 
-export { consumeHeroProgression, clearQueue };
+export { clearQueue };
